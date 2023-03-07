@@ -1,0 +1,5 @@
+const ChatForm = () => {
+  return (
+    null
+  )
+}
