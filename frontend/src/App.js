@@ -4,6 +4,7 @@ import LandingPage from './views/LandingPage';
 import GameDetails from './views/GameDetails';
 import AdminTools from './views/AdminTools';
 import Profile from './views/Profile';
+import KeycloakRoute from './routes/KeycloakRoute';
 
 function App() {
 
@@ -14,7 +15,10 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/gamedetails" element={<GameDetails />} />
           <Route path="/dashboard" element={<AdminTools />} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/profile" element={ <KeycloakRoute role={"hvz_user"}>
+          <Profile/>
+          </KeycloakRoute>
+          } />
         </Routes>
       </div>
     </BrowserRouter>
