@@ -1,5 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import 'bootstrap/dist/css/bootstrap.css';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import AppContext from './context/AppContext'
 import "./index.css";
 import App from "./App";
 import { initialize } from "./keycloak";
@@ -15,7 +18,9 @@ initialize()
   .then(() => { // If No Keycloak Error occurred - Display the App
     root.render(
       <React.StrictMode>
-        <App />
+        <AppContext>
+          <App />
+        </AppContext>
       </React.StrictMode>
     );
   })

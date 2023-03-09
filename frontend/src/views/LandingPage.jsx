@@ -13,7 +13,7 @@ const LandingPage = () => {
         )}
       </section>
     </div>
-  );
+  )
 }
 
 export default LandingPage
