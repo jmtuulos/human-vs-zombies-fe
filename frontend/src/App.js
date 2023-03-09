@@ -4,18 +4,22 @@ import LandingPage from './views/LandingPage';
 import GameDetails from './views/GameDetails';
 import AdminTools from './views/AdminTools';
 import Profile from './views/Profile';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
   return (
     <BrowserRouter>
       <div className="App">
+        <Navbar/>
+        <div  style={{ backgroundImage: "url(/images/background.png)" }}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/gamedetails" element={<GameDetails />} />
           <Route path="/dashboard" element={<AdminTools />} />
           <Route path="/profile" element={<Profile/>} />
         </Routes>
+        </div>
       </div>
     </BrowserRouter>
   )

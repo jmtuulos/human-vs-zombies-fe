@@ -1,4 +1,4 @@
-import BiteCodeForm from "../components/Game/BiteCodeForm"
+import BiteCodeForm from "../components/Gamedetails/BiteCodeForm"
 
 const GameDetails = () => {
   return (
