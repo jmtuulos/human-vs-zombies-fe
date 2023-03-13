@@ -1,5 +1,0 @@
-const ChatForm = () => {
-  return (
-    null
-  )
-}

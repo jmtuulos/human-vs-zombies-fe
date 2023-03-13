@@ -1,4 +1,5 @@
 import BiteCodeForm from "../components/Gamedetails/BiteCodeForm"
+import ChatTabs from "../components/Gamedetails/Chat/ChatTabs"
 
 const GameDetails = () => {
   return (
@@ -14,6 +15,9 @@ const GameDetails = () => {
         <div class="row pt-5">
           <h3>Bit a Human?</h3>
           <BiteCodeForm/>
+        </div>
+        <div>
+          <ChatTabs/>
         </div>
 
       </div>
