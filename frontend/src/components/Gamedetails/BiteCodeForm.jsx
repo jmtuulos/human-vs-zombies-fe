@@ -12,11 +12,11 @@ const BiteCodeForm = () => {
   return (
       <form onSubmit={ handleSubmit(handleRegistration) }>
         <div className="mb-3 mt-3">
-          <label for="number" class="form-label"></label>
+          <label className="form-label"></label>
           <input {...register("bitecode")} type="text" placeholder="Enter a bite code" required/>
         </div>
         <div className="mb-3 mt-3">
-          <label for="text" class="form-label" placeholder="Description"></label>
+          <label className="form-label" placeholder="Description"></label>
           <input {...register("description")} type="text" placeholder="Description"/>
         </div>
         <div><FormControlLabel control={<Switch/>} label="Coordinates" {...register("coordinates")}/></div>

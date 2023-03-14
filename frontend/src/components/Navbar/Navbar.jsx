@@ -6,25 +6,22 @@ const Navbar = () => {
 
   return (
     <div className="container pt-7">
-      <nav class="navbar navbar-expand-sm navbar-light">
-          <p class="navbar-brand">HvZ</p>
-          <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+      <nav className="navbar navbar-expand-sm navbar-light">
+          <p className="navbar-brand">HvZ</p>
+          <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
               aria-expanded="false" aria-label="Toggle navigation"></button>
-          <div class="collapse navbar-collapse" id="collapsibleNavId">
-              <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                  <li class="nav-item">
-                      <li class="nav-link active" aria-current="page"><NavLink to='/'></NavLink><span class="visually-hidden">(current)</span></li>
-                  </li>
-                  <li class="nav-item">
-                    <NavLink to='/login'><li class="nav-link">login</li></NavLink>
-                  </li>
-                  <li class="nav-item">
-                      <li class="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
-                  </li>
+          <div className="collapse navbar-collapse" id="collapsibleNavId">
+              <ul className="navbar-nav me-auto mt-2 mt-lg-0">
+                  <ul className="nav-item">
+                      <li className="nav-link active" aria-current="page"><NavLink to='/'>Home</NavLink><span className="visually-hidden">(current)</span></li>
+                  </ul>
+                  <ul className="nav-item">
+                      <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
+                  </ul>
               </ul>
-              <form class="d-flex my-2 my-lg-0">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search"/>
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <form className="d-flex my-2 my-lg-0">
+                  <input className="form-control me-sm-2" type="text" placeholder="Search"/>
+                  <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
           </div>
       </nav>
