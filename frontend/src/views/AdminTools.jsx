@@ -9,7 +9,7 @@ const AdminTools = () => {
 
 
   const games = [{ id: "1", name: "Zombie Mayhem", active: "Active", players: "20", date: "13.3.2023" },
-  { id: "2", name: "Noroff zombie invasion", active: "Active", players: "100", date: "13.3.2023" },
+  { id: "2", name: "Zombie invasion", active: "Active", players: "100", date: "13.3.2023" },
   { id: "3", name: "Running zombies", active: "Active", players: "10", date: "13.3.2023" }
   ]
 

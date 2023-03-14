@@ -1,32 +1,31 @@
 import { useState } from "react"
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import { FormControlLabel, Switch } from "@mui/material"
 
 
 
 const BiteCodeForm = () => {
   const { bitecode, setBiteCode } = useState("")
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, control } = useForm()
   const handleRegistration = (data) => console.log(data);
 
   return (
-    <i class="fal fa-container-storage">
       <form onSubmit={ handleSubmit(handleRegistration) }>
-        <label>
-          <input {...register("bitecode")}
-            type="text"
-            placeholder="Enter a bite code"
-            required
-            />
-        </label>
+        <div className="mb-3 mt-3">
+          <label className="form-label"></label>
+          <input {...register("bitecode")} type="text" placeholder="Enter a bite code" required/>
+        </div>
+        <div className="mb-3 mt-3">
+          <label className="form-label" placeholder="Description"></label>
+          <input {...register("description")} type="text" placeholder="Description"/>
+        </div>
+        <div><FormControlLabel control={<Switch/>} label="Coordinates" {...register("coordinates")}/></div>
         <input
-        className="button"
-        type="submit"
-        value="enter"/>
+          className="arrow-button1"
+          type="image"
+          src="/images/arrow.svg" alt="arrow image"
+          style={{ width: "40px" }}/>
       </form>
-
-
-    </i>
-
   )
 }
 
