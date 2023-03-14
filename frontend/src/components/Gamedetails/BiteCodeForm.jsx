@@ -19,7 +19,7 @@ const BiteCodeForm = () => {
           <label className="form-label" placeholder="Description"></label>
           <input {...register("description")} type="text" placeholder="Description"/>
         </div>
-        <div><FormControlLabel control={<Switch/>} label="Coordinates" /></div>
+        <div><FormControlLabel control={<Switch/>} label="Coordinates" {...register("coordinates")}/></div>
         <input
           className="arrow-button1"
           type="image"
