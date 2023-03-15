@@ -10,26 +10,30 @@ import AdminTools from './views/AdminTools';
 import Profile from './views/Profile';
 import KeycloakRoute from './routes/KeycloakRoute';
 import Navbar from './components/Navbar/Navbar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient()
 function App() {
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Navbar />
-        <div style={{ backgroundImage: "url(/images/background.png)" }}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/gamedetails" element={<GameDetails />} />
-            <Route path="/dashboard" element={<AdminTools />} />
-            <Route path="/profile" element={<KeycloakRoute role={"hvz_user"}>
-              <Profile />
-            </KeycloakRoute>
-            } />
-          </Routes>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div className="App">
+          <Navbar />
+          <div style={{ backgroundImage: "url(/images/background.png)" }}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/gamedetails" element={<GameDetails />} />
+              <Route path="/dashboard" element={<AdminTools />} />
+              <Route path="/profile" element={<KeycloakRoute role={"hvz_user"}>
+                <Profile />
+              </KeycloakRoute>
+              } />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }
 
