@@ -1,6 +1,8 @@
 import BiteCodeForm from "../components/Gamedetails/BiteCodeForm"
 import ChatTabs from "../components/Gamedetails/Chat/ChatTabs"
 import { GameDetail } from "../components/Gamedetails/GameDetail"
+import Map from "../components/Gamedetails/Map"
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 const GameDetails = () => {
   return (
@@ -9,14 +11,25 @@ const GameDetails = () => {
         <GameDetail/>
         <div className="row pt-5">
           <h3>Bit a Human?</h3>
-          <BiteCodeForm/>
+          <BiteCodeForm />
         </div>
         <div>
-          <ChatTabs/>
+          <ChatTabs />
         </div>
 
+
+
+        <div className="card h-50 w-50 d-inline-block">
+          <Map />
+        </div>
+
+
+
+
       </div>
+
     </div>
+
   )
 }
 
