@@ -6,8 +6,11 @@ import { FormControlLabel, Switch } from "@mui/material"
 
 const BiteCodeForm = () => {
   const { bitecode, setBiteCode } = useState("")
-  const { register, handleSubmit, control } = useForm()
-  const handleRegistration = (data) => console.log(data);
+  const { register, handleSubmit, control, reset } = useForm()
+  const handleRegistration = (data) => {
+    console.log(data)
+    reset()
+  }
 
   return (
       <form onSubmit={ handleSubmit(handleRegistration) }>
