@@ -1,4 +1,6 @@
 import { useState } from "react"
+import MissionInfo from "../components/AdminComponents/MissionInfo";
+import PlayerInfo from "../components/AdminComponents/PlayerInfo";
 
 const AdminTools = () => {
 
@@ -42,10 +44,10 @@ const AdminTools = () => {
 
 
   return (
-    <div>
+    <div className="container my-3 text-left">
       <h3 className="text-center">Admin Tools</h3>
 
-      {createGame ? <>
+      {createGame ? <div className="p-7">
         <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
         <form onSubmit={handleRegisterSubmit}>
           <div>
@@ -64,7 +66,7 @@ const AdminTools = () => {
         </form>
 
 
-      </> : <>
+      </div> : <>
         {editId !== null ? <div>
           <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
           <div>
@@ -73,28 +75,84 @@ const AdminTools = () => {
             <input type="radio" value="Rules" name="tab" onChange={radioChangeHandler} /> Rules
           </div>
           <div>
-            {editTab === "Players" && <><div className="card">
-              <ul className="list-group list-group-flush">
-                <li key="4" className="list-group-item p-3 bg-success text-white"> PLAYER 1 - HUMAN -
-                  <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                </li>
-                <li key="5" className="list-group-item p-3 bg-danger text-white"> PLAYER 2 - ZOMBIE -
-                  <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                </li>
-              </ul>
+            {editTab === "Players" && <><div className="">
+              <div className="container">
+                <div className="container">
+                  <div className="row">
+
+                    <div className="col-lg-6 mb-4">
+                      <div className="card">
+
+                        <div className="card-body">
+                          <ul className="list-group list-group-flush">
+                            <li key="4" className="list-group-item p-3 bg-success text-white"> PLAYER 1 - HUMAN -
+                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
+                            </li>
+                            <li key="5" className="list-group-item p-3 bg-danger text-white"> PLAYER 2 - ZOMBIE -
+                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6 mb-4">
+                      <div className="card">
+
+                        <div className="card-body">
+                          <h5 className="card-title">Player Info</h5>
+
+                          <PlayerInfo></PlayerInfo>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
             </div></>}
-            {editTab === "Missions" && <>
-              <ul className="list-group list-group-flush">
-                <li key="6" className="list-group-item p-3 bg-secondary text-white"> MISSION 1 - RUN HUMANS RUN -
-                  <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                </li>
-                <li key="7" className="list-group-item p-3 bg-secondary text-white"> MISSION 2 - SAFE SPACE
-                  <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                </li>
-              </ul></>}
+            {editTab === "Missions" && <div>
+              <div className="container">
+                <div className="container">
+                  <div className="row">
+
+                    <div className="col-lg-6 mb-4">
+                      <div className="card">
+
+                        <div className="card-body">
+                          <ul className="list-group list-group-flush">
+                            <li key="6" className="list-group-item p-3 bg-secondary text-white"> MISSION 1 - RUN HUMANS RUN -
+                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
+                            </li>
+                            <li key="7" className="list-group-item p-3 bg-secondary text-white"> MISSION 2 - SAFE SPACE
+                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6 mb-4">
+                      <div className="card">
+
+                        <div className="card-body">
+                          <h5 className="card-title">Mission Info</h5>
+
+                          <MissionInfo></MissionInfo>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>}
             {editTab === "Rules" && <>Change name:
               <input type="text" value={name.value} onChange={handleNameChange} />
-              <button type="button" class="btn btn-success">Save</button></>}
+              <button type="button" className="btn btn-success">Save</button></>}
           </div>
 
         </div> : <>
@@ -106,9 +164,8 @@ const AdminTools = () => {
               </li>)}
             </ul>
           </div>
-          <div class="text-center">
-            <button type="button" onClick={() => handleCreateGameClick()} class="btn btn-success">+ Create new game</button>
-
+          <div className="text-center">
+            <button type="button" onClick={() => handleCreateGameClick()} className="btn btn-success">+ Create new game</button>
           </div>
         </>}</>}
 

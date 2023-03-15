@@ -23,10 +23,10 @@ const Navbar = () => {
                             <li>
                                 <section className="actions">
                                     {!keycloak.authenticated && (
-                                        <button class="btn btn-primary" onClick={() => keycloak.login()}>Login</button>
+                                        <button className="btn btn-primary" onClick={() => keycloak.login()}>Login</button>
                                     )}
                                     {keycloak.authenticated && (
-                                        <button class="btn btn-warning" onClick={() => keycloak.logout()}>Logout</button>
+                                        <button className="btn btn-warning" onClick={() => keycloak.logout()}>Logout</button>
                                     )}
                                 </section>
                             </li>
