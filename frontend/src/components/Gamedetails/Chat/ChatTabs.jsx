@@ -4,10 +4,12 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import FactionChat from './FactionChat'
+import GlobalChat from './GlobalChat'
+import SquadChat from './SquadChat'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
-
   return (
     <div
       role="tabpanel"
@@ -55,13 +57,13 @@ export default function ChatTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Global chat
+        <GlobalChat/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Faction chat
+        <FactionChat/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Squad Chat
+        <SquadChat/>
       </TabPanel>
     </Box>
   )
