@@ -3,6 +3,8 @@ import ChatTabs from "../components/Gamedetails/Chat/ChatTabs"
 import { GameDetail } from "../components/Gamedetails/GameDetail"
 import Map from "../components/Gamedetails/Map"
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { CreateSquadForm } from "../components/Gamedetails/squad/CreateSquad"
+import { SquadList } from "../components/Gamedetails/squad/SquadList"
 
 const GameDetails = () => {
   return (
@@ -13,21 +15,19 @@ const GameDetails = () => {
           <h3>Bit a Human?</h3>
           <BiteCodeForm />
         </div>
-        <div>
-          <ChatTabs />
-        </div>
-
-
-
-        <div className="card h-50 w-50 d-inline-block">
+        <div className="row pt-5 h-50 w-50 d-inline-block">
           <Map />
         </div>
-
-
-
-
+        <div className="row pt-5">
+          <CreateSquadForm/>
+        </div>
+        <div className="row pt-5">
+          <SquadList/>
+        </div>
+        <div className="row pt-5">
+          <ChatTabs />
+        </div>
       </div>
-
     </div>
 
   )
