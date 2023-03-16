@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { createSquad } from "../../api/squad"
+import { createSquad } from "../../../api/squad"
 
 export const CreateSquadForm = () => {
 
