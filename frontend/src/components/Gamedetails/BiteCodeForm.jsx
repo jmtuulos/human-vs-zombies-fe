@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useForm, Controller } from 'react-hook-form'
 import { FormControlLabel, Switch } from "@mui/material"
+import { createBite } from "../../api/bite"
 
 
 
@@ -8,7 +9,14 @@ const BiteCodeForm = () => {
   const { bitecode, setBiteCode } = useState("")
   const { register, handleSubmit, control, reset } = useForm()
   const handleRegistration = (data) => {
-    console.log(data)
+    const bitePosition = null
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position) => {
+        bitePosition = position
+      })
+    }
+    // create a bite (waiting for user details implementation)
+    // createBite(userId, bitePosition)
     reset()
   }
 
