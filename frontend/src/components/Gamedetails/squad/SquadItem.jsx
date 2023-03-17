@@ -11,13 +11,14 @@ export const SquadItem = ({ squad, gameId }) => {
   })
 
   const handleClick = () => (
+    //joinsquad here
     refetch()
   )
-
+    //add membercount and list of deceiced members to the squd details line
   return (
     <div>
       <li key={squad.id} class="list-group-item">
-        <h4>{squad.name}</h4>
+        <h4>{squad.name} </h4>
         <Button variant="contained"
           color="success"
           onClick={handleClick}
