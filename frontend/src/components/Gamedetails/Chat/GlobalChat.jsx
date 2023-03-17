@@ -1,26 +1,26 @@
 
-import { DUMMY_DATA } from './DUMMY_DATA';
-import { Virtuoso } from 'react-virtuoso'
+import { useQuery } from '@tanstack/react-query';
+import { ChatMessage } from './ChatMessage';
+import { getFactionChat } from '../../../api/game';
 
-const GlobalChat = () =>{
-    // console.log(data)
-    return (
-      <Virtuoso
-      useWindowScroll
-      data={DUMMY_DATA}
-      itemContent={(index, user) => (
-        <div
-          style={{
-            backgroundColor: user.bgColor,
-            padding: '0.5rem 0.5rem',
-          }}
-        >
-          <h6>{user.name}</h6>
-          <div style={{ marginTop: '1rem' }}>{user.message}</div>
-        </div>
-      )}
-    />
-    )
+export const GlobalChat = () =>{
+  const playerId = 1
+  const gameId = 1
+  const { isError, isLoading, data, error } = useQuery(
+    { queryKey: ['globalchat', gameId],
+    queryFn: () => getFactionChat(gameId, playerId),
+    staleTime: 1000
+  })
+  console.log(data)
+  if (data !== undefined)
+    data.map((message) => {
+      if (!(message.humanGlobal && message.zombieGlobal))
+        data.pop(message)
+      return message
+    }
+
+  )
+  return ChatMessage(data)
 }
 
 export default GlobalChat
