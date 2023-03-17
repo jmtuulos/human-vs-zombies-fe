@@ -1,25 +1,41 @@
+import { Button } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
+import { getAllGames } from "../api/game"
+import { NumberOfPlayers } from "../components/Gamedetails/NumberOfPlayers"
+import { storageSave } from "../utils/storage"
+import { useNavigate } from "react-router-dom"
+import GameDetails from "./GameDetails"
+
 const LandingPage = () => {
 
-  const games = [{ id: "1", name: "Zombie Mayhem", active: "Active", players: "20", date: "13.3.2023" },
-  { id: "2", name: "Zombie invasion", active: "Active", players: "100", date: "13.3.2023" },
-  { id: "3", name: "Running zombies", active: "Active", players: "10", date: "13.3.2023" }
-  ]
+  const navigate = useNavigate()
+  
+  const { isError, isLoading, data, error } = useQuery(
+    { queryKey: ['title'],
+    queryFn: () => getAllGames(),
+    staleTime: 10000
+  })
 
   const handleSelectClick = (e) => {
-    console.log(e)
+    storageSave('gameId', e.id)
+    navigate('/gamedetails')
   }
 
   return (
     <div>
-      <h1 className="text-center">Landing Page</h1>
       <h3 className="text-center">Current games</h3>
-      <div className="card">
-        <ul className="list-group list-group-flush">
-          {games.map((e) => <li key={e.id} className="list-group-item">{e.name} - {e.active} - Current players: {e.players} - {e.date}
-            <button type="button" onClick={() => handleSelectClick(e)} className="btn pl-5 btn-primary btn-sm">Select</button>
-          </li>)}
-        </ul>
-      </div>
+      {data &&
+        <div className="card">
+          <ul className="list-group list-group-flush">
+              {data.map((e) =>
+                <li key={e.id} className="list-group-item">
+                  <Button onClick={() => handleSelectClick(e)} variant="text">
+                    {e.name} - {e.gameState} - players: <NumberOfPlayers id={e.id}/> - started: {e.startDateTime} ||| {e.description}</Button>
+                </li>)
+              }
+          </ul>
+        </div>
+      }
     </div>
   )
 }

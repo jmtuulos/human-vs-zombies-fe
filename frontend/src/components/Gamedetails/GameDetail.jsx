@@ -1,8 +1,9 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { getGame } from "../../api/game";
+import { storageRead } from "../../utils/storage";
 
 export const GameDetail = () => {
-  const gameId = 2
+  const gameId = storageRead("gameId")
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['title', gameId],
     queryFn: () => getGame(gameId),
