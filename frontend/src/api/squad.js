@@ -25,9 +25,21 @@ export const joinSquad = async (gameId, squadId, squadMemberData) => {
   return response.status
 }
 
-export const createChatMessage = async (gameId, squadId, chatMessageData) => {
-  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/chat`, chatMessageData)
-  return response.status
+export const createSquadChatMessage = async (gameId, squadId, chatMessageData) => {
+  const data =  {
+    'message': chatMessageData,
+  }
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': 1
+  }
+  console.log("createSquadChatMessage: " + gameId + " " + squadId + " " + data.message + header["player-id"])
+  const response =  await axios
+    .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/chat`,
+      data,
+      {headers: header}).catch((error) => {
+        console.log("error: " + error)
+      })
 }
 
 //admin only

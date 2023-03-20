@@ -13,7 +13,6 @@ export const FactionChat = () => {
     queryFn: () => getFactionChat(gameId, playerId),
     staleTime: 1000
   })
-  console.log(data)
   if (data)
     filteredFactionMessages = data.filter((message) => !(message.isHumanGlobal && message.isZombieGlobal))
   return ChatMessage(filteredFactionMessages)

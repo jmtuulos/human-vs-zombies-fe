@@ -7,7 +7,9 @@ import Box from '@mui/material/Box'
 import FactionChat from './FactionChat'
 import GlobalChat from './GlobalChat'
 import SquadChat from './SquadChat'
-import { minHeight } from '@mui/system'
+import { SquadForm } from './SquadForm'
+import { FactionForm } from './FactionForm'
+import { GlobalForm } from './GlobalForm'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -48,6 +50,7 @@ export default function ChatTabs() {
     // event.preventDefault()
     setValue(newValue)
   }
+
   //The box sizing needs adjusting so the page automacally keeps the same
   //scroll state -> minheight is now 100vh
   return (
@@ -61,12 +64,15 @@ export default function ChatTabs() {
       </Box>
       <TabPanel value={value} index={0}>
         <GlobalChat/>
+        <GlobalForm/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <FactionChat/>
+        <FactionForm/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <SquadChat/>
+        <SquadForm/>
       </TabPanel>
     </Box>
   )
