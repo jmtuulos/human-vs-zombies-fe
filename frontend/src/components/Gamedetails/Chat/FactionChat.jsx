@@ -10,14 +10,13 @@ export const FactionChat = () => {
     queryFn: () => getFactionChat(gameId, playerId),
     staleTime: 1000
   })
-  console.log(data)
-    if (data !== undefined)
-    data.map((message) => {
-      if (message.humanGlobal && message.zombieGlobal)
-        data.pop(message)
-      return message
-    })
-  console.log(data)
+    if (data)
+      data.map((message) => {
+        if (message.humanGlobal && message.zombieGlobal)
+          data.pop(message)
+        return message
+      })
+
   return ChatMessage(data)
 }
 
