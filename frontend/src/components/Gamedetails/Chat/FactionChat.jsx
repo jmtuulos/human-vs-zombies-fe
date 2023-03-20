@@ -11,7 +11,8 @@ export const FactionChat = () => {
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['factionchat', gameId],
     queryFn: () => getFactionChat(gameId, playerId),
-    staleTime: 1000
+    staleTime: 1000,
+    refetchInterval: 1000
   })
   if (data)
     filteredFactionMessages = data.filter((message) => !(message.isHumanGlobal && message.isZombieGlobal))

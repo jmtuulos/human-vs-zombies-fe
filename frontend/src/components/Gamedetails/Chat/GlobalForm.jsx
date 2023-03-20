@@ -30,6 +30,8 @@ export const GlobalForm = () => {
       variant="filled"
       helperText="Remember to follow the rules" />
     <Button variant="contained"
+      size="large"
+      type="submit"
       onSubmit={handleSubmit(handleSubmitGlobal)}
       color="primary">Send
     </Button>

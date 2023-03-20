@@ -10,6 +10,7 @@ import SquadChat from './SquadChat'
 import { SquadForm } from './SquadForm'
 import { FactionForm } from './FactionForm'
 import { GlobalForm } from './GlobalForm'
+import { Container, maxHeight } from '@mui/system'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -50,30 +51,34 @@ export default function ChatTabs() {
     // event.preventDefault()
     setValue(newValue)
   }
-
-  //The box sizing needs adjusting so the page automacally keeps the same
-  //scroll state -> minheight is now 100vh
+  
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="chat-tabs">
-          <Tab label="Global" {...a11yProps(0)} />
-          <Tab label="Faction" {...a11yProps(1)} />
-          <Tab label="Squad" {...a11yProps(2)} />
-        </Tabs>
+      <Box sx={{ width: '100%'}}>
+        <Box  sx={{ borderBottom: 1, borderColor: 'divider'}}>
+          <Tabs value={value} onChange={handleChange} aria-label="chat-tabs">
+            <Tab label="Global" {...a11yProps(0)} />
+            <Tab label="Faction" {...a11yProps(1)} />
+            <Tab label="Squad" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
+            <GlobalChat/>
+          </Container>
+          <GlobalForm/>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
+            <FactionChat/>
+            <FactionForm/>
+          </Container>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+        <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
+          <SquadChat/>
+        </Container>
+          <SquadForm/>
+        </TabPanel>
       </Box>
-      <TabPanel value={value} index={0}>
-        <GlobalChat/>
-        <GlobalForm/>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <FactionChat/>
-        <FactionForm/>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <SquadChat/>
-        <SquadForm/>
-      </TabPanel>
-    </Box>
   )
 }
