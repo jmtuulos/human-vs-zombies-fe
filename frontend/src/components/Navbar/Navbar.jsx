@@ -20,7 +20,7 @@ const Navbar = () => {
                             <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
                         </ul>
                         <ul className="nav-item">
-                            <li>
+                            <ul>
                                 <section className="actions">
                                     {!keycloak.authenticated && (
                                         <button className="btn btn-primary" onClick={() => keycloak.login()}>Login</button>
@@ -29,13 +29,13 @@ const Navbar = () => {
                                         <button className="btn btn-warning" onClick={() => keycloak.logout()}>Logout</button>
                                     )}
                                 </section>
-                            </li>
+                            </ul>
                         </ul>
                     </ul>
-                    <form className="d-flex my-2 my-lg-0">
+                    {/* <form className="d-flex my-2 my-lg-0">
                         <input className="form-control me-sm-2" type="text" placeholder="Search" />
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                    </form> */}
                 </div>
             </nav>
         </div>
