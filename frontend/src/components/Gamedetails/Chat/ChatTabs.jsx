@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import FactionChat from './FactionChat'
 import GlobalChat from './GlobalChat'
 import SquadChat from './SquadChat'
+import { minHeight } from '@mui/system'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -44,13 +45,15 @@ export default function ChatTabs() {
   const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
+    event.preventDefault()
     setValue(newValue)
   }
-
+  //The box sizing needs adjusting so the page automacally keeps the same
+  //scroll state -> minheight is now 100vh
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', minHeight: '100vh' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="chat-tabs">
           <Tab label="Global" {...a11yProps(0)} />
           <Tab label="Faction" {...a11yProps(1)} />
           <Tab label="Squad" {...a11yProps(2)} />

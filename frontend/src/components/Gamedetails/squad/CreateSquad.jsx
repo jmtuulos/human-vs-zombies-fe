@@ -13,9 +13,9 @@ export const CreateSquadForm = () => {
     reset()
   }
   return (
-    <div class="card">
-        <div class="card-body">
-        <h5 class="card-title">Create a squad</h5>
+    <div className="card">
+        <div className="card-body">
+        <h5 className="card-title">Create a squad</h5>
         <form onSubmit={ handleSubmit(handleSquadCreate) }>
           <input {...register("squadname") } type="text" placeholder="Name your squad"/>
           <div className="mt-2">

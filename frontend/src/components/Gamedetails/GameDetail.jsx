@@ -1,8 +1,9 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { getGame } from "../../api/game";
+import { storageRead } from "../../utils/storage";
 
 export const GameDetail = () => {
-  const gameId = 2
+  const gameId = storageRead("gameId")
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['title', gameId],
     queryFn: () => getGame(gameId),
@@ -14,11 +15,11 @@ export const GameDetail = () => {
   console.log(data)
   return (
   <div className="row border">
-    <div className="col-12">
-      {data && <h1>{data.name}</h1>}
-      {data && <p>{data.description}</p>}
-      {data && <div><h3 className="text-muted">Rules</h3> Do not be overphysical and do not fight</div>}
-    </div>
+    {data && <div className="col-12">
+      <h1>{data.name}</h1>
+      <p>{data.description}</p>
+      <div><h3 className="text-muted">Rules</h3> Do not be overphysical and do not fight</div>
+    </div>}
   </div>
   )
 }

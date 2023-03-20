@@ -5,6 +5,7 @@ import Map from "../components/Gamedetails/Map"
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { CreateSquadForm } from "../components/Gamedetails/squad/CreateSquad"
 import { SquadList } from "../components/Gamedetails/squad/SquadList"
+import { SquadDetails } from "../components/Gamedetails/squad/SquadDetails"
 
 const GameDetails = () => {
   return (
@@ -20,6 +21,9 @@ const GameDetails = () => {
         </div>
         <div className="row pt-5">
           <CreateSquadForm/>
+        </div>
+        <div className="row pt-5">
+          <SquadDetails/>
         </div>
         <div className="row pt-5">
           <SquadList/>

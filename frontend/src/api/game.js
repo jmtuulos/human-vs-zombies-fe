@@ -14,7 +14,13 @@ export const getAllGames = async () => {
 }
 
 export const getFactionChat = async (gameId) => {
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`)
+  const config = {
+    headers: {
+      // 'player-id': localStorage.getItem('playerId') TODO: add player id to local storage
+      'player-id': 1
+    }
+  }
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`, config)
   return response.data
 }
 
