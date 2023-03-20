@@ -5,7 +5,7 @@ export const ChatMessage = ( data ) => (
   useWindowScroll
   data={data}
   itemContent={(index, user) => {
-    const date = new Date(user.chat_time)
+    const date = new Date(user.chat_time).toDateString()
     return (
       <div
         style={{
@@ -14,7 +14,7 @@ export const ChatMessage = ( data ) => (
       >
         {/* <h6>{user.player.appUser.firstName} {user.player.appUser.lastName}</h6> */}
         <p className='text-muted'style={{lineHeight: '0.2', fontSize: '0.7rem'}}>
-          {date.toDateString()
+          {date
         }</p>
         <div style={{ marginTop: '1rem' }}>{user.message}</div>
       </div>

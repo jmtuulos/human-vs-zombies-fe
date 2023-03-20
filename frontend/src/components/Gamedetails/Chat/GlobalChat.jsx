@@ -7,18 +7,15 @@ import { storageRead } from '../../../utils/storage';
 export const GlobalChat = () =>{
   const playerId = 1
   const gameId = storageRead('gameId')
+  let filteredMessages = []
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['globalchat', gameId],
     queryFn: () => getFactionChat(gameId, playerId),
     staleTime: 1000
   })
   if (data !== undefined)
-    data.map((message) => {
-      if (!(message.humanGlobal && message.zombieGlobal))
-        data.pop(message)
-      return message
-    })
-    return ChatMessage(data)
+    filteredMessages = data.filter((message) => message.isHumanGlobal && message.isZombieGlobal)
+  return ChatMessage(filteredMessages)
 }
 
 export default GlobalChat
