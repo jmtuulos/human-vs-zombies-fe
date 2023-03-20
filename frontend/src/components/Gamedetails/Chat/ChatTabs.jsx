@@ -45,7 +45,7 @@ export default function ChatTabs() {
   const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
-    event.preventDefault()
+    // event.preventDefault()
     setValue(newValue)
   }
   //The box sizing needs adjusting so the page automacally keeps the same

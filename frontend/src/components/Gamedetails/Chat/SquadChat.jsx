@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSquadChat } from '../../../api/squad';
+import { storageRead } from '../../../utils/storage';
 import { ChatMessage } from './ChatMessage';
 
 export const SquadChat = () => {
-  //globalchat getter is missing this is showing squadchat
   const playerId = 1
-  const gameId = 1
+  const gameId = storageRead('gameId')
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['squadchat', gameId],
     queryFn: () => getSquadChat(gameId, playerId),
@@ -13,6 +13,7 @@ export const SquadChat = () => {
   })
 
   return ChatMessage(data)
+
 }
 
 export default SquadChat
