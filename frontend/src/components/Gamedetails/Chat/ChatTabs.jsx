@@ -51,7 +51,7 @@ export default function ChatTabs() {
     // event.preventDefault()
     setValue(newValue)
   }
-  
+
   return (
       <Box sx={{ width: '100%'}}>
         <Box  sx={{ borderBottom: 1, borderColor: 'divider'}}>
@@ -62,21 +62,15 @@ export default function ChatTabs() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
             <GlobalChat/>
-          </Container>
           <GlobalForm/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
             <FactionChat/>
             <FactionForm/>
-          </Container>
         </TabPanel>
         <TabPanel value={value} index={2}>
-        <Container sx={{maxHeight: '50vh', overflow: 'auto'}}>
           <SquadChat/>
-        </Container>
           <SquadForm/>
         </TabPanel>
       </Box>
