@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { createSquadChatMessage } from "../../../api/squad"
+import { useUser } from "../../../context/UserContext"
 import { storageRead } from "../../../utils/storage"
 
 export const SquadForm = () => {
@@ -10,9 +11,14 @@ export const SquadForm = () => {
   // const [chatMsg, setSquadChat] = useState()
   const { register, handleSubmit, reset } = useForm()
   const bottomRef = useRef(null)
+  const { user } = useUser()
 
   const mutation = useMutation(
-    { mutationFn: (chatMsg) => createSquadChatMessage(storageRead('gameId'), 1, chatMsg)},
+    { mutationFn: (chatMsg) =>
+        createSquadChatMessage(storageRead('gameId'),
+        user.squadId,
+        chatMsg
+      )}
   )
 
   const handleSubmitSquad = (data) => {
