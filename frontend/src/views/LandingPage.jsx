@@ -14,7 +14,7 @@ const LandingPage = () => {
   const navigate = useNavigate()
 
   //Temp userCreation
-  const { user, setUser } = useUser(null)
+  const { user, setUser } = useUser("")
   //set user with useEffect
 
   //
@@ -25,28 +25,18 @@ const LandingPage = () => {
     staleTime: 10000
   })
 
-  // useEffect(() => {
-  //   console.log(user)
-  //   storageSave('user', user)
-  // })
+  useEffect(() => {
+    const fetchUser = async () => {
+      const result = await getPlayer(9)
+      setUser(result)
+      storageSave('userId', 9)
+    }
+    fetchUser()
+  }, [])
 
   const handleSelectClick = (e) => {
-    setUser(JSON.stringify({
-      "isHuman": true,
-      "biteCode": "hw4a",
-      "fullName": "Admin Admin",
-      "squadId": 1
-    }))
     storageSave('gameId', e.id)
-    storageSave('user', JSON.stringify({
-      "isHuman": true,
-      "biteCode": "hw4a",
-      "fullName": "Admin Admin",
-      "squadId": 1
-    }))
-    console.log("User: ", user)
     navigate('/gamedetails')
-
   }
 
   return (

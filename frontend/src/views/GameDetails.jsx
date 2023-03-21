@@ -6,14 +6,13 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { CreateSquadForm } from "../components/Gamedetails/squad/CreateSquad"
 import { SquadList } from "../components/Gamedetails/squad/SquadList"
 import { SquadDetails } from "../components/Gamedetails/squad/SquadDetails"
-import UserProvider, { useUser } from "../context/UserContext"
-import GlobalChat from "../components/Gamedetails/Chat/GlobalChat"
-import { Container } from "@mui/system"
+import { useUser } from "../context/UserContext"
+import { storageRead } from "../utils/storage"
 
 const GameDetails = () => {
   const { user } = useUser()
-  console.log("Gamedetails user: ", user)
-  console.log("user is human", !user.isHuman)
+  const playerId = storageRead('userId')
+
   return (
     <div className="p-7">
       <div className="container p-3 my-3">
@@ -22,16 +21,17 @@ const GameDetails = () => {
           <h3>Bit a Human?</h3>
           <BiteCodeForm />
         </div>}
-        <div className="row pt-5 h-50 w-50 d-inline-block">
+        <div className="row pt-5 h-50 w-100 d-inline-block">
           <Map />
         </div>
-        {user.squadId === -1 && <div className="row pt-5">
-          <CreateSquadForm/>
+        {user.squadId == null && <div className="row pt-5">
+          <CreateSquadForm playerId={playerId}/>
         </div>}
         <div className="row pt-5">
-          <SquadDetails/>
+          {user.squadId != null &&
+            <SquadDetails playerId={playerId}/>}
         </div>
-        {user.squadId === -1 && <div className="row pt-5">
+        {user.squadId == null && <div className="row pt-5">
           <SquadList/>
         </div>}
         <div className="row pt-5">

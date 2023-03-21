@@ -11,6 +11,8 @@ import { SquadForm } from './SquadForm'
 import { FactionForm } from './FactionForm'
 import { GlobalForm } from './GlobalForm'
 import { Container, maxHeight } from '@mui/system'
+import { storageRead } from '../../../utils/storage'
+import { useUser } from '../../../context/UserContext'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -46,6 +48,9 @@ function a11yProps(index) {
 
 export default function ChatTabs() {
   const [value, setValue] = useState(0)
+  const { user } = useUser()
+  const playerId = storageRead('userId')
+  const gameId = storageRead('gameId')
 
   const handleChange = (event, newValue) => {
     // event.preventDefault()
@@ -56,21 +61,21 @@ export default function ChatTabs() {
       <Box sx={{ width: '100%'}}>
         <Box  sx={{ borderBottom: 1, borderColor: 'divider'}}>
           <Tabs value={value} onChange={handleChange} aria-label="chat-tabs">
-            <Tab label="Global" {...a11yProps(0)} />
+            <Tab  label="Global" {...a11yProps(0)} />
             <Tab label="Faction" {...a11yProps(1)} />
-            <Tab label="Squad" {...a11yProps(2)} />
+            <Tab disabled={user.squadId == null} label="Squad" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-            <GlobalChat/>
+            <GlobalChat playerId={playerId} gameId={gameId}/>
           <GlobalForm/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-            <FactionChat/>
+            <FactionChat playerId={playerId} gameId={gameId}/>
             <FactionForm/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <SquadChat/>
+          <SquadChat gameId={gameId}/>
           <SquadForm/>
         </TabPanel>
       </Box>
