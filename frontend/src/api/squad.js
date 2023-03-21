@@ -15,9 +15,22 @@ export const getSquadChat = async (gameId, squadId) => {
   return response.data
 }
 
-export const createSquad = async (gameId, squadData) => {
-  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad`, squadData)
-  return response.status
+export const createSquad = async (playerId, gameId, squadData) => {
+
+  const data =  {
+    'name': squadData,
+  }
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': playerId
+  }
+  const response =  await axios
+    .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad`,
+      data,
+      {headers: header})
+      .catch((error) => {
+    console.log("error: " + error)
+  })
 }
 
 export const joinSquad = async (gameId, squadId, squadMemberData) => {
@@ -33,7 +46,6 @@ export const createSquadChatMessage = async (gameId, squadId, chatMessageData) =
     'Content-Type': 'application/json',
     'player-id': 1
   }
-  console.log("createSquadChatMessage: " + gameId + " " + squadId + " " + data.message + header["player-id"])
   const response =  await axios
     .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/chat`,
       data,

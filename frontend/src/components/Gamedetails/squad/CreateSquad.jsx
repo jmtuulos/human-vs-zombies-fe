@@ -1,17 +1,33 @@
+import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { getPlayer } from "../../../api/player"
 import { createSquad } from "../../../api/squad"
+import { useUser } from "../../../context/UserContext"
+import { storageRead, storageSave } from "../../../utils/storage"
 
-export const CreateSquadForm = () => {
+export const CreateSquadForm = (playerId) => {
 
-  const { squadname, setSquadName } = useState("")
+  // const { squadname, setSquadName } = useState("")
+  const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
 
+  const { mutation, isSuccess } = useMutation(
+    { mutationFn: (squadName) =>
+        createSquad(
+          playerId,
+          storageRead('gameId'),
+          squadName
+          ),
+          onSuccess: setUser(getPlayer(playerId))
+        },
+    )
+
   const handleSquadCreate = (data) => {
-    console.log(data.squadname)
-    createSquad(data.squadname)
+    mutation.mutate(data.squadname)
     reset()
   }
+
   return (
     <div className="card">
         <div className="card-body">

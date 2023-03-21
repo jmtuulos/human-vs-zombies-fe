@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getPlayer = async (id) => {
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/player/${id}`)
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/1/player/${id}`)
   return response.data
 }
 
