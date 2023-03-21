@@ -10,7 +10,8 @@ export const getAllSquads = async (gameId) => {
   return response.data
 }
 
-export const getSquadChat = async (gameId, squadId) => {
+export const getSquadChat = async ({gameId}, squadId) => {
+  console.log("gameid:", gameId, "squadid:", squadId)
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/chat`)
   return response.data
 }
