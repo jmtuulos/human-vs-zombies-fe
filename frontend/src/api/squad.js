@@ -17,7 +17,6 @@ export const getSquadChat = async ({gameId}, squadId) => {
 }
 
 export const createSquad = async (playerId, gameId, squadData) => {
-  console.log(playerId)
   const data =  {
     'name': squadData,
   }
@@ -34,9 +33,15 @@ export const createSquad = async (playerId, gameId, squadData) => {
   })
 }
 
-export const joinSquad = async (gameId, squadId, squadMemberData) => {
-  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/join`, squadMemberData)
-  return response.status
+export const joinSquad = async (playerId, squadId) => {
+  console.log("playerId: " + playerId + " squadId: " + squadId)
+  const data =  {
+  }
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': playerId
+  }
+  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/{gameId}/squad/${squadId}/join`, data, {headers: header})
 }
 
 export const createSquadChatMessage = async (gameId, squadId, chatMessageData) => {

@@ -11,12 +11,15 @@ export const SquadItem = ({ squad, gameId }) => {
   const squadId = squad.squadMembers[0].squadId
 
   const mutation = useMutation(
-    { mutationFn: () => joinSquad(gameId, squadId, user),
+    { mutationFn: () => joinSquad(storageRead('userId'), squadId),
   })
 
   const handleClick = () => {
     mutation.mutate()
-    setUser(getPlayer(storageRead('userId')))
+    if (mutation.isSuccess)
+      setUser(getPlayer(storageRead('userId')))
+    if (mutation.isError)
+      console.log("error joining squad", mutation.error)
   }
     //add membercount and list of deceiced members to the squd details line
   return (

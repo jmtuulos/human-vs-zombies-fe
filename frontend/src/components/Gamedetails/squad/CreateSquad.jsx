@@ -8,7 +8,6 @@ import { storageRead, storageSave } from "../../../utils/storage"
 
 export const CreateSquadForm = ({playerId}) => {
 
-  // const { squadname, setSquadName } = useState("")
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
 
@@ -23,6 +22,11 @@ export const CreateSquadForm = ({playerId}) => {
   }
 
   return (
+  <>
+    {mutation.isLoading && <p>Creating squad...</p>}
+    {mutation.isError && <p>Error creating squad</p>}
+    {mutation.isSuccess && <p>Squad created</p>}
+    {user.squadId != null &&
     <div className="card">
         <div className="card-body">
         <h5 className="card-title">Create a squad</h5>
@@ -38,6 +42,7 @@ export const CreateSquadForm = ({playerId}) => {
           </div>
         </form>
         </div>
-    </div>
+    </div>}
+  </>
   )
 }
