@@ -6,13 +6,13 @@ import { createSquad } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
 import { storageRead, storageSave } from "../../../utils/storage"
 
-export const CreateSquadForm = (playerId) => {
+export const CreateSquadForm = ({playerId}) => {
 
   // const { squadname, setSquadName } = useState("")
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
 
-  const { mutation, isSuccess } = useMutation(
+  const mutation = useMutation(
     { mutationFn: (squadName) =>createSquad(playerId, storageRead('gameId'), squadName)},
     )
 

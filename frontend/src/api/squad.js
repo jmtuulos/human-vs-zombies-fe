@@ -55,6 +55,20 @@ export const createSquadChatMessage = async (gameId, squadId, chatMessageData) =
       })
 }
 
+export const leaveSquad = async (playerId) => {
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': playerId
+  }
+  const response =  await axios.delete(
+    `${process.env.REACT_APP_API_URL}/game/1/squad/leave`,
+    {headers: header})
+  return response.status
+}
+
+
+
+
 //admin only
 export const deleteSquad = async (gameId, squadId) => {
   const response =  await axios.delete(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}`)
