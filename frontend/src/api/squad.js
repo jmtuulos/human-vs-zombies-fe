@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "."
 
 export const getSquad = async (gameId, squadId) => {
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}`)

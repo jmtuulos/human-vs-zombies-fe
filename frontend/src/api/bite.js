@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '.'
 
 export const getBite = async (gameId, biteId) => {
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/bite/${biteId}`)

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "."
 
 export const getGame = async (gameId) => {
   console.log("getGame: " + gameId)

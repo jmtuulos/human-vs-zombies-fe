@@ -24,7 +24,9 @@ function App() {
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/gamedetails" element={<GameDetails />} />
-              <Route path="/dashboard" element={<AdminTools />} />
+              <Route path="/dashboard" element={<KeycloakRoute role={"admin"}>
+                <AdminTools/>
+              </KeycloakRoute> }/>
               <Route path="/profile" element={<KeycloakRoute role={"hvz_user"}>
                 <Profile />
               </KeycloakRoute>
