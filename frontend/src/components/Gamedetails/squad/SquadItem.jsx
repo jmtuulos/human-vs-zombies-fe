@@ -1,19 +1,23 @@
 import { Button } from "@mui/material"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
+import { getPlayer } from "../../../api/player"
 import { joinSquad } from "../../../api/squad"
+import { useUser } from "../../../context/UserContext"
+import { storageRead } from "../../../utils/storage"
 
 export const SquadItem = ({ squad, gameId }) => {
 
-  const { isError, isLoading, data, error, refetch } = useQuery(
-    { queryKey: ['joinsquad', squad.id],
-    queryFn: () => joinSquad(gameId, squad.id),
-    enabled: false
+  const { user, setUser } = useUser()
+  const squadId = squad.squadMembers[0].squadId
+
+  const mutation = useMutation(
+    { mutationFn: () => joinSquad(gameId, squadId, user),
   })
 
-  const handleClick = () => (
-    //joinsquad here
-    refetch()
-  )
+  const handleClick = () => {
+    mutation.mutate()
+    setUser(getPlayer(storageRead('userId')))
+  }
     //add membercount and list of deceiced members to the squd details line
   return (
     <div>
