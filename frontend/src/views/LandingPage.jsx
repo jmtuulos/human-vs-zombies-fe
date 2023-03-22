@@ -14,9 +14,16 @@ const LandingPage = () => {
   const navigate = useNavigate()
 
   //Temp userCreation
-  const { user, setUser } = useUser("")
+  const { user, setUser } = useUser(null)
   //set user with useEffect
-
+  useEffect(() => {
+      const fetchUser = async () => {
+        const result = await getPlayer(9)
+        setUser(result)
+        storageSave('userId', 9)
+      }
+      fetchUser()
+    }, [])
   //
 
   const { isError, isLoading, data, error } = useQuery(
@@ -24,15 +31,6 @@ const LandingPage = () => {
     queryFn: () => getAllGames(),
     staleTime: 10000
   })
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const result = await getPlayer(9)
-      setUser(result)
-      storageSave('userId', 9)
-    }
-    fetchUser()
-  }, [])
 
   const handleSelectClick = (e) => {
     storageSave('gameId', e.id)

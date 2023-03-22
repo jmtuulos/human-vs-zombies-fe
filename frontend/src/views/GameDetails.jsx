@@ -12,31 +12,36 @@ import { storageRead } from "../utils/storage"
 const GameDetails = () => {
   const { user } = useUser()
   const playerId = storageRead('userId')
+  const gameId = storageRead('gameId')
 
   return (
     <div className="p-7">
       <div className="container p-3 my-3">
         <GameDetail/>
-        {user.isHuman === false &&  <div className="row pt-5">
-          <h3>Bit a Human?</h3>
-          <BiteCodeForm />
-        </div>}
-        <div className="row pt-5 h-50 w-100 d-inline-block">
-          <Map />
-        </div>
-        {user.squadId == null && <div className="row pt-5">
-          <CreateSquadForm playerId={playerId}/>
-        </div>}
-        <div className="row pt-5">
-          {user.squadId != null &&
-            <SquadDetails playerId={playerId}/>}
-        </div>
-        {user.squadId == null && <div className="row pt-5">
-          <SquadList/>
-        </div>}
-        <div className="row pt-5">
-          <ChatTabs />
-       </div>
+        { user !== null &&
+          <>
+            {user.isHuman === false &&
+              <div className="row pt-5">
+              <h3>Bit a Human?</h3>
+              <BiteCodeForm />
+              </div>}
+              {user.squadId == null && <div className="row pt-5">
+                <CreateSquadForm playerId={playerId}/>
+              </div>}
+              <div className="row pt-5">
+                {user.squadId != null &&
+                  <SquadDetails playerId={playerId}/>}
+              </div>
+              {user.squadId == null && <div className="row pt-5">
+                <SquadList/>
+              </div>}
+              <div className="row pt-5">
+                <ChatTabs />
+              </div>
+          </>
+
+        }
+
       </div>
     </div>
 

@@ -17,7 +17,7 @@ export const getSquadChat = async ({gameId}, squadId) => {
 }
 
 export const createSquad = async (playerId, gameId, squadData) => {
-
+  console.log(playerId)
   const data =  {
     'name': squadData,
   }

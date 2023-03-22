@@ -20,8 +20,7 @@ export const SquadItem = ({ squad, gameId }) => {
   }
     //add membercount and list of deceiced members to the squd details line
   return (
-    <div>
-      <li key={squad.id} className="list-group-item">
+      <li className="list-group-item">
         <h4>{squad.name}</h4>
         <Button variant="contained"
           color="success"
@@ -30,6 +29,5 @@ export const SquadItem = ({ squad, gameId }) => {
           join
         </Button>
       </li>
-    </div>
   )
 }
