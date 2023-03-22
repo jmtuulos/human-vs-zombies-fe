@@ -13,18 +13,12 @@ export const CreateSquadForm = (playerId) => {
   const { register, handleSubmit, reset } = useForm()
 
   const { mutation, isSuccess } = useMutation(
-    { mutationFn: (squadName) =>
-        createSquad(
-          playerId,
-          storageRead('gameId'),
-          squadName
-          ),
-          onSuccess: setUser(getPlayer(playerId))
-        },
+    { mutationFn: (squadName) =>createSquad(playerId, storageRead('gameId'), squadName)},
     )
 
   const handleSquadCreate = (data) => {
     mutation.mutate(data.squadname)
+    setUser(getPlayer(playerId))
     reset()
   }
 
