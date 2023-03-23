@@ -26,6 +26,7 @@ export const SquadItem = ({ squad, gameId }) => {
     <>
       <li className="list-group-item">
         <h4>{squad.name}</h4>
+        <p>members: {squad.squadMembers.length}</p>
         <Button variant="contained"
           color="success"
           onClick={handleClick}
