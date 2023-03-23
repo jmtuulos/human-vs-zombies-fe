@@ -41,7 +41,7 @@ export const ChatMessage = ( msgs ) => {
       setAtBottom(bottom)
     }}
       itemContent={(index, user) => {
-        const date = new Date(user.chat_time).toUTCString().slice(0, -4)
+        const date = new Date(user.chat_time).toString().slice(0, 21) // cut the time-zone info off
         return (
           <div
             style={{

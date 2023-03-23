@@ -13,7 +13,7 @@ export const GlobalChat = ({ playerId, gameId }) =>{
     { queryKey: ['globalchat', gameId],
     queryFn: () => getFactionChat(gameId, playerId),
     refetchInterval: 10000,
-    staleTime: 1000
+    staleTime: 3000
   })
 
   if (data !== undefined)
