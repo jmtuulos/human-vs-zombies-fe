@@ -11,11 +11,6 @@ export const GameDetail = () => {
     staleTime: 10000
   })
 
-  console.log(isError)
-  console.log(isLoading)
-  console.log(error)
-  console.log(data)
-
   return (
   <div className="row border">
     {data && <>

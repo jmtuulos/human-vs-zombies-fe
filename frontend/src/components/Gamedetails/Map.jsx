@@ -1,52 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
 
-const Map = ({coordinates}) => {
+const Map = ({ coordinates }) => {
 
-
-
-  // const coordinates =
-  console.log(coordinates)
-
-  // const coordinates = [{ long: "24.9386644", lat: "60.169909" },
-  // { long: "24.9423552", lat: "60.1675821" },
-  // { long: "24.9568391", lat: "60.1679236" },
-  // { long: "24.9563241", lat: "60.1740395" },
-  // { long: "24.9504018", lat: "60.1740181" },
-  // { long: "24.9446726", lat: "60.1703573" },
-  // { long: "24.9497366", lat: "60.1706882" }
-  // ]
-
+  //transform coordinates to a list form
   const latlngs = coordinates.map((coordinate) => [coordinate.longitude, coordinate.latitude])
-  // const latlngs = [
-  //   [
-  //     60.169909,
-  //     24.9386644
-  //   ],
-  //   [
-  //     60.1675821,
-  //     24.9423552
-  //   ],
-  //   [
-  //     60.1679236,
-  //     24.9568391
-  //   ],
-  //   [
-  //     60.1740395,
-  //     24.9563241
-  //   ],
-  //   [
-  //     60.1740181,
-  //     24.9504018
-  //   ],
-  //   [
-  //     60.1703573,
-  //     24.9446726
-  //   ],
-  //   [
-  //     60.1699303,
-  //     24.9386859
-  //   ]
-  // ];
 
   return (
     <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={15} scrollWheelZoom={false}>
