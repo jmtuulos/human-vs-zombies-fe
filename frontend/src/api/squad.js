@@ -1,11 +1,15 @@
 import axios from "."
 
-export const postSquadCheckIn = async (gameId, squadId, coord) => {
-  console.log("coord: ", coord)
+
+export const getSquadCheckIns = async (squadId) => {
+  const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/1/squad/${squadId}/check-in`)
+  return response.data
+}
+
+export const postSquadCheckIn = async (gameId, squadId, coordinates) => {
   const playerId = 9 // placeholder, can be removed when UUID implemented
-  const data = {'latitude': coord.latitude, 'longitude': coord.longitude}
+  const data = {'latitude': coordinates.latitude, 'longitude': coordinates.longitude}
   const header = {
-    'Content-Type': 'application/json',
     'player-id': playerId
   }
   const response =  await axios
