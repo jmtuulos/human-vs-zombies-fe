@@ -12,7 +12,7 @@ export const SquadChat = (gameId) => {
     { queryKey: ['squadchat', gameId],
     queryFn: () => getSquadChat(gameId, user.squadId),
     staleTime: 1000,
-    refetchInterval: 1000
+    refetchInterval: 3000
   })
 
   return ChatMessage(data)

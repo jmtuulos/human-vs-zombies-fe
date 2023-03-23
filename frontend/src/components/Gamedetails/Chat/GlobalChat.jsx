@@ -8,12 +8,12 @@ import { useUser } from '../../../context/UserContext';
 export const GlobalChat = ({ playerId, gameId }) =>{
 
   let filteredMessages = []
-  
+
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['globalchat', gameId],
     queryFn: () => getFactionChat(gameId, playerId),
-    refetchInterval: 1000,
-    staleTime: 1000
+    refetchInterval: 10000,
+    staleTime: 3000
   })
 
   if (data !== undefined)
