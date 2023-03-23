@@ -1,8 +1,10 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import { iconGraveStone } from '../../icons/gravestoneIcon'
+import L from 'leaflet'
 
 const Map = ({coordinates, bites}) => {
-  const L = window.L
   const latlngs = coordinates.map((coordinate) => [coordinate.longitude, coordinate.latitude])
+
 
   return (
     <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={15} scrollWheelZoom={false}>
@@ -12,7 +14,7 @@ const Map = ({coordinates, bites}) => {
       />
       {bites && bites.map((e, i) =>
       {
-        return( <Marker key={i} position={[e.longitude, e.latitude]}>
+        return( <Marker icon={ iconGraveStone } key={i} position={[e.longitude, e.latitude]}>
         <Popup>
           <h6>description: {e.story}</h6>
           <p>Victim id: {e.victimId}</p>
