@@ -29,18 +29,18 @@ export const CreateSquadForm = ({playerId}) => {
     {user.squadId != null &&
     <div className="card">
         <div className="card-body">
-        <h5 className="card-title">Create a squad</h5>
-        <form onSubmit={ handleSubmit(handleSquadCreate) }>
-          <input {...register("squadname") } type="text" placeholder="Name your squad"/>
-          <div className="mt-2">
-              <input
-            className="arrow-button1"
-            type="image"
-            src="/images/arrow.svg" alt="arrow image"
-            style={{ width: "40px" }}/>
+          <h5 className="card-title">Create a squad</h5>
+          <form onSubmit={ handleSubmit(handleSquadCreate) }>
+            <input {...register("squadname") } type="text" placeholder="Name your squad"/>
+            <div className="mt-2">
+                <input
+              className="arrow-button1"
+              type="image"
+              src="/images/arrow.svg" alt="arrow image"
+              style={{ width: "40px" }}/>
 
-          </div>
-        </form>
+            </div>
+          </form>
         </div>
     </div>}
   </>

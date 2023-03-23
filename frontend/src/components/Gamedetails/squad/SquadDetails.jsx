@@ -18,7 +18,7 @@ export const SquadDetails = () => {
     { mutationFn: () => leaveSquad(storageRead('userId')),
     onSuccess: () => {
       console.log('Player Left a squad')
-      setUser.squadId = null
+      setUser({...user, squadId: null})
     }
   })
 
