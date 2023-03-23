@@ -1,52 +1,14 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import { iconGraveStone } from '../../icons/gravestoneIcon'
+import L from 'leaflet'
+import { iconPlayer } from '../../icons/playericon'
+import { useUser } from '../../context/UserContext'
+import { iconZombie } from '../../icons/zombieicon'
 
-const Map = ({coordinates}) => {
-
-
-
-  // const coordinates =
-  console.log(coordinates)
-
-  // const coordinates = [{ long: "24.9386644", lat: "60.169909" },
-  // { long: "24.9423552", lat: "60.1675821" },
-  // { long: "24.9568391", lat: "60.1679236" },
-  // { long: "24.9563241", lat: "60.1740395" },
-  // { long: "24.9504018", lat: "60.1740181" },
-  // { long: "24.9446726", lat: "60.1703573" },
-  // { long: "24.9497366", lat: "60.1706882" }
-  // ]
-
-  const latlngs = coordinates.map((coordinate) => [coordinate.longitude, coordinate.latitude])
-  // const latlngs = [
-  //   [
-  //     60.169909,
-  //     24.9386644
-  //   ],
-  //   [
-  //     60.1675821,
-  //     24.9423552
-  //   ],
-  //   [
-  //     60.1679236,
-  //     24.9568391
-  //   ],
-  //   [
-  //     60.1740395,
-  //     24.9563241
-  //   ],
-  //   [
-  //     60.1740181,
-  //     24.9504018
-  //   ],
-  //   [
-  //     60.1703573,
-  //     24.9446726
-  //   ],
-  //   [
-  //     60.1699303,
-  //     24.9386859
-  //   ]
-  // ];
+const Map = ({coordinates, bites, checkins}) => {
+  const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
+  const { user } = useUser()
+  const playerIcon = user.isHuman ? iconPlayer : iconZombie
 
   return (
     <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={15} scrollWheelZoom={false}>
@@ -54,11 +16,25 @@ const Map = ({coordinates}) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {/* {coordinates.map((e, i) => <Marker key={i} position={[e.latitude, e.longitude]}>
+      {bites && bites.map((e, i) =>
+       <Marker icon={ iconGraveStone }
+          key={i}
+          position={[e.latitude, e.longitude]}>
         <Popup>
-          Marker
+          <h6>description: {e.story}</h6>
+          <p>Victim id: {e.victimId}</p>
+          <p>Killed id: {e.biterId}</p>
         </Popup>
-      </Marker>)} */}
+        </Marker>)}
+        {checkins && checkins.map((e, i) =>
+          <Marker icon={ playerIcon }
+          key={i}
+          position={[e.latitude, e.longitude]}
+        >
+        <Popup>
+          <h6>Checked in {e.story}</h6>
+        </Popup>
+      </Marker>)}
       <Polygon positions={latlngs}></Polygon>
 
     </MapContainer>

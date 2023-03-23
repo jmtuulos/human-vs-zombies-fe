@@ -1,5 +1,23 @@
 import axios from "."
 
+
+export const getSquadCheckIns = async (squadId) => {
+  const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/1/squad/${squadId}/check-in`)
+  return response.data
+}
+
+export const postSquadCheckIn = async (gameId, squadId, coordinates) => {
+  const playerId = 9 // placeholder, can be removed when UUID implemented
+  const data = {'latitude': coordinates.latitude, 'longitude': coordinates.longitude}
+  const header = {
+    'player-id': playerId
+  }
+  const response =  await axios
+    .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/check-in`,
+      data,
+      {headers: header})
+  return response
+}
 export const getSquad = async (gameId, squadId) => {
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}`)
   return response.data

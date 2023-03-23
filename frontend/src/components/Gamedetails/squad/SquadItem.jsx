@@ -19,11 +19,11 @@ export const SquadItem = ({ squad, gameId }) => {
   })
 
   const handleClick = () => {
-    console.log("player joined a squad", )
     mutation.mutate()
   }
-  
+
   return (
+    <>
       <li className="list-group-item">
         <h4>{squad.name}</h4>
         <Button variant="contained"
@@ -33,5 +33,6 @@ export const SquadItem = ({ squad, gameId }) => {
           join
         </Button>
       </li>
+    </>
   )
 }
