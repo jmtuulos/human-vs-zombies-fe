@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import * as L from "leaflet";
 
-const Map = ({coordinates}) => {
+const Map = ({ coordinates }) => {
 
 
 

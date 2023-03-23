@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 
-const PlayerInfo = (data) => {
-    console.log(data.data)
+const PlayerInfo = ({ data }) => {
 
     const [biteCode, setBiteCode] = useState("")
 
@@ -11,16 +10,18 @@ const PlayerInfo = (data) => {
     }
 
     return <>
-        <p>Player name: {data.data.appUser.firstname} {data.data.appUser.lastName}</p>
-        <p>Bite code: {data.data.biteCode}</p>
-        
-        <form onSubmit={handleBite}>
-                    <input value={biteCode} onChange={(e) => {
-                        setBiteCode(e.target.value)
-                    }} pattern="[a-zA-Z0-9\s]+"></input>
-                    <button type="submit">BITE</button>
-        </form>
-        </>;
+        <p>Player name: {data.fullName}</p>
+        {data.isHuman ? <p>Bite code: {data.biteCode}</p> : <>
+            <form onSubmit={handleBite}>
+                <input value={biteCode} onChange={(e) => {
+                    setBiteCode(e.target.value)
+                }} pattern="[a-zA-Z0-9\s]+"></input>
+                <button type="submit">BITE</button>
+            </form></>}
+
+
+
+    </>;
 }
 
 export default PlayerInfo;
