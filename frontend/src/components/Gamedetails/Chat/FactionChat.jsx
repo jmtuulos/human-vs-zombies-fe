@@ -11,7 +11,7 @@ export const FactionChat = ({ playerId, gameId }) => {
     { queryKey: ['factionchat', gameId],
     queryFn: () => getFactionChat(gameId, playerId),
     staleTime: 1000,
-    refetchInterval: 1000
+    refetchInterval: 10000
   })
 
   if (data)
