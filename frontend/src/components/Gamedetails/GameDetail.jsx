@@ -1,7 +1,7 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { getAllBites } from "../../api/bite";
 import { getGame } from "../../api/game";
-import { getAllMissions } from "../../api/mission";
+import {  getFactionMissions } from "../../api/mission";
 import { getSquadCheckIns } from "../../api/squad";
 import { useUser } from "../../context/UserContext";
 import { storageRead } from "../../utils/storage";
@@ -16,7 +16,7 @@ export const GameDetail = ({gameId}) => {
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
       { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000,},
       { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user.squadId},
-      { queryKey: ['getmissionmarkers'], queryFn: () => getAllMissions(user.isHuman), staleTime: 1000,},
+      { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(user.isHuman), staleTime: 1000,},
     ],
   })
 

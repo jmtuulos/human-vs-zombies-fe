@@ -1,5 +1,4 @@
 import axios from "."
-import { useUser } from "../context/UserContext"
 import { storageRead } from "../utils/storage"
 
 export const getFactionMissions = async (isHuman) => {
@@ -11,7 +10,8 @@ export const getFactionMissions = async (isHuman) => {
     return filteredMissions
   }
   return response.data
-  
+}
+
 export const getMissions = async (gameId) => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
     return response.data
@@ -34,11 +34,5 @@ export const createMission = async (gameId, data) => {
 
 export const deleteMission = async (gameId, missionId) => {
     const response = await axios.delete(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission/${missionId}`)
-    return response.data
-}
-
-export const getAllMissions = async () => {
-    const gameId = storageRead('gameId')
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
     return response.data
 }

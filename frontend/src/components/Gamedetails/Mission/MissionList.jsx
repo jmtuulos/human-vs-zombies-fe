@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAllMissions } from "../../../api/mission"
+import { getFactionMissions } from "../../../api/mission"
 import { useUser } from "../../../context/UserContext"
 import { storageRead } from "../../../utils/storage"
 import { styled } from '@mui/material/styles';
@@ -17,7 +17,7 @@ export const MissionList = (gameId) => {
 
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['missions'],
-    queryFn: () => getAllMissions(user.isHuman),
+    queryFn: () => getFactionMissions(user.isHuman),
     staleTime: 1000,
   })
 
