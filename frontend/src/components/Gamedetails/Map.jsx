@@ -8,7 +8,6 @@ import { iconMission } from '../../icons/mission'
 
 const Map = ({coordinates, bites, checkins, missions}) => {
   const { user } = useUser()
-
   let filteredMissions = []
   // filter out missions that should not be visible to the user and
   // missions that do not have a location
@@ -28,29 +27,29 @@ const Map = ({coordinates, bites, checkins, missions}) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {bites && bites.map((e, i) =>
-       <Marker icon={ iconGraveStone }
+        <Marker icon={iconGraveStone}
           key={i}
           position={[e.latitude, e.longitude]}>
-        <Popup>
-          <h6>description: {e.story}</h6>
-          <p>Victim id: {e.victimId}</p>
-          <p>Killed id: {e.biterId}</p>
-        </Popup>
+          <Popup>
+            <h6>description: {e.story}</h6>
+            <p>Victim id: {e.victimId}</p>
+            <p>Killed id: {e.biterId}</p>
+          </Popup>
         </Marker>)}
-        {checkins && checkins.map((e, i) =>
-          <Marker icon={ playerIcon }
+      {checkins && checkins.map((e, i) =>
+        <Marker icon={playerIcon}
           key={i}
           position={[e.latitude, e.longitude]}
         >
-        <Popup>
-          <h6>Checked in {e.story}</h6>
-        </Popup>
+          <Popup>
+            <h6>Checked in {e.story}</h6>
+          </Popup>
         </Marker>)}
-        {filteredMissions && filteredMissions.map((e, i) =>
-          <Marker icon={ iconMission }
-            key={i}
-            position={[e.latitude, e.longitude]}
-          >
+      {filteredMissions && filteredMissions.map((e, i) =>
+        <Marker icon={iconMission}
+          key={i}
+          position={[e.latitude, e.longitude]}
+        >
           <Popup>
             <h6>mission: {e.description}</h6>
             <h6>start: {e.startTime}</h6>
