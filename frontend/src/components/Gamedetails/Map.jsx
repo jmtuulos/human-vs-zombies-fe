@@ -6,7 +6,7 @@ import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
 import { iconMission } from '../../icons/mission'
 
-const Map = ({coordinates, bites, checkins, missions}) => {
+const Map = ({ coordinates, bites, checkins, missions }) => {
   let filteredMissions = []
   if (missions)
     filteredMissions = missions.filter((mission) => mission.latitude && mission.longitude)
@@ -21,29 +21,29 @@ const Map = ({coordinates, bites, checkins, missions}) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {bites && bites.map((e, i) =>
-       <Marker icon={ iconGraveStone }
+        <Marker icon={iconGraveStone}
           key={i}
           position={[e.latitude, e.longitude]}>
-        <Popup>
-          <h6>description: {e.story}</h6>
-          <p>Victim id: {e.victimId}</p>
-          <p>Killed id: {e.biterId}</p>
-        </Popup>
+          <Popup>
+            <h6>description: {e.story}</h6>
+            <p>Victim id: {e.victimId}</p>
+            <p>Killed id: {e.biterId}</p>
+          </Popup>
         </Marker>)}
-        {checkins && checkins.map((e, i) =>
-          <Marker icon={ playerIcon }
+      {checkins && checkins.map((e, i) =>
+        <Marker icon={playerIcon}
           key={i}
           position={[e.latitude, e.longitude]}
         >
-        <Popup>
-          <h6>Checked in {e.story}</h6>
-        </Popup>
+          <Popup>
+            <h6>Checked in {e.story}</h6>
+          </Popup>
         </Marker>)}
-        {filteredMissions && filteredMissions.map((e, i) =>
-          <Marker icon={ iconMission }
-            key={i}
-            position={[e.latitude, e.longitude]}
-          >
+      {filteredMissions && filteredMissions.map((e, i) =>
+        <Marker icon={iconMission}
+          key={i}
+          position={[e.latitude, e.longitude]}
+        >
           <Popup>
             <h6>mission: {e.description}</h6>
             <h6>start: {e.startTime}</h6>
