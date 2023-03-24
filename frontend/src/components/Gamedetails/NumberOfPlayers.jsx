@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query"
 import { listPlayers } from "../../api/player"
 
 export const NumberOfPlayers = (game) => {
-  console.log(game.id)
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['players', game.id],
     queryFn: () => listPlayers(game.id),
