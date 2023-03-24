@@ -17,7 +17,7 @@ export const MissionList = (gameId) => {
 
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['missions'],
-    queryFn: () => getAllMissions(gameId),
+    queryFn: () => getAllMissions(user.isHuman),
     staleTime: 1000,
   })
 

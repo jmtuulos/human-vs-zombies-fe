@@ -6,12 +6,18 @@ import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
 import { iconMission } from '../../icons/mission'
 
-const Map = ({ coordinates, bites, checkins, missions }) => {
-  let filteredMissions = []
-  if (missions)
-    filteredMissions = missions.filter((mission) => mission.latitude && mission.longitude)
-  const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
+const Map = ({coordinates, bites, checkins, missions}) => {
   const { user } = useUser()
+  let filteredMissions = []
+  // filter out missions that should not be visible to the user and
+  // missions that do not have a location
+  if (missions)
+    filteredMissions = missions.filter((mission) =>
+    mission.latitude &&
+    mission.longitude &&
+    mission.isHumanVisible == user.isHuman)
+
+  const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
   const playerIcon = user.isHuman ? iconPlayer : iconZombie
 
   return (

@@ -38,7 +38,6 @@ export const CreateSquadForm = ({playerId}) => {
               type="image"
               src="/images/arrow.svg" alt="arrow image"
               style={{ width: "40px" }}/>
-
             </div>
           </form>
         </div>
