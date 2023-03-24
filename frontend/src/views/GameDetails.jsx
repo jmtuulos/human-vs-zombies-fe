@@ -17,7 +17,7 @@ const GameDetails = () => {
   return (
     <div className="p-7">
       <div className="container p-3 my-3">
-        <GameDetail/>
+        <GameDetail gameId={gameId}/>
         { user !== null &&
           <>
             <div className="row pt-5">
