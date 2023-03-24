@@ -29,7 +29,7 @@ const AddMarkerToClick = ({ updatePosition }) => {
 const MissionAdminMap = ({ gameMap, getNewMissionCoordinates }) => {
 
 
-  const latlngs = gameMap.map((coordinate) => [coordinate.longitude, coordinate.latitude])
+  const latlngs = gameMap.map((coordinate) => [coordinate.latitude, coordinate.longitude])
 
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
   const [marker, setMarker] = useState(null)

@@ -4,7 +4,7 @@ import * as L from "leaflet";
 
 const MissionInfoMap = ({ gameMap, marker }) => {
 
-    const latlngs = gameMap.map((coordinate) => [coordinate.longitude, coordinate.latitude])
+    const latlngs = gameMap.map((coordinate) => [coordinate.latitude, coordinate.longitude])
 
     return (
         <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={16} scrollWheelZoom={false}>
