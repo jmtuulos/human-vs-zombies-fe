@@ -24,14 +24,14 @@ export const GameDetail = ({gameId}) => {
   <div className="row border">
     {game.data &&
     <>
-      <div className="col-12">
+      <div className="col-12 p-5">
         <h1>{game.data.name}</h1>
         <p>{game.data.description}</p>
         <div>
           <h3 className="text-muted">Rules</h3> Do not be overphysical and do not fight
         </div>
       </div>
-      <div className="row pt-5 h-50 w-100 d-inline-block">
+      <div className="pb-2 h-50 w-100 d-inline-block">
         <Map
         coordinates={game.data.mapCoordinates}
         bites={bites.data}
