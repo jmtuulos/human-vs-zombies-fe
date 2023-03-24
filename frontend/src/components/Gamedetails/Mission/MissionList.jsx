@@ -49,8 +49,8 @@ export const MissionList = (gameId) => {
             <StyledTableCell>Mission</StyledTableCell>
             <StyledTableCell align="right">Description</StyledTableCell>
             <StyledTableCell align="right">Start time&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">End time&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Coordinates&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">End time&nbsp;</StyledTableCell>
+            <StyledTableCell align="right">Coordinates&nbsp;</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
