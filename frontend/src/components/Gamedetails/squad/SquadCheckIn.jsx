@@ -4,14 +4,14 @@ import { useState } from "react"
 import { postSquadCheckIn } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
 
-export const SquadCheckIn = ({squadId, gameId}) =>
+export const SquadCheckIn = ({gameId}) =>
 {
   const { user } = useUser()
   const [ latitude, setLatitude ] = useState(0)
   const [ longitude, setLongitude ] = useState(0)
 
   const mutation = useMutation(
-    { mutationFn: (position) => postSquadCheckIn(gameId, squadId, position),
+    { mutationFn: (position) => postSquadCheckIn(gameId, user.squadId, position),
     onSuccess: () => {
       window.alert("checked in")
     },
