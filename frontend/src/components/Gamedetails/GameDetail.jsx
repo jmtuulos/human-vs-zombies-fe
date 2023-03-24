@@ -16,7 +16,7 @@ export const GameDetail = ({gameId}) => {
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
       { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000,},
       { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user.squadId},
-      { queryKey: ['getmissionmarkers'], queryFn: () => getAllMissions(), staleTime: 1000,},
+      { queryKey: ['getmissionmarkers'], queryFn: () => getAllMissions(user.isHuman), staleTime: 1000,},
     ],
   })
 
