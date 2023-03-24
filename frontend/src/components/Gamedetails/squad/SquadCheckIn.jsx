@@ -11,7 +11,7 @@ export const SquadCheckIn = ({gameId}) =>
   const [ longitude, setLongitude ] = useState(0)
 
   const mutation = useMutation(
-    { mutationFn: (position) => postSquadCheckIn(gameId, user.squadId, position),
+    { mutationFn: (coords) => postSquadCheckIn(gameId, user.squadId, coords),
     onSuccess: () => {
       window.alert("checked in")
     },
@@ -38,7 +38,7 @@ export const SquadCheckIn = ({gameId}) =>
       }
     })
     .catch((err) => {
-      console.error(err.message);
+      console.log("failed to get position", err)
     })
 
   }
