@@ -21,7 +21,7 @@ const GameDetails = () => {
         { user !== null &&
           <>
             <div className="row pt-5">
-                <MissionList gameId={gameId}/>
+              <MissionList gameId={gameId}/>
             </div>
             {user.isHuman === false &&
               <div className="row pt-5">

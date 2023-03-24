@@ -17,7 +17,7 @@ export const SquadList = () => {
 
   return (
     <div className="card-body">
-      <h5 className="card-title">Squads</h5>
+      <h5 className="card-title">Squads: </h5>
       <ul className="list-group list-group-flush">
         {data && data.map((squad, index) => {
           if (squad.isHuman == user.isHuman)

@@ -10,14 +10,18 @@ export const CreateSquadForm = ({playerId}) => {
 
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
+  console.log(playerId)
 
   const mutation = useMutation(
-    { mutationFn: (squadName) =>createSquad(playerId, storageRead('gameId'), squadName)},
-    )
+    { mutationFn: (squadName) => createSquad(playerId, storageRead('gameId'), squadName),
+     onSuccess: () => {
+      getPlayer(playerId).then((data) => {
+        setUser({...user, squadId: data.squadId})
+     })}
+    })
 
   const handleSquadCreate = (data) => {
     mutation.mutate(data.squadname)
-    setUser(getPlayer(playerId))
     reset()
   }
 
@@ -26,7 +30,7 @@ export const CreateSquadForm = ({playerId}) => {
     {mutation.isLoading && <p>Creating squad...</p>}
     {mutation.isError && <p>Error creating squad</p>}
     {mutation.isSuccess && <p>Squad created</p>}
-    {user.squadId != null &&
+    {user.squadId == null &&
     <div className="card">
         <div className="card-body">
           <h5 className="card-title">Create a squad</h5>
