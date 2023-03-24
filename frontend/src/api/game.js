@@ -7,7 +7,6 @@ export const getGame = async (gameId) => {
 
 export const getAllGames = async () => {
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game`)
-  console.log("all games:", response.data)
   return response.data
 }
 

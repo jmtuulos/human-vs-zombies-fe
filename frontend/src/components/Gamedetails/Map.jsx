@@ -4,8 +4,12 @@ import L from 'leaflet'
 import { iconPlayer } from '../../icons/playericon'
 import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
+import { iconMission } from '../../icons/mission'
 
-const Map = ({coordinates, bites, checkins}) => {
+const Map = ({coordinates, bites, checkins, missions}) => {
+  let filteredMissions = []
+  if (missions)
+    filteredMissions = missions.filter((mission) => mission.latitude && mission.longitude)
   const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
   const { user } = useUser()
   const playerIcon = user.isHuman ? iconPlayer : iconZombie
@@ -34,9 +38,19 @@ const Map = ({coordinates, bites, checkins}) => {
         <Popup>
           <h6>Checked in {e.story}</h6>
         </Popup>
-      </Marker>)}
+        </Marker>)}
+        {filteredMissions && filteredMissions.map((e, i) =>
+          <Marker icon={ iconMission }
+            key={i}
+            position={[e.latitude, e.longitude]}
+          >
+          <Popup>
+            <h6>mission: {e.description}</h6>
+            <h6>start: {e.startTime}</h6>
+            <h6>end: {e.endTime}</h6>
+          </Popup>
+        </Marker>)}
       <Polygon positions={latlngs}></Polygon>
-
     </MapContainer>
   )
 }

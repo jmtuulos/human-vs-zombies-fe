@@ -1,23 +1,25 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { getAllBites } from "../../api/bite";
 import { getGame } from "../../api/game";
+import { getAllMissions } from "../../api/mission";
 import { getSquadCheckIns } from "../../api/squad";
 import { useUser } from "../../context/UserContext";
 import { storageRead } from "../../utils/storage";
 import Map from "./Map";
 
-export const GameDetail = () => {
+export const GameDetail = ({gameId}) => {
 
-  const gameId = storageRead("gameId")
   const { user } = useUser()
 
-  const [game, bites, checkIns] = useQueries({
+  const [game, bites, checkIns, missions] = useQueries({
     queries: [
-      { queryKey: ['getgame', gameId], queryFn: () => getGame(gameId), staleTime: 10000},
-      { queryKey: ['getbites', gameId], queryFn: () => getAllBites(gameId), staleTime: 10000},
-      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 10000}
+      { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
+      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000,},
+      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000},
+      { queryKey: ['getmissionmarkers'], queryFn: () => getAllMissions(), staleTime: 1000,},
     ],
   })
+
   return (
   <div className="row border">
     {game.data &&
@@ -34,6 +36,7 @@ export const GameDetail = () => {
         coordinates={game.data.mapCoordinates}
         bites={bites.data}
         checkins={checkIns.data}
+        missions={missions.data}
         />
       </div>
     </>
