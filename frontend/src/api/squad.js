@@ -1,5 +1,23 @@
 import axios from "."
 
+
+export const getSquadCheckIns = async (squadId) => {
+  const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/1/squad/${squadId}/check-in`)
+  return response.data
+}
+
+export const postSquadCheckIn = async (gameId, squadId, coordinates) => {
+  const playerId = 9 // placeholder, can be removed when UUID implemented
+  const data = {'latitude': coordinates.latitude, 'longitude': coordinates.longitude}
+  const header = {
+    'player-id': playerId
+  }
+  const response =  await axios
+    .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/check-in`,
+      data,
+      {headers: header})
+  return response
+}
 export const getSquad = async (gameId, squadId) => {
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}`)
   return response.data
@@ -17,7 +35,6 @@ export const getSquadChat = async ({gameId}, squadId) => {
 }
 
 export const createSquad = async (playerId, gameId, squadData) => {
-  console.log(playerId)
   const data =  {
     'name': squadData,
   }
@@ -34,9 +51,15 @@ export const createSquad = async (playerId, gameId, squadData) => {
   })
 }
 
-export const joinSquad = async (gameId, squadId, squadMemberData) => {
-  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/join`, squadMemberData)
-  return response.status
+export const joinSquad = async (playerId, squadId) => {
+  console.log("playerId: " + playerId + " squadId: " + squadId)
+  const data =  {
+  }
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': playerId
+  }
+  const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/{gameId}/squad/${squadId}/join`, data, {headers: header})
 }
 
 export const createSquadChatMessage = async (gameId, squadId, chatMessageData) => {
@@ -54,6 +77,20 @@ export const createSquadChatMessage = async (gameId, squadId, chatMessageData) =
         console.log("error: " + error)
       })
 }
+
+export const leaveSquad = async (playerId) => {
+  const header = {
+    'Content-Type': 'application/json',
+    'player-id': playerId
+  }
+  const response =  await axios.delete(
+    `${process.env.REACT_APP_API_URL}/game/1/squad/leave`,
+    {headers: header})
+  return response.status
+}
+
+
+
 
 //admin only
 export const deleteSquad = async (gameId, squadId) => {

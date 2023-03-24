@@ -25,6 +25,7 @@ export const FactionForm = () => {
     <fieldset >
       <TextField required {...register("chatMsg")} id="filled-basic" label="Enter your message" variant="filled" helperText="Remember to follow the rules" />
       <Button variant="contained"
+        style={{ marginLeft: "10px" }}
         size="large"
         onSubmit={handleSubmit(handleSubmitFaction)}
         type="submit"

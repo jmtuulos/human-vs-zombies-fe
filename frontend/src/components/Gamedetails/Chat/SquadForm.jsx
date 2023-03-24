@@ -35,6 +35,7 @@ export const SquadForm = () => {
     variant="filled"
     helperText="Remember to follow the rules" />
     <Button type="submit"
+      style={{ marginLeft: "10px" }}
       size="large"
       variant="contained"
       onSubmit={handleSubmit(handleSubmitSquad)}
