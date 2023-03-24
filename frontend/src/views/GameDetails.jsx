@@ -8,6 +8,8 @@ import { SquadList } from "../components/Gamedetails/squad/SquadList"
 import { SquadDetails } from "../components/Gamedetails/squad/SquadDetails"
 import { useUser } from "../context/UserContext"
 import { storageRead } from "../utils/storage"
+import { Paper } from "@mui/material"
+import { maxWidth } from "@mui/system"
 
 const GameDetails = () => {
   const { user } = useUser()
@@ -25,19 +27,23 @@ const GameDetails = () => {
               <h3>Bit a Human?</h3>
               <BiteCodeForm />
               </div>}
-              {user.squadId == null && <div className="row pt-5">
-                <CreateSquadForm playerId={playerId}/>
-              </div>}
+            {user.isHuman === true &&
               <div className="row pt-5">
-                {user.squadId != null &&
-                  <SquadDetails playerId={playerId}/>}
-              </div>
-              {user.squadId == null && <div className="row pt-5">
-                <SquadList/>
+                <Paper sx={{paddingBlock: 3, maxWidth: 0.5}}><h3>Your bite code: <p>{user.biteCode}</p></h3></Paper>
               </div>}
-              <div className="row pt-5">
-                <ChatTabs />
-              </div>
+            {user.squadId == null && <div className="row pt-5">
+              <CreateSquadForm playerId={playerId}/>
+            </div>}
+            <div className="row pt-5">
+              {user.squadId != null &&
+                <SquadDetails playerId={playerId}/>}
+            </div>
+            {user.squadId == null && <div className="row pt-5">
+              <SquadList/>
+            </div>}
+            <div className="row pt-5">
+              <ChatTabs />
+            </div>
           </>
 
         }
