@@ -11,9 +11,27 @@ import Profile from './views/Profile';
 import KeycloakRoute from './routes/KeycloakRoute';
 import Navbar from './components/Navbar/Navbar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import keycloak from './keycloak';
+import { useEffect } from 'react';
+import { getAllPlayersByUuid, registerUser } from './api/user';
+import { useAppUser } from './context/AppUserContext';
 
 const queryClient = new QueryClient()
 function App() {
+
+  const { appUser, setAppUser } = useAppUser()
+
+  useEffect(() => {
+    if (keycloak.token !== undefined) {
+      console.log(keycloak.token)
+      registerUser(keycloak.token)
+      getAllPlayersByUuid(keycloak.token).then(function (value) {
+        setAppUser(value)
+      })
+    }
+  }, []);
+
+  console.log(appUser)
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -25,8 +43,8 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/gamedetails" element={<GameDetails />} />
               <Route path="/dashboard" element={<KeycloakRoute role={"admin"}>
-                <AdminTools/>
-              </KeycloakRoute> }/>
+                <AdminTools />
+              </KeycloakRoute>} />
               <Route path="/profile" element={<KeycloakRoute role={"hvz_user"}>
                 <Profile />
               </KeycloakRoute>
