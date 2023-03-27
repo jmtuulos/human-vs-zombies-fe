@@ -11,7 +11,7 @@ export const SquadItem = ({ squad, gameId }) => {
   const squadId = squad.squadMembers[0].squadId
 
   const mutation = useMutation(
-    { mutationFn: () => joinSquad(storageRead('userId'), squadId),
+    { mutationFn: () => joinSquad( squadId),
     onSuccess: () => {
       console.log('Player joined a squad')
       setUser({...user, squadId: squadId})

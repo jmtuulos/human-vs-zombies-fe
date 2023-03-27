@@ -26,7 +26,7 @@ const GameDetails = () => {
             {user.isHuman === false &&
               <div className="row pt-5">
               <h3>Bit a Human?</h3>
-              <BiteCodeForm />
+              <BiteCodeForm gameId={gameId}/>
               </div>}
             {user.isHuman === true &&
               <div className="row pt-5">

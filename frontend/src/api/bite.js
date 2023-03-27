@@ -10,8 +10,20 @@ export const getAllBites = async (gameId) => {
   return response.data
 }
 
-export const createBite = async(gameId, biteData) => {
-  const response = await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/bite`, biteData)
+export const createBite = async({gameId}, biteCode, description, coords) => {
+  console.log('biteCode', biteCode)
+  console.log('description', description)
+  console.log('coords', coords)
+  if (!coords)
+    coords = {latitude: 0, longitude: 0}
+  const data = {
+    biteCode: biteCode,
+    story: description,
+    latitude: coords.latitude,
+    longitude: coords.longitude
+  }
+
+  const response = await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/bite`, data)
   return response.status
 }
 
