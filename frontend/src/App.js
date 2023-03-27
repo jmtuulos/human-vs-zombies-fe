@@ -25,12 +25,14 @@ function App() {
   useEffect(() => {
     if (keycloak.token !== undefined) {
       console.log(keycloak.token)
-      registerUser()
+      registerUser().catch(
+        (error) => console.log("already logged in")
+      )
       getAllPlayersByUuid().then(function (value) {
         setAppUser(value)
       })
     } else {
-      setAppUser({})
+      setAppUser(null)
     }
   }, []);
 

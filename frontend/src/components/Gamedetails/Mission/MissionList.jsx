@@ -10,15 +10,26 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useState } from "react";
 
 //Should only show to players that have joined the game
 export const MissionList = (gameId) => {
+  const [ missions, setMissions ] = useState(null)
   const { user } = useUser()
+  console.log(user)
+  console.log(missions)
 
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['missions'],
-    queryFn: () => getFactionMissions(user.isHuman),
+    queryFn: () => getFactionMissions(),
+    onSuccess: (data) => {
+      const filteredMissions = data.filter((mission) => mission.isHumanVisible == user.isHuman)
+      setMissions(filteredMissions)
+      console.log(filteredMissions)
+    },
     staleTime: 1000,
+    enabled: user !== null
+
   })
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -54,7 +65,7 @@ export const MissionList = (gameId) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.map((row) => (
+          {missions && missions.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.name}

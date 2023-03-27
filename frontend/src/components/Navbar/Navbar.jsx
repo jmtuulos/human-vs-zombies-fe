@@ -1,9 +1,11 @@
 import { NavLink } from "react-router-dom"
+import { useAppUser } from "../../context/AppUserContext"
 import { useUser } from "../../context/UserContext"
 import keycloak from "../../keycloak"
 
 const Navbar = () => {
     const { user } = useUser()
+    const { appUser } = useAppUser()
 
     return (
         <div className="container pt-7">
@@ -16,9 +18,9 @@ const Navbar = () => {
                         <ul className="nav-item">
                             <li className="nav-link active" aria-current="page"><NavLink to='/'>Home</NavLink><span className="visually-hidden">(current)</span></li>
                         </ul>
-                        <ul className="nav-item">
+                        {appUser && <ul className="nav-item">
                             <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
-                        </ul>
+                        </ul>}
                         <ul className="nav-item">
                             <ul>
                                 <section className="actions">

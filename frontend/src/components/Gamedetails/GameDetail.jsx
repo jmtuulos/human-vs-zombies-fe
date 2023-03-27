@@ -1,4 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { getAllBites } from "../../api/bite";
 import { getGame } from "../../api/game";
 import {  getFactionMissions } from "../../api/mission";
@@ -14,24 +15,17 @@ export const GameDetail = ({gameId}) => {
   const { user } = useUser()
   const { appUser } = useAppUser()
 
-  console.log(appUser)
-
+  const enableGameDetails = appUser.some((game) => game.gameId === gameId)
+  console.log(user)
   const [game, bites, checkIns, missions] = useQueries({
     queries: [
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
-      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000,},
-      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user.squadId},
-      { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(user.isHuman), staleTime: 1000,},
+      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000, },
+      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user && !!user.squadId},
+      { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(), staleTime: 1000, enabled: enableGameDetails}
+
     ],
   })
-
-  // const gameAvailableToJoin = () => {
-  //   if (appUser){
-  //     console.log(appUser)
-  //     return appUser.some((game) => game.gameId === gameId) == false
-  //   }
-  //   return false
-  // }
 
   return (
   <div className="row border">

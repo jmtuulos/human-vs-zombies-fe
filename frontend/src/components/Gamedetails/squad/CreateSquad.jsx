@@ -19,7 +19,10 @@ export const CreateSquadForm = () => {
       getPlayer(user.playerId).then((data) => {
         console.log(data)
         setUser({...user, squadId: data.squadId})
-     })}
+     }).catch( (error) =>
+      console.log("error", error)
+     )
+    }
     })
 
   const handleSquadCreate = (data) => {
