@@ -20,29 +20,33 @@ const queryClient = new QueryClient()
 function App() {
 
   const { appUser, setAppUser } = useAppUser()
+  console.log(keycloak.hasRealmRole("hvz_user"))
 
   useEffect(() => {
     if (keycloak.token !== undefined) {
       console.log(keycloak.token)
-      registerUser(keycloak.token)
-      getAllPlayersByUuid(keycloak.token).then(function (value) {
+      registerUser()
+      getAllPlayersByUuid().then(function (value) {
         setAppUser(value)
       })
+    } else {
+      setAppUser({})
     }
   }, []);
-
-  console.log(appUser)
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="App">
+        <div id='app' className="App">
           <Navbar />
           <div style={{ backgroundImage: "url(/images/background.png)" }}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/gamedetails" element={<GameDetails />} />
-              <Route path="/dashboard" element={<KeycloakRoute role={"admin"}>
+              <Route path="/gamedetails" element={
+                <KeycloakRoute role={"hvz_user"}>
+                  <GameDetails />
+                </KeycloakRoute>} />
+              <Route path="/dashboard" element={<KeycloakRoute role={"hvz_admin"}>
                 <AdminTools />
               </KeycloakRoute>} />
               <Route path="/profile" element={<KeycloakRoute role={"hvz_user"}>
