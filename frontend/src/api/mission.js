@@ -5,10 +5,6 @@ export const getFactionMissions = async (isHuman) => {
   const gameId = storageRead('gameId')
   let filteredMissions = []
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
-  if (response.data){
-    filteredMissions = response.data.filter((mission) => mission.isHumanVisible == isHuman)
-    return filteredMissions
-  }
   return response.data
 }
 
