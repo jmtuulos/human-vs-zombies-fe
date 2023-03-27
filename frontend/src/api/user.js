@@ -1,7 +1,7 @@
 import axios from "."
 
-export const registerUser = async (token) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, token)
+export const registerUser = async () => {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`)
     return response
 }
 
