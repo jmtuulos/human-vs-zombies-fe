@@ -5,8 +5,7 @@ export const registerUser = async (token) => {
     return response
 }
 
-export const getAllPlayersByUuid = async (token) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/players`, token)
-    console.log(response.data)
+export const getAllPlayersByUuid = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/players`)
     return response.data
 }
