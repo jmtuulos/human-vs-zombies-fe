@@ -14,6 +14,7 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
+import GameSettings from "../components/AdminComponents/GameSettings";
 
 
 
@@ -60,6 +61,7 @@ const AdminTools = () => {
     setSelectedPlayer(null)
     setMissions(null)
     setNewMissionState(false)
+    setSelectedMission(null)
   }
 
   const handleCancelNewMissionClick = () => {
@@ -75,14 +77,6 @@ const AdminTools = () => {
     getPlayer(e.id).then(function (value) {
       setSelectedPlayer(value)
     })
-  }
-
-  const handleRuleChange = (e) => {
-    e.preventDefault()
-    selectedGame.name = name
-    selectedGame.description = description
-    updateGame(selectedGame.id, selectedGame)
-    alert("GAME EDITED")
   }
 
   const handleMissionManageClick = (e) => {
@@ -140,7 +134,6 @@ const AdminTools = () => {
 
                       <div className="col-lg-6 mb-4">
                         <div className="card">
-
                           <div className="card-body">
                             <h5 className="card-title">Player Info</h5>
                             {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
@@ -172,30 +165,18 @@ const AdminTools = () => {
                           <div className="card">
                             <div className="card-body">
                               <ul>
-                                {missions != null && missions.map((e) => <li key={e.id} className="list-group-item p-3 bg-secondary text-white">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>)}
+                                {missions != null ? <p>No missions yet</p> : missions.map((e) => <li key={e.id} className="list-group-item p-3 bg-secondary text-white">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>)}
                               </ul>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div></>}
-
-
                 </div>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 {name !== null && description !== null &&
-                  <form onSubmit={handleRuleChange}>
-                    <label>Game name:</label>
-                    <input value={name} onChange={(e) => {
-                      setName(e.target.value)
-                    }} pattern='([A-z0-9À-ž\s]){2,}'></input>
-                    <label>Description</label>
-                    <input value={description} onChange={(e) => {
-                      setDescription(e.target.value)
-                    }} pattern='([A-z0-9À-ž\s]){2,}'></input>
-                    <button type="submit">Save</button>
-                  </form>
+                  <GameSettings gameData={selectedGame}></GameSettings>
                 }
               </TabPanel>
             </Box>
