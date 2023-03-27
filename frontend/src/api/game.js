@@ -1,4 +1,5 @@
 import axios from "."
+import { storageRead } from "../utils/storage"
 
 export const getGame = async (gameId) => {
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}`)
@@ -37,6 +38,11 @@ export const createChatMessage = async (gameId, chatMessageData, isHuman, isZomb
       {headers: header}).catch((error) => {
         console.log("error: " + error)
       })
+}
+
+export const joinGame = async () => {
+  const gameId = storageRead('gameId')
+  const response = await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/player`)
 }
 
   // admin only
