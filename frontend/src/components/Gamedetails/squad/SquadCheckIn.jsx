@@ -16,8 +16,8 @@ export const SquadCheckIn = ({gameId}) =>
     onSuccess: () => {
       window.alert("checked in")
     },
-    onError: () => {
-      window.alert("Check in failed, unable to get your coordinates")
+    onError: (err) => {
+      window.alert(err)
     }
   })
 
@@ -32,7 +32,7 @@ export const SquadCheckIn = ({gameId}) =>
     .then((position) => {
       console.log("position", position)
       if (position.coords.latitude == 0 && position.coords.longitude == 0)
-        window.alert("zero coordinates, unable to check in")
+        window.alert("No coordinates, unable to check in")
       else {
         setLatitude(position.coords.latitude)
         setLongitude(position.coords.longitude)
