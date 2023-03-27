@@ -11,10 +11,13 @@ import { MissionList } from "../components/Gamedetails/Mission/MissionList"
 import { useEffect } from "react"
 import { getAllPlayersByUuid } from "../api/user"
 import { getPlayer } from "../api/player"
+import { useAppUser } from "../context/AppUserContext"
 
 const GameDetails = () => {
   const { user, setUser } = useUser()
+  const { appUser } = useAppUser()
   const gameId = storageRead('gameId')
+  const enableGameDetails = appUser && appUser.some((game) => game.gameId === gameId)
 
   //useEffect to save player data
   useEffect(() => {
@@ -22,13 +25,16 @@ const GameDetails = () => {
       await getAllPlayersByUuid().then((data) => {
         return data.find(gameList => gameList.gameId == gameId)})
         .then(async (data) => {
-          console.log(data)
           let currentPlayer = null
           if (data){
             currentPlayer = await getPlayer(data.playerId)
             setUser({...currentPlayer, playerId: data.playerId})
           }
-        })
+        }).catch(
+          (error) => {
+            console.log(error)
+          }
+        )
       }
     fetchUser()
   }, [])
@@ -37,7 +43,7 @@ const GameDetails = () => {
     <div className="p-7">
       <div className="container p-3 my-3">
         <GameDetail gameId={gameId}/>
-        { user !== null &&
+        { enableGameDetails && user &&
           <>
             <div className="row pt-5">
               <MissionList gameId={gameId}/>
@@ -65,9 +71,7 @@ const GameDetails = () => {
               <ChatTabs />
             </div>
           </>
-
         }
-
       </div>
     </div>
 

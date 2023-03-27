@@ -11,14 +11,15 @@ const Map = ({coordinates, bites, checkins, missions}) => {
   let filteredMissions = []
   // filter out missions that should not be visible to the user and
   // missions that do not have a location
-  if (missions)
+  console.log(missions)
+  if (missions != undefined)
     filteredMissions = missions.filter((mission) =>
     mission.latitude &&
     mission.longitude &&
     mission.isHumanVisible == user.isHuman)
-
+  console.log("filteredMissions ", filteredMissions)
   const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
-  const playerIcon = user.isHuman ? iconPlayer : iconZombie
+  const playerIcon = user && user.isHuman ? iconPlayer : iconZombie
 
   return (
     <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={15} scrollWheelZoom={false}>
