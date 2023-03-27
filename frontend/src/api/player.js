@@ -1,6 +1,7 @@
 import axios from '.'
 
 export const getPlayer = async (id) => {
+  //gameid is hardcoded here problem?
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/1/player/${id}`)
   return response.data
 }

@@ -2,20 +2,22 @@ import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { getPlayer } from "../../../api/player"
-import { createSquad } from "../../../api/squad"
+import { createSquad, getAllSquads } from "../../../api/squad"
+import { getAllPlayersByUuid } from "../../../api/user"
 import { useUser } from "../../../context/UserContext"
 import { storageRead, storageSave } from "../../../utils/storage"
 
-export const CreateSquadForm = ({playerId}) => {
+export const CreateSquadForm = () => {
 
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
-  console.log(playerId)
+  console.log(user)
 
   const mutation = useMutation(
-    { mutationFn: (squadName) => createSquad(playerId, storageRead('gameId'), squadName),
+    { mutationFn: (squadName) => createSquad(storageRead('gameId'), squadName),
      onSuccess: () => {
-      getPlayer(playerId).then((data) => {
+      getPlayer(user.playerId).then((data) => {
+        console.log(data)
         setUser({...user, squadId: data.squadId})
      })}
     })

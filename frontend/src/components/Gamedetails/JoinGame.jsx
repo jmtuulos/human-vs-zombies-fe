@@ -16,7 +16,6 @@ export const JoinGameButton = () => {
           const currentGamePlayer = data.find((game) => game.gameId === gameId)
           const newGame = {gameId: gameId, playerId: currentGamePlayer.playerId }
           setAppUser(...appUser, newGame)
-          
         })
      }}
     )

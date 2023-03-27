@@ -8,11 +8,30 @@ import { useUser } from "../context/UserContext"
 import { storageRead } from "../utils/storage"
 import { Paper } from "@mui/material"
 import { MissionList } from "../components/Gamedetails/Mission/MissionList"
+import { useEffect } from "react"
+import { getAllPlayersByUuid } from "../api/user"
+import { getPlayer } from "../api/player"
 
 const GameDetails = () => {
-  const { user } = useUser()
-  const playerId = storageRead('userId') // Only needed for testing
+  const { user, setUser } = useUser()
   const gameId = storageRead('gameId')
+
+  //useEffect to save player data
+  useEffect(() => {
+    const fetchUser = async () => {
+      await getAllPlayersByUuid().then((data) => {
+        return data.find(gameList => gameList.gameId == gameId)})
+        .then(async (data) => {
+          console.log(data)
+          let currentPlayer = null
+          if (data){
+            currentPlayer = await getPlayer(data.playerId)
+            setUser({...currentPlayer, playerId: data.playerId})
+          }
+        })
+      }
+    fetchUser()
+  }, [])
 
   return (
     <div className="p-7">
@@ -33,11 +52,11 @@ const GameDetails = () => {
                 <Paper sx={{paddingBlock: 3, maxWidth: 0.5}}><h3>Your bite code: <p>{user.biteCode}</p></h3></Paper>
               </div>}
             {user.squadId == null && <div className="row pt-5">
-              <CreateSquadForm playerId={playerId}/>
+              <CreateSquadForm />
             </div>}
             <div className="row pt-5">
               {user.squadId != null &&
-                <SquadDetails playerId={playerId}/>}
+                <SquadDetails />}
             </div>
             {user.squadId == null && <div className="row pt-5">
               <SquadList/>

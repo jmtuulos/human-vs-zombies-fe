@@ -8,13 +8,11 @@ import { storageRead } from "../../../utils/storage"
 export const SquadItem = ({ squad, gameId }) => {
 
   const { user, setUser } = useUser()
-  const squadId = squad.squadMembers[0].squadId
-
+  console.log(squad)
   const mutation = useMutation(
-    { mutationFn: () => joinSquad( squadId),
+    { mutationFn: () => joinSquad( squad.id),
     onSuccess: () => {
-      console.log('Player joined a squad')
-      setUser({...user, squadId: squadId})
+      setUser({...user, squadId: squad.id})
     }
   })
 

@@ -7,12 +7,18 @@ import { SquadCheckIn } from "./SquadCheckIn"
 
 export const SquadDetails = () => {
   const { user, setUser } = useUser()
-  const gameId = 1
+  const gameId = storageRead('gameId')
+  console.log(user.squadId)
 
   const { isError, isLoading, data, error} = useQuery(
     { queryKey: ["squad"],
     queryFn: () => getSquad(gameId, user.squadId),
-    staleTime: 10000 // the element is refetched every 10 seconds
+    onSuccess: () => {
+      console.log('Squad details fetched')
+      console.log(data)
+      // setUser({...user, squadId: user.squadId})
+      },
+    staleTime: 1000 // the element is refetched every 10 seconds
   })
 
   const mutation = useMutation(
