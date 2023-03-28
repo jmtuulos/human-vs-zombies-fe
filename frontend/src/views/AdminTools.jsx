@@ -101,9 +101,9 @@ const AdminTools = () => {
   }
 
   return (
-    <div className="container my-3 text-left">
+    <div className="container my-3 text-left" >
       <h3 className="text-center">Admin Tools</h3>
-      {createGameView ? <div className="p-7">
+      {createGameView ? <div className="p-7" >
         <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
         <NewGameForm updateGameView={updateGameView}></NewGameForm>
       </div> : <>
@@ -112,7 +112,7 @@ const AdminTools = () => {
           <div>
             <Box sx={{ width: '100%' }}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs sx={{ backgroundColor: '#e9e3d6a3' }} value={value} onChange={handleChange} aria-label="basic tabs example">
                   <Tab label="Players" {...a11yProps(0)} />
                   <Tab label="Missions" {...a11yProps(1)} />
                   <Tab label="Game settings" {...a11yProps(2)} />
@@ -122,21 +122,21 @@ const AdminTools = () => {
                 <div className="container">
                   <div className="container">
                     <div className=" mb-4">
-                      <div className="card bg-light">
-                        <div className="card-body">
+                      <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                        <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
                           <h5 className="card-title">Player Info</h5>
                           {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className=" mb-4">
-                        <div className="card">
-                          <div className="card d-flex justify-content-between p-2 bg-secondary">
+                    <div className="row" >
+                      <div className=" mb-4" >
+                        <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                          <div className="card d-flex justify-content-between p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
                             <div className="text-center">
-                              <p className="text-light">Player List</p>
+                              <p className="">Player List</p>
                             </div>
-                            <div className="card d-flex justify-content-between bg-light">
+                            <div className="card d-flex justify-content-between" style={{ backgroundColor: '#e9e3d6a3' }}>
                               {players != null && players.map((e) =>
                                 e.isHuman ?
                                   <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-success text-white d-flex justify-content-between"> {e.appUser.firstname} {e.appUser.lastName} - Human
@@ -157,16 +157,16 @@ const AdminTools = () => {
               <TabPanel value={value} index={1}>
                 <div>
                   {newMissionState ? <>
-                    <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right">Cancel</button>
+                    <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right m-2">Cancel</button>
                     <MissionForm gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
                   </> : <>
-                    <div className="text-center">
-                      <button type="button" className="btn btn-success" onClick={() => handleNewMissionClick()}>New mission</button>
+                    <div className="text-center" >
+                      <button type="button" className="btn btn-success p-2 m-2" onClick={() => handleNewMissionClick()}>New mission</button>
                     </div>
                     <div className="container">
                       <div className="mb-4">
-                        <div className="card">
-                          <div className="card-body">
+                        <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                          <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
                             {selectedMission != null ? <MissionInfo gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
                           </div>
                         </div>
@@ -174,8 +174,8 @@ const AdminTools = () => {
                       <div className="row">
                         <div className="mb-4">
                           <div className="card">
-                            <div className="card d-flex justify-content-between p-2 bg-secondary">
-                              {missions != null ? missions.map((e) => <li key={e.id} className="border border-light list-group-item p-3 bg-info bg-gradient bg-opacity-75 text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
+                            <div className="card d-flex justify-content-between p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
+                              {missions != null ? missions.map((e) => <li key={e.id} style={{ backgroundColor: '#ECE7DC', color: '#524e45' }} className="border bg-white list-group-item p-3 m-1 bg-gradient bg-opacity-75 text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
                             </div>
                           </div>
                         </div>
@@ -184,7 +184,7 @@ const AdminTools = () => {
                 </div>
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <div className="card p-4 bg-secondary">
+                <div>
                   {name !== null && description !== null &&
                     <GameSettings gameData={selectedGame}></GameSettings>
                   }
@@ -198,11 +198,11 @@ const AdminTools = () => {
         </div> : <>
           <h3 className="text-center p-1 pb-2">Current games</h3>
           <div className="card bg-secondary">
-            <ul className="list-group list-group-flush p-2 bg-secondary">
-              {currentGames != null && currentGames.map((e) => <div key={e.id} className="card m-1">
-                <li className="list-group-item p-3 d-flex justify-content-between">{e.name} {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
+            <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
+              {currentGames != null && currentGames.map((e) => <div key={e.id} className="card">
+                <li className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name} {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
                   <div>
-                    <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
+                    <button type="button" style={{}} onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
                   </div></li>
               </div>)}
             </ul>

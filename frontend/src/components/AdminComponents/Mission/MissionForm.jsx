@@ -64,36 +64,36 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
         <form onSubmit={handleNewMissionSubmit}>
             <FormGroup>
                 <FormControl>
-                    <div className="card bg-light p-2">
+                    <div className="card p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
                         <p className="text-center">Mission</p>
-                        <label className="bg-white m-2" >
+                        <label className="m-2" >
                             Mission name*
                             <input className="form-control" required minLength={"2"} maxLength={"50"} pattern='([A-z0-9À-ž\s]){2,}' value={newName} onChange={(e) => setNewName(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Mission description*
                             <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern='([A-z0-9À-ž\s]){2,}' value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Start date*
                             <input type="date" id="start" required className="form-control" name="mission-start" onChange={(e) => setStartDate(e.target.value)} value={startDate} min="2023-01-01" max="2025-12-31"></input>
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className=" m-2">
                             Start time*
                             <input className="form-control" required pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
 
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End date*
                             <input type="date" id="end" required className="form-control" name="mission-end" onChange={(e) => setEndDate(e.target.value)} value={endDate} min="2023-03-15" max="2025-12-31"></input>
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End time*
                             <input className="form-control" required pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])$' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             <FormGroup>
                                 <FormControlLabel control={<Checkbox value={humanVisible} onChange={() => handleHumanCheckBox()} defaultChecked />} label="Human visible" />
                                 <FormControlLabel control={<Checkbox value={zombieVisible} onChange={() => handleZombieCheckBox()} defaultChecked />} label="Zombie visible" />

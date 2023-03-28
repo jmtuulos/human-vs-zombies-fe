@@ -41,35 +41,35 @@ const GameSettings = ({ gameData }) => {
         <form onSubmit={handleRuleChange}>
             <FormGroup>
                 <FormControl>
-                    <div className="card bg-light">
+                    <div className="card p-4" style={{ backgroundColor: '#e9e3d6a3' }}>
                         <div className="mt-3 text-center">
                             <p className="font-weight-bold">Edit game settings</p>
                         </div>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Game name*
                             <input className="form-control" minLength={"2"} required pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Game description*
                             <input className="form-control" minLength={"10"} required multiline="true" label="Game Description" variant="outlined" pattern="([A-z0-9À-ž\s'!?,.]){2,}" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Start date*
                             <input type="date" id="start" required className="form-control" name="game-start" onChange={(e) => setStartDate(e.target.value)} value={startDate} min="2023-01-01" max="2025-12-31"></input>
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Start Time*
                             <input className="form-control" required label="Start time" variant="outlined" pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End date*
                             <input type="date" id="end" required className="form-control" name="game-end" onChange={(e) => setEndDate(e.target.value)} value={endDate} min="2023-03-15" max="2025-12-31"></input>
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End Time*
                             <input className="form-control" required label="End time" pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])$' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                         </label>

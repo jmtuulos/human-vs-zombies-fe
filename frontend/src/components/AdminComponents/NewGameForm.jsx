@@ -52,34 +52,34 @@ const NewGameForm = ({ updateGameView }) => {
 
     return <div>
         <form onSubmit={handleRegisterSubmit}>
-            <div className="card p-2">
+            <div className="card p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
                 <h3 className="text-center">New game</h3>
                 <FormGroup>
                     <FormControl>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Game name*
                             <input className="form-control" minLength={"2"} required pattern='([A-z0-9À-ž\s]){2,}' value={newName} onChange={(e) => setNewName(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Game description*
                             <input className="form-control" minLength={"10"} required multiline="true" label="Game Description" variant="outlined" pattern="([A-z0-9À-ž\s'!?,.]){2,}" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                         </label>
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Start date*
                             <input type="date" id="start" required className="form-control" name="game-start" onChange={(e) => setStartDate(e.target.value)} value={startDate} min="2023-01-01" max="2025-12-31"></input>
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             Start Time*
                             <input className="form-control" required label="Start time" variant="outlined" pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End date*
                             <input type="date" id="end" required className="form-control" name="game-end" onChange={(e) => setEndDate(e.target.value)} value={endDate} min="2023-03-15" max="2025-12-31"></input>
                         </label>
 
-                        <label className="bg-white m-2">
+                        <label className="m-2">
                             End Time*
                             <input className="form-control" required label="End time" pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])$' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                         </label>
@@ -87,7 +87,7 @@ const NewGameForm = ({ updateGameView }) => {
                             <NewGameAreaMap getCoordinates={getNewMapCoordinates}></NewGameAreaMap>
                         </div>
                         <div className="text-center pt-2 pb-1">
-                            <button className="btn btn-success" type="submit">Create</button>
+                            <button className="btn btn-success" type="submit">Create game</button>
                         </div>
 
                     </FormControl>

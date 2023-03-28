@@ -64,16 +64,16 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
                 <h5 className="card-title">Mission Info</h5>
                 <button className="btn btn-sm btn-primary" variant="contained" onClick={() => handleEditClick()}>{editState ? "Cancel" : "Edit Mission"}</button>
             </div>
-            <div className="card mt-3">
+            <div className="card mt-3 p-1 bg-light">
                 {editState ? <>
                     <form onSubmit={handleSave}>
                         <FormGroup>
                             <FormControl>
-                                <label className="bg-white m-2" >
+                                <label className=" m-2" >
                                     Mission name*
                                     <input className="form-control" required minLength={"2"} maxLength={"50"} pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
                                 </label>
-                                <label className="bg-white m-2">
+                                <label className="m-2">
                                     Mission description*
                                     <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </label>
