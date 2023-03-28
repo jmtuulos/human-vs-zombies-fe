@@ -29,7 +29,7 @@ export const GameDetail = ({gameId}) => {
   })
 
   return (
-  <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a8', borderRadius: 2}}>
+  <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3', borderRadius: 2}}>
     {game.data &&
     <>
       <div className="col-12 p-5">

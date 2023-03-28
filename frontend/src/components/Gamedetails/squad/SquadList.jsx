@@ -16,7 +16,7 @@ export const SquadList = () => {
   })
 
   return (
-    <Paper sx={{ paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6'}}>
+    <Paper sx={{ paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3'}}>
       <h5>Squads: </h5>
       <ul className="list-group square list-group-flush">
         {data && data.map((squad, index) => {

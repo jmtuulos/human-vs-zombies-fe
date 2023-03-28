@@ -34,7 +34,7 @@ export const MissionList = (gameId) => {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#edeadec7',
+      backgroundColor: '#e9e3d6',
       color: theme.palette.common.black,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -43,8 +43,8 @@ export const MissionList = (gameId) => {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#edeadec7',
+    '&:nth-of-type(even)': {
+      backgroundColor: '#e9e3d6',
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -53,7 +53,7 @@ export const MissionList = (gameId) => {
   }));
 
   return (
-    <TableContainer component={Paper} sx={{backgroundColor: '#e9e3d6a8'}}>
+    <TableContainer component={Paper} sx={{backgroundColor: '#e9e3d6cc'}}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

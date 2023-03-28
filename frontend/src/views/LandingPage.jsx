@@ -29,10 +29,10 @@ const LandingPage = () => {
       <h3 className="text-center">Current games</h3>
       {data &&
         <div className="card">
-          <ul className="list-group list-group-flush">
+          <ul className="list-group list-group-flush" style={{backgroundColor: '#e9e3d6a3'}}>
               {data.map((e) =>
-                <li key={e.id} className="list-group-item">
-                  <Button onClick={() => handleSelectClick(e)} variant="text">
+                <li key={e.id} className="list-group-item" style={{backgroundColor: '#e9e3d6a3'}}>
+                  <Button onClick={() => handleSelectClick(e)} variant="text" style={{color: '#524e45'}}>
                     {e.name} - {e.gameState} - players: <NumberOfPlayers id={e.id}/> - started: {e.startDateTime} ||| {e.description}</Button>
                 </li>)
               }

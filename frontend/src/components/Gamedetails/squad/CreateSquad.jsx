@@ -35,7 +35,7 @@ export const CreateSquadForm = () => {
     {mutation.isLoading && <p>Creating squad...</p>}
     {mutation.isError && <p>Error creating squad</p>}
     {user.squadId == null &&
-    <Paper sx={{paddingBlock: 3, maxWidth: 0.5, backgroundColor: '#e9e3d6'}}>
+    <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3'}}>
         <div className="card-body">
           <h5 className="card-title">Create a squad</h5>
           <form onSubmit={ handleSubmit(handleSquadCreate) }>

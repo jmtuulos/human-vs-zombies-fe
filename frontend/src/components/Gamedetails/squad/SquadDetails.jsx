@@ -28,7 +28,7 @@ export const SquadDetails = () => {
   })
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    backgroundColor: theme.palette.mode === 'dark' ? '#e9e3d6a3' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -36,9 +36,9 @@ export const SquadDetails = () => {
   }))
 
   return (
-  <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6'}}>
+  <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3'}}>
     {data && <>
-      <Box sx={{ padding: 1, flexGrow: 1 }}>
+      <Box sx={{ padding: 1, flexGrow: 1}}>
         <h5 style={{padding: 10}}>Your squad: {data.name}</h5>
         <ButtonGroup variant="text">
           <Button onClick={() => mutation.mutate()}>Leave squad</Button>
