@@ -41,10 +41,9 @@ export const SquadCheckIn = ({gameId}) =>
     .catch((err) => {
       console.log("failed to get position", err)
     })
-
   }
 
   return (
-    <Button variant="contained" color="success" onClick={handleCheckIn}>Check in</Button>
+    <Button onClick={handleCheckIn}>Check in</Button>
   )
 }

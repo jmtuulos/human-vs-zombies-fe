@@ -3,20 +3,20 @@ import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { createChatMessage } from "../../../api/game"
+import { useUser } from "../../../context/UserContext"
 import { storageRead } from "../../../utils/storage"
 
 export const FactionForm = () => {
 
-  // const [chatMsg, setFactionChat] = useState()
   const { register, handleSubmit, reset } = useForm()
+  const { user } = useUser()
 
   const mutation = useMutation(
     { mutationFn: (variables) => createChatMessage(storageRead('gameId'), variables[0], variables[1], variables[2]) },
   )
 
   const handleSubmitFaction = (data) => {
-    // setFactionChat(data.chatMsg)
-    mutation.mutate([data.chatMsg, false, false]) // Needs implementation to check if player is human or zombie
+    mutation.mutate([data.chatMsg, user.isHuman, !user.isHuman])
     reset()
   }
 

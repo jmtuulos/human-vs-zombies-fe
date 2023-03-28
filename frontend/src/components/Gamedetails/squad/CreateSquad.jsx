@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -33,9 +34,8 @@ export const CreateSquadForm = () => {
   <>
     {mutation.isLoading && <p>Creating squad...</p>}
     {mutation.isError && <p>Error creating squad</p>}
-    {mutation.isSuccess && <p>Squad created</p>}
     {user.squadId == null &&
-    <div className="card">
+    <Paper sx={{paddingBlock: 3, maxWidth: 0.5, backgroundColor: '#e9e3d6'}}>
         <div className="card-body">
           <h5 className="card-title">Create a squad</h5>
           <form onSubmit={ handleSubmit(handleSquadCreate) }>
@@ -49,7 +49,7 @@ export const CreateSquadForm = () => {
             </div>
           </form>
         </div>
-    </div>}
+    </Paper>}
   </>
   )
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, styled } from "@mui/material"
+import { Box, Button, ButtonGroup, Grid, Paper, styled } from "@mui/material"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { getSquad, leaveSquad } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
@@ -36,12 +36,14 @@ export const SquadDetails = () => {
   }))
 
   return (
-  <Paper square sx={{paddingTop: 3}}>
+  <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6'}}>
     {data && <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ padding: 1, flexGrow: 1 }}>
         <h5 style={{padding: 10}}>Your squad: {data.name}</h5>
-        <Button variant="contained" onClick={() => mutation.mutate()}>Leave squad</Button>
-        <SquadCheckIn gameId={gameId}/>
+        <ButtonGroup variant="text">
+          <Button onClick={() => mutation.mutate()}>Leave squad</Button>
+          <SquadCheckIn gameId={gameId}/>
+        </ButtonGroup>
         <Grid sx={{paddingBottom: 2, paddingTop: 2}} container spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12}}>
           {data.squadMembers.map((member, index) => (
             <Grid item={true} xs={2} sm={4} md={4} key={index}>

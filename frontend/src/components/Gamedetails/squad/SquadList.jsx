@@ -1,4 +1,4 @@
-import { Button } from "@mui/material"
+import { Button, Paper } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { getAllSquads } from "../../../api/squad"
 import UserProvider, { useUser } from "../../../context/UserContext"
@@ -16,9 +16,9 @@ export const SquadList = () => {
   })
 
   return (
-    <div className="card-body">
-      <h5 className="card-title">Squads: </h5>
-      <ul className="list-group list-group-flush">
+    <Paper sx={{ paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6'}}>
+      <h5>Squads: </h5>
+      <ul className="list-group square list-group-flush">
         {data && data.map((squad, index) => {
           if (squad.isHuman == user.isHuman)
             return (<SquadItem
@@ -29,6 +29,6 @@ export const SquadList = () => {
         })
       }
       </ul>
-    </div>
+    </Paper>
   )
 }
