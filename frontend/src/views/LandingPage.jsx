@@ -26,7 +26,7 @@ const LandingPage = () => {
 
   return (
     <div>
-      <h3 className="text-center">Current games</h3>
+      <h3 className="text-center">Current games (click for details) </h3>
       {data &&
         <div className="card">
           <ul className="list-group list-group-flush" style={{backgroundColor: '#e9e3d6a3'}}>
