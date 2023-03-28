@@ -200,9 +200,9 @@ const AdminTools = () => {
           <div className="card bg-secondary">
             <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
               {currentGames != null && currentGames.map((e) => <div key={e.id} className="card">
-                <li className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name} {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
+                <li className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
                   <div>
-                    <button type="button" style={{}} onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
+                    <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
                   </div></li>
               </div>)}
             </ul>
