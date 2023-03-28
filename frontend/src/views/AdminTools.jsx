@@ -18,7 +18,6 @@ import GameSettings from "../components/AdminComponents/GameSettings";
 
 
 
-
 const AdminTools = () => {
 
   const [createGameView, setCreateGameView] = useState(false)
@@ -41,8 +40,14 @@ const AdminTools = () => {
     })
   }, [update])
 
-  const updateView = () => {
+  const updateGameView = () => {
     setUpdate(!update)
+    setSelectedGame(null)
+    setCreateGameView(false)
+    setSelectedPlayer(null)
+    setMissions(null)
+    setNewMissionState(false)
+    setSelectedMission(null)
   }
 
   const handleEditClick = (e) => {
@@ -100,7 +105,7 @@ const AdminTools = () => {
       <h3 className="text-center">Admin Tools</h3>
       {createGameView ? <div className="p-7">
         <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
-        <NewGameForm ></NewGameForm>
+        <NewGameForm updateGameView={updateGameView}></NewGameForm>
       </div> : <>
         {selectedGame !== null ? <div>
           <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
@@ -153,7 +158,7 @@ const AdminTools = () => {
                 <div>
                   {newMissionState ? <>
                     <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right">Cancel</button>
-                    <MissionForm updateView={updateView} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
+                    <MissionForm gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
                   </> : <>
                     <div className="text-center">
                       <button type="button" className="btn btn-success" onClick={() => handleNewMissionClick()}>New mission</button>
@@ -162,7 +167,7 @@ const AdminTools = () => {
                       <div className="mb-4">
                         <div className="card">
                           <div className="card-body">
-                            {selectedMission != null ? <MissionInfo updateView={updateView} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
+                            {selectedMission != null ? <MissionInfo gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
                           </div>
                         </div>
                       </div>
@@ -191,18 +196,14 @@ const AdminTools = () => {
           </div>
 
         </div> : <>
-
           <h3 className="text-center p-1 pb-2">Current games</h3>
-
-
           <div className="card bg-secondary">
             <ul className="list-group list-group-flush p-2 bg-secondary">
-              {currentGames != null && currentGames.map((e) => <div className="card m-1">
-                <li key={e.id} className="list-group-item p-3 d-flex justify-content-between">{e.name} - Current players:
+              {currentGames != null && currentGames.map((e) => <div key={e.id} className="card m-1">
+                <li className="list-group-item p-3 d-flex justify-content-between">{e.name} {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
                   <div>
                     <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
                   </div></li>
-
               </div>)}
             </ul>
           </div>
