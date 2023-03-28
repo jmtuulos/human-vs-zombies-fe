@@ -10,7 +10,6 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-sm navbar-light mb-5 shadow">
             <div className="container">
-
                 <p className="navbar-brand"><NavLink to='/'>HvZ</NavLink></p>
                 <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -24,6 +23,9 @@ const Navbar = () => {
                         </ul>
                         {appUser && <ul className="nav-item">
                             <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
+                        </ul>}
+                        {keycloak.hasRealmRole('admin') && <ul className="nav-item">
+                            <li className="nav-link"><NavLink to='/dashboard'>Admin Dashboard</NavLink></li>
                         </ul>}
                     </ul>
                     <div className="nav-right">
