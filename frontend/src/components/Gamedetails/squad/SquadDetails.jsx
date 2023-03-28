@@ -14,8 +14,6 @@ export const SquadDetails = () => {
     { queryKey: ["squad"],
     queryFn: () => getSquad(gameId, user.squadId),
     onSuccess: () => {
-      console.log('Squad details fetched')
-      console.log(data)
       // setUser({...user, squadId: user.squadId})
       },
     staleTime: 1000 // the element is refetched every 10 seconds
