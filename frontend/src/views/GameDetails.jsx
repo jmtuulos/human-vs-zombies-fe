@@ -42,7 +42,9 @@ const GameDetails = () => {
   return (
     <div className="p-7">
       <div className="container p-3 my-3">
-        <GameDetail gameId={gameId}/>
+        <div className="row pt-5">
+          <GameDetail gameId={gameId}/>
+        </div>
         { enableGameDetails && user &&
           <>
             <div className="row pt-5">
@@ -55,7 +57,9 @@ const GameDetails = () => {
               </div>}
             {user.isHuman === true &&
               <div className="row pt-5">
-                <Paper sx={{paddingBlock: 3, maxWidth: 0.5}}><h3>Your bite code: <p>{user.biteCode}</p></h3></Paper>
+                <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3'}}>
+                  <h3>Your bite code: <p>{user.biteCode}</p></h3>
+                </Paper>
               </div>}
             {user.squadId == null && <div className="row pt-5">
               <CreateSquadForm />
