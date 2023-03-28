@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Map from "../../Gamedetails/Map";
 import MissionInfoMap from "./MissionInfoMap"
 import { updateMission } from "../../../api/mission";
-import { TextField, Button, FormControlLabel, FormGroup, Checkbox } from "@mui/material";
+import { TextField, Button, FormControlLabel, FormControl, FormGroup, Checkbox } from "@mui/material";
 import MissionAdminMap from "./MissionAdminMap";
 
 const MissionInfo = ({ gameId, data, gameMap }) => {
@@ -59,37 +59,54 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
     }
 
     return <>
-        <Button variant="contained" onClick={() => handleEditClick()}>{editState ? "Cancel" : "Edit"}</Button>
-        {editState ? <>
-            <form onSubmit={handleSave}>
-                <TextField id="outlined-basic" label="Mission name" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
-                <TextField id="outlined-basic" multiline label="Mission Description" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
-                <label>
-                    <FormGroup>
-                        <FormControlLabel control={<Checkbox value={humanVisible} onChange={() => handleHumanCheckBox()} defaultChecked />} label="Human visible" />
-                        <FormControlLabel control={<Checkbox value={zombieVisible} onChange={() => handleZombieCheckBox()} defaultChecked />} label="Zombie visible" />
-                    </FormGroup>
-                </label>
-                <Button type="submit">Save</Button>
-            </form>
-            <div>
-                <Button onClick={() => handleShowMap()}>{showMap ? "Close map" : "Show map"}</Button>
-                {showMap && <MissionAdminMap gameMap={gameMap} getNewMissionCoordinates={getNewMissionCoordinates}></MissionAdminMap>}
+        <div>
+            <div className="d-flex justify-content-between">
+                <h5 className="card-title">Mission Info</h5>
+                <button className="btn btn-sm btn-primary" variant="contained" onClick={() => handleEditClick()}>{editState ? "Cancel" : "Edit Mission"}</button>
             </div>
-        </> : <>
-            <p>Mission name: {data.name}</p>
-            <p>Mission description: {data.description}</p>
-            <p>Visible for humans: {data.isHumanVisible ? "True" : "False"}</p>
-            <p>Visible for zombies: {data.isZombieVisible ? "True" : "False"}</p>
-            {marker[0] !== null || marker[1] !== null ?
-                <>  Map position:
-                    <Button onClick={() => handleShowMap()}>{showMap ? "Close map" : "Show map"}</Button>
-                    {showMap && <MissionInfoMap gameMap={gameMap} marker={marker}></MissionInfoMap>}
-                </>
+            <div className="card mt-3">
+                {editState ? <>
+                    <form onSubmit={handleSave}>
+                        <FormGroup>
+                            <FormControl>
+                                <TextField className="mt-3 mb-2 p-1" id="outlined-basic" label="Mission name" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
+                                <TextField className="p-1" id="outlined-basic" multiline label="Mission Description" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
+                                <label>
+                                    <FormGroup>
+                                        <FormControlLabel control={<Checkbox value={humanVisible} onChange={() => handleHumanCheckBox()} defaultChecked />} label="Human visible" />
+                                        <FormControlLabel control={<Checkbox value={zombieVisible} onChange={() => handleZombieCheckBox()} defaultChecked />} label="Zombie visible" />
+                                    </FormGroup>
+                                </label>
+                                <div>
+                                    <Button onClick={() => handleShowMap()}>{showMap ? "Close map" : "Show map"}</Button>
+                                    {showMap && <MissionAdminMap currentMarker={{ longitude: data.longitude, latitude: data.latitude }} gameMap={gameMap} getNewMissionCoordinates={getNewMissionCoordinates}></MissionAdminMap>}
+                                </div>
+                                <div className="text-center p-2">
+                                    <Button type="submit" variant="contained">Save mission</Button>
+                                </div>
 
-                : <p>This mission does not have map marker</p>}
-        </>}
+                            </FormControl>
+                        </FormGroup>
 
+                    </form>
+
+                </> : <>
+                    <div className="p-2">
+                        <p>Mission name: {data.name}</p>
+                        <p>Mission description: {data.description}</p>
+                        <p>Visible for humans: {data.isHumanVisible ? "True" : "False"}</p>
+                        <p>Visible for zombies: {data.isZombieVisible ? "True" : "False"}</p>
+                        {marker[0] !== null || marker[1] !== null ?
+                            <>  Map position:
+                                <Button onClick={() => handleShowMap()}>{showMap ? "Close map" : "Show map"}</Button>
+                                {showMap && <MissionInfoMap gameMap={gameMap} marker={marker}></MissionInfoMap>}
+                            </>
+
+                            : <p>This mission does not have map marker</p>}
+                    </div>
+                </>}
+            </div>
+        </div>
     </>;
 }
 

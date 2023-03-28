@@ -33,13 +33,17 @@ const AdminTools = () => {
   const [selectedMission, setSelectedMission] = useState(null)
   const [newMissionState, setNewMissionState] = useState(false)
   const [value, setValue] = useState(0)
+  const [update, setUpdate] = useState(false)
 
   useEffect(() => {
     getAllGames().then(function (value) {
       setCurrentGames(value)
     })
-  }, [])
+  }, [update])
 
+  const updateView = () => {
+    setUpdate(!update)
+  }
 
   const handleEditClick = (e) => {
     getGame(e.id).then(function (value) {
@@ -88,7 +92,6 @@ const AdminTools = () => {
   }
 
   const handleChange = (event, newValue) => {
-    // event.preventDefault()
     setValue(newValue)
   }
 
@@ -113,34 +116,35 @@ const AdminTools = () => {
               <TabPanel value={value} index={0}>
                 <div className="container">
                   <div className="container">
+                    <div className=" mb-4">
+                      <div className="card bg-light">
+                        <div className="card-body">
+                          <h5 className="card-title">Player Info</h5>
+                          {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
+                        </div>
+                      </div>
+                    </div>
                     <div className="row">
-                      <div className="col-lg-6 mb-4">
+                      <div className=" mb-4">
                         <div className="card">
-                          <div className="card-body">
-                            <ul>
+                          <div className="card d-flex justify-content-between p-2 bg-secondary">
+                            <div className="text-center">
+                              <p className="text-light">Player List</p>
+                            </div>
+                            <div className="card d-flex justify-content-between bg-light">
                               {players != null && players.map((e) =>
                                 e.isHuman ?
-                                  <li key={e.id} className="list-group-item p-3 bg-success text-white"> {e.appUser.firstname} {e.appUser.lastName} - Human
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-success text-white d-flex justify-content-between"> {e.appUser.firstname} {e.appUser.lastName} - Human
                                     <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
                                   </li> :
-                                  <li key={e.id} className="list-group-item p-3 bg-danger text-white"> {e.appUser.firstname} {e.appUser.lastName} - Zombie
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-danger text-white d-flex justify-content-between"> {e.appUser.firstname} {e.appUser.lastName} - Zombie
                                     <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
                                   </li>
                               )}
-                            </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
-
-                      <div className="col-lg-6 mb-4">
-                        <div className="card">
-                          <div className="card-body">
-                            <h5 className="card-title">Player Info</h5>
-                            {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
-                          </div>
-                        </div>
-                      </div>
-
                     </div>
                   </div>
                 </div>
@@ -149,24 +153,24 @@ const AdminTools = () => {
                 <div>
                   {newMissionState ? <>
                     <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right">Cancel</button>
-                    <MissionForm gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
-                  </> : <><button type="button" onClick={() => handleNewMissionClick()}>New mission</button>
+                    <MissionForm updateView={updateView} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
+                  </> : <>
+                    <div className="text-center">
+                      <button type="button" className="btn btn-success" onClick={() => handleNewMissionClick()}>New mission</button>
+                    </div>
                     <div className="container">
-                      <div className="col-lg-6 mb-4">
+                      <div className="mb-4">
                         <div className="card">
                           <div className="card-body">
-                            <h5 className="card-title">Mission Info</h5>
-                            {selectedMission != null ? <MissionInfo gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
+                            {selectedMission != null ? <MissionInfo updateView={updateView} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
                           </div>
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-lg-6 mb-4">
+                        <div className="mb-4">
                           <div className="card">
-                            <div className="card-body">
-                              <ul>
-                                {missions != null ? <p>No missions yet</p> : missions.map((e) => <li key={e.id} className="list-group-item p-3 bg-secondary text-white">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>)}
-                              </ul>
+                            <div className="card d-flex justify-content-between p-2 bg-secondary">
+                              {missions != null ? missions.map((e) => <li key={e.id} className="border border-light list-group-item p-3 bg-info bg-gradient bg-opacity-75 text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
                             </div>
                           </div>
                         </div>
@@ -175,9 +179,11 @@ const AdminTools = () => {
                 </div>
               </TabPanel>
               <TabPanel value={value} index={2}>
-                {name !== null && description !== null &&
-                  <GameSettings gameData={selectedGame}></GameSettings>
-                }
+                <div className="card p-4 bg-secondary">
+                  {name !== null && description !== null &&
+                    <GameSettings gameData={selectedGame}></GameSettings>
+                  }
+                </div>
               </TabPanel>
             </Box>
           </div>
@@ -185,16 +191,24 @@ const AdminTools = () => {
           </div>
 
         </div> : <>
-          <h3 className="text-center">Current games</h3>
-          <div className="card">
-            <ul className="list-group list-group-flush">
-              {currentGames != null && currentGames.map((e) => <li key={e.id} className="list-group-item">{e.name} - Current players:
-                <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
-              </li>)}
+
+          <h3 className="text-center p-1 pb-2">Current games</h3>
+
+
+          <div className="card bg-secondary">
+            <ul className="list-group list-group-flush p-2 bg-secondary">
+              {currentGames != null && currentGames.map((e) => <div className="card m-1">
+                <li key={e.id} className="list-group-item p-3 d-flex justify-content-between">{e.name} - Current players:
+                  <div>
+                    <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
+                  </div></li>
+
+              </div>)}
             </ul>
           </div>
-          <div className="text-center">
-            <button type="button" onClick={() => handleCreateGameClick()} className="btn btn-success">+ Create new game</button>
+
+          <div className="text-center p-2">
+            <button type="button" onClick={() => handleCreateGameClick()} className="btn btn-lg btn-success">+ Create new game</button>
           </div>
         </>}</>}
 

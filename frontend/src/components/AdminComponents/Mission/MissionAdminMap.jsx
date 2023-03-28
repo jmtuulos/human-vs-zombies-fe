@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Polygon } from 'react-leaflet'
 import * as L from "leaflet";
 
-const AddMarkerToClick = ({ updatePosition }) => {
-  const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
+const AddMarkerToClick = ({ updatePosition, currentMarker }) => {
+  const [position, setPosition] = useState({ latitude: currentMarker !== undefined ? currentMarker.latitude : 0, longitude: currentMarker !== undefined ? currentMarker.longitude : 0 });
 
   const map = useMapEvents({
     click(event) {
@@ -26,16 +26,17 @@ const AddMarkerToClick = ({ updatePosition }) => {
   );
 }
 
-const MissionAdminMap = ({ gameMap, getNewMissionCoordinates }) => {
+const MissionAdminMap = ({ gameMap, getNewMissionCoordinates, currentMarker }) => {
 
 
   const latlngs = gameMap.map((coordinate) => [coordinate.latitude, coordinate.longitude])
+
+  console.log(currentMarker)
 
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
   const [marker, setMarker] = useState(null)
 
   const handleMapClick = (e) => {
-
     console.log(e.latLng)
   }
 
@@ -53,7 +54,7 @@ const MissionAdminMap = ({ gameMap, getNewMissionCoordinates }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <AddMarkerToClick updatePosition={updatePosition}></AddMarkerToClick>
+      <AddMarkerToClick currentMarker={currentMarker} updatePosition={updatePosition}></AddMarkerToClick>
       <Polygon positions={latlngs}></Polygon>
     </MapContainer>
   )

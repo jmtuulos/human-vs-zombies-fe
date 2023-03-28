@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Polygon } from 'react-leaflet'
+import { Button } from '@mui/material';
 
 
-const AddMarkerToClick = ({updatePosition}) => {
+const AddMarkerToClick = ({ updatePosition }) => {
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
-  
+
   const map = useMapEvents({
     click(event) {
       const { lat, lng } = event.latlng;
@@ -12,54 +13,55 @@ const AddMarkerToClick = ({updatePosition}) => {
         latitude: lat,
         longitude: lng,
       });
-      updatePosition(lat,lng)
+      updatePosition(lat, lng)
     },
   });
-  
+
   return (
-  null  
-  ); }
+    null
+  );
+}
 
-const NewGameAreaMap = ({getCoordinates}) => {
+const NewGameAreaMap = ({ getCoordinates }) => {
 
-    const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
-    const [markerList, setMarkerList] = useState([])
-    const [areaPreview, setAreaPreview] = useState(false)
-    const [areaPolygon, setAreaPolygon] = useState([])
-    const [update, setUpdate] = useState(false)
+  const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
+  const [markerList, setMarkerList] = useState([])
+  const [areaPreview, setAreaPreview] = useState(false)
+  const [areaPolygon, setAreaPolygon] = useState([])
+  const [update, setUpdate] = useState(false)
 
 
 
-    const updatePosition = (lat,lng) => {
-      setPosition({
-        latitude: lat,
-        longitude: lng,
-      });
-      markerList.push({latitude: lat, longitude:lng})
-      getCoordinates(markerList)
-    }
+  const updatePosition = (lat, lng) => {
+    setPosition({
+      latitude: lat,
+      longitude: lng,
+    });
+    markerList.push({ latitude: lat, longitude: lng })
+    getCoordinates(markerList)
+  }
 
-    const handleRemoveLastClick = () => {
-        setUpdate(!update)
-        markerList.splice(markerList.length-1,1)
-        setMarkerList(markerList)
-    }
+  const handleRemoveLastClick = () => {
+    setUpdate(!update)
+    markerList.splice(markerList.length - 1, 1)
+    setMarkerList(markerList)
+  }
 
-    const handlePreviewClick = () => {
-        setAreaPreview(true)
-        markerList.forEach((e) => areaPolygon.push([e.latitude, e.longitude]))
-        
-        areaPolygon.push([markerList[0].latitude, markerList[0].longitude])
-        setAreaPolygon(areaPolygon)
-    }
-    const handleStopPreviewClick = () => {
-        setAreaPreview(false)
-        setAreaPolygon([])
-    }
+  const handlePreviewClick = () => {
+    setAreaPreview(true)
+    markerList.forEach((e) => areaPolygon.push([e.latitude, e.longitude]))
 
-    //console.log(position)
+    areaPolygon.push([markerList[0].latitude, markerList[0].longitude])
+    setAreaPolygon(areaPolygon)
+  }
+  const handleStopPreviewClick = () => {
+    setAreaPreview(false)
+    setAreaPolygon([])
+  }
+
+  //console.log(position)
   return (<div>
-    <MapContainer center={[60.1702506, 24.9505305]} zoom={15} scrollWheelZoom={true}>
+    <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={true}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -75,9 +77,9 @@ const NewGameAreaMap = ({getCoordinates}) => {
       />)}
       {areaPreview && areaPolygon.length !== 0 && <Polygon positions={areaPolygon}></Polygon>}
     </MapContainer>
-    {areaPreview ? <><button onClick={handleStopPreviewClick}>Stop</button></> : <><button onClick={handlePreviewClick}>Preview</button></>}
-    {markerList.length !== 0 && !areaPreview && <button onClick={handleRemoveLastClick}>Remove Last</button>}
-    </div>
+    {areaPreview ? <><Button onClick={handleStopPreviewClick}>Stop</Button></> : <><Button onClick={handlePreviewClick}>Preview</Button></>}
+    {markerList.length !== 0 && !areaPreview && <Button onClick={handleRemoveLastClick}>Remove Last</Button>}
+  </div>
   )
 }
 

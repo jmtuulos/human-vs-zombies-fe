@@ -11,13 +11,16 @@ const PlayerInfo = ({ data }) => {
 
     return <>
         <p>Player name: {data.fullName}</p>
-        {data.isHuman ? <p>Bite code: {data.biteCode}</p> : <>
-            <form onSubmit={handleBite}>
-                <input value={biteCode} onChange={(e) => {
-                    setBiteCode(e.target.value)
-                }} pattern="[a-zA-Z0-9\s]+"></input>
-                <button type="submit">BITE</button>
-            </form></>}
+        {data.isHuman ?
+            <div>
+                <p>Player is currently: HUMAN</p>
+                <p>Bite code: {data.biteCode}</p>
+            </div>
+            : <>
+                <div>
+                    <p>Player is currently: ZOMBIE</p>
+
+                </div></>}
 
 
 
