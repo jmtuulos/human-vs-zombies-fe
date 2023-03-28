@@ -52,8 +52,10 @@ const GameDetails = () => {
             </div>
             {user.isHuman === false &&
               <div className="row pt-5">
-              <h3>Bit a Human?</h3>
-              <BiteCodeForm gameId={gameId}/>
+                <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6a3'}}>
+                  <h3>Bit a Human?</h3>
+                  <BiteCodeForm gameId={gameId}/>
+                </Paper>
               </div>}
             {user.isHuman === true &&
               <div className="row pt-5">

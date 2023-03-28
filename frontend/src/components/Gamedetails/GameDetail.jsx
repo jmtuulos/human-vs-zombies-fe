@@ -17,7 +17,6 @@ export const GameDetail = ({gameId}) => {
   const { appUser } = useAppUser()
 
   const enableGameDetails = appUser.some((game) => game.gameId === gameId)
-  console.log(user)
   const [game, bites, checkIns, missions] = useQueries({
     queries: [
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},

@@ -16,8 +16,6 @@ import { useState } from "react";
 export const MissionList = (gameId) => {
   const [ missions, setMissions ] = useState(null)
   const { user } = useUser()
-  console.log(user)
-  console.log(missions)
 
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['missions'],

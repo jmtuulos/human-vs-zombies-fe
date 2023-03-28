@@ -17,7 +17,7 @@ export const GlobalForm = () => {
   const handleSubmitGlobal = (data) => {
     console.log("data ->", data)
     // setGlobalChat(data.chatMsg)
-    mutation.mutate([data.chatMsg, true, true]) // Needs implementation to check if player is human or zombie
+    mutation.mutate([data.chatMsg, user.isHuman, !user.isHuman]) // Needs implementation to check if player is human or zombie
     reset()
   }
 
