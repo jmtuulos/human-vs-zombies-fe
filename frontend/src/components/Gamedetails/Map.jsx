@@ -5,6 +5,7 @@ import { iconPlayer } from '../../icons/playericon'
 import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
 import { iconMission } from '../../icons/mission'
+import { useState } from 'react'
 
 const Map = ({coordinates, bites, checkins, missions}) => {
   const { user } = useUser()

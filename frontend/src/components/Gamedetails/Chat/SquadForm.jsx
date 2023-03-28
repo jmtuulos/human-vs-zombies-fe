@@ -29,11 +29,11 @@ export const SquadForm = () => {
 
   return (
   <form onSubmit={handleSubmit(handleSubmitSquad)}>
-    <TextField required {...register("chatMsg")}
+    <TextField fullWidth={true} required {...register("chatMsg")}
     id="filled-basic"
     label="Enter your message"
     variant="filled"
-    helperText="Remember to follow the rules" />
+    helperText="Remember to follow the guidelines" />
     <Button type="submit"
       style={{ marginLeft: "10px" }}
       size="large"

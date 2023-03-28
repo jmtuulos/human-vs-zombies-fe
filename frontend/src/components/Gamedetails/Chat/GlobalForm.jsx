@@ -23,13 +23,13 @@ export const GlobalForm = () => {
 
   return (
   <form onSubmit={handleSubmit(handleSubmitGlobal)}>
-    <TextField required
+    <TextField fullWidth={true} required
       {...register("chatMsg")}
       id="filled-basic"
       label="Enter your message"
       variant="filled"
-      helperText="Remember to follow the rules" />
-    <Button variant="contained"
+      helperText="Remember to follow the guidelines" />
+    <Button  variant="contained"
       style={{ marginLeft: "10px" }}
       size="large"
       type="submit"
