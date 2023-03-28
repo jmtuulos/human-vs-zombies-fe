@@ -64,13 +64,19 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
                 <h5 className="card-title">Mission Info</h5>
                 <button className="btn btn-sm btn-primary" variant="contained" onClick={() => handleEditClick()}>{editState ? "Cancel" : "Edit Mission"}</button>
             </div>
-            <div className="card mt-3">
+            <div className="card mt-3 p-1 bg-light">
                 {editState ? <>
                     <form onSubmit={handleSave}>
                         <FormGroup>
                             <FormControl>
-                                <TextField className="mt-3 mb-2 p-1" id="outlined-basic" label="Mission name" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
-                                <TextField className="p-1" id="outlined-basic" multiline label="Mission Description" variant="outlined" pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
+                                <label className=" m-2" >
+                                    Mission name*
+                                    <input className="form-control" required minLength={"2"} maxLength={"50"} pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
+                                </label>
+                                <label className="m-2">
+                                    Mission description*
+                                    <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
+                                </label>
                                 <label>
                                     <FormGroup>
                                         <FormControlLabel control={<Checkbox value={humanVisible} onChange={() => handleHumanCheckBox()} defaultChecked />} label="Human visible" />

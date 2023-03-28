@@ -54,7 +54,7 @@ const MissionAdminMap = ({ gameMap, getNewMissionCoordinates, currentMarker }) =
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <AddMarkerToClick currentMarker={currentMarker} updatePosition={updatePosition}></AddMarkerToClick>
+      <AddMarkerToClick currentMarker={currentMarker === undefined || currentMarker.latitude !== null && currentMarker.longitude !== null ? currentMarker : undefined} updatePosition={updatePosition}></AddMarkerToClick>
       <Polygon positions={latlngs}></Polygon>
     </MapContainer>
   )
