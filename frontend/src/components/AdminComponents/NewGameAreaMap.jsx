@@ -77,7 +77,7 @@ const NewGameAreaMap = ({ getCoordinates }) => {
       />)}
       {areaPreview && areaPolygon.length !== 0 && <Polygon positions={areaPolygon}></Polygon>}
     </MapContainer>
-    {areaPreview ? <><Button onClick={handleStopPreviewClick}>Stop</Button></> : <><Button onClick={handlePreviewClick}>Preview</Button></>}
+    {areaPreview ? <><Button onClick={handleStopPreviewClick}>Stop</Button></> : <>{markerList.length !== 0 && <><Button onClick={handlePreviewClick}>Preview</Button></>}</>}
     {markerList.length !== 0 && !areaPreview && <Button onClick={handleRemoveLastClick}>Remove Last</Button>}
   </div>
   )
