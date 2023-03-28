@@ -48,7 +48,6 @@ export const joinSquad = async (squadId) => {
   const gameId = storageRead('gameId')
   const data =  {
   }
-
   const response =  await axios.post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/join`, data)
 }
 

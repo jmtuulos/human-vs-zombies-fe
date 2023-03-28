@@ -11,7 +11,6 @@ export const CreateSquadForm = () => {
 
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
-  console.log(user)
 
   const mutation = useMutation(
     { mutationFn: (squadName) => createSquad(storageRead('gameId'), squadName),

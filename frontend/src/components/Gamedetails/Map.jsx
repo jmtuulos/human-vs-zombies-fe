@@ -9,16 +9,14 @@ import { iconMission } from '../../icons/mission'
 const Map = ({coordinates, bites, checkins, missions}) => {
   const { user } = useUser()
   let filteredMissions = []
-  // filter out missions that should not be visible to the user and
-  // missions that do not have a location
-  console.log(missions)
+
   if (missions != undefined && user) {
     filteredMissions = missions.filter((mission) =>
     mission.latitude &&
     mission.longitude &&
     mission.isHumanVisible == user.isHuman)
   }
-  console.log("filteredMissions ", filteredMissions)
+
   const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
   const playerIcon = user && user.isHuman ? iconPlayer : iconZombie
 

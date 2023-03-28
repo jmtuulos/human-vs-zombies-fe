@@ -9,10 +9,9 @@ export const SquadCheckIn = ({gameId}) =>
   const { user } = useUser()
   const [ latitude, setLatitude ] = useState(0)
   const [ longitude, setLongitude ] = useState(0)
-  console.log(user.squadId)
 
   const mutation = useMutation(
-    { mutationFn: (variables) => postSquadCheckIn(gameId, user.squadId, variables),
+    { mutationFn: (variables) => postSquadCheckIn(gameId, user.squadId, variables[0]),
     onSuccess: () => {
       window.alert("checked in")
     },
@@ -36,7 +35,7 @@ export const SquadCheckIn = ({gameId}) =>
       else {
         setLatitude(position.coords.latitude)
         setLongitude(position.coords.longitude)
-        mutation.mutate([{'latitude': latitude, 'longitude': longitude}])
+        mutation.mutate([{'latitude': position.coords.latitude, 'longitude': position.coords.longitude}])
       }
     })
     .catch((err) => {
