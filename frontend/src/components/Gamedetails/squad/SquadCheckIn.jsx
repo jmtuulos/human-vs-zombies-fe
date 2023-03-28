@@ -13,10 +13,10 @@ export const SquadCheckIn = ({gameId}) =>
   const mutation = useMutation(
     { mutationFn: (variables) => postSquadCheckIn(gameId, user.squadId, variables[0]),
     onSuccess: () => {
-      window.alert("checked in")
+      console.log("")
     },
     onError: (err) => {
-      window.alert(err)
+      console.log(err)
     }
   })
 
@@ -44,6 +44,6 @@ export const SquadCheckIn = ({gameId}) =>
   }
 
   return (
-    <Button onClick={handleCheckIn}>Check in</Button>
+    <Button  onClick={handleCheckIn}>{mutation.isLoading ? <>Checking in</> : <>Check in</>}</Button>
   )
 }
