@@ -2,7 +2,6 @@
   height: 50vh;
 }
 
-/*Make every other line in chat colored (doesn't yet work)*/
-.message-line:nth-of-type(odd) {
-  background-color: lightgreen;
+.detail-box {
+  background: #e9e3d6f7;
 }
