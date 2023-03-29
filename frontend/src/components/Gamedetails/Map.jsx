@@ -5,29 +5,73 @@ import { iconPlayer } from '../../icons/playericon'
 import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
 import { iconMission } from '../../icons/mission'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { storageRead } from '../../utils/storage'
+import { getFactionMissions, getMissions } from '../../api/mission'
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { getSquadCheckIns } from '../../api/squad'
+import { getGame } from '../../api/game'
+import { getAllBites } from '../../api/bite'
+import { Button } from '@mui/material'
 
-const Map = ({coordinates, bites, checkins, missions}) => {
-  const { user } = useUser()
+const Map = () => {
+  const { user, setUser } = useUser()
+  const [ latlngs, setLatlngs ] = useState()
+  const [selectedMissions, setSelectedMissions] = useState(null)
+  const [checkins, setCheckins] = useState()
+  const gameId = storageRead('gameId')
+  const [ center, setCenter ] = useState()
+  const [ biteList, setBites ] = useState()
+  const [ refresh, setRefresh ] = useState(false)
+  const gameCoord = storageRead('gameCoordinates')
+
+
+  const [game, bites, checkIns, missions] = useQueries({
+    queries: [
+      { queryKey: ['getgame'], queryFn: () => getGame(gameId),
+        onSuccess: (data) => {
+          setLatlngs([data.mapCoordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])])
+        }},
+      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId),
+        onSuccess: (data) => {
+          setBites(data)
+        }},
+      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), enabled: !!user && !!user.squadId,
+        onSuccess: (data) => {
+          setCheckins(data)
+        }
+        },
+      { queryKey: ['getmissionmarkers'], queryFn: () => getMissions(gameId),
+        onSuccess: (data) => {
+          const filteredMissions = data.filter((mission) =>
+            (mission.isHumanVisible === user.isHuman || (mission.isHumanVisible && mission.isZombieVisible)) &&
+            mission.latitude &&
+            mission.longitude
+            )
+          setSelectedMissions(filteredMissions)
+          console.log(filteredMissions)
+      }
+      }
+    ],
+  })
+
+
   let filteredMissions = []
 
-  if (missions != undefined && user) {
-    filteredMissions = missions.filter((mission) =>
-    mission.latitude &&
-    mission.longitude &&
-    mission.isHumanVisible == user.isHuman)
-  }
 
-  const latlngs = coordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])
+
+  console.log(selectedMissions)
+
   const playerIcon = user && user.isHuman ? iconPlayer : iconZombie
-
   return (
-    <MapContainer center={L.latLngBounds(latlngs).getCenter()} zoom={15} scrollWheelZoom={false}>
+    <>
+    {game.data &&
+    <MapContainer center={L.latLngBounds(gameCoord[gameId-1].map((coordinate) => [coordinate.latitude, coordinate.longitude])).getCenter()} zoom={15} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {bites && bites.map((e, i) =>
+      {bites.data && biteList && biteList.map((e, i) =>
         <Marker icon={iconGraveStone}
           key={i}
           position={[e.latitude, e.longitude]}>
@@ -46,19 +90,25 @@ const Map = ({coordinates, bites, checkins, missions}) => {
             <h6>Checked in {e.story}</h6>
           </Popup>
         </Marker>)}
-      {filteredMissions && filteredMissions.map((e, i) =>
+      { selectedMissions && selectedMissions.map((e, i) => {
+        console.log(e,i)
+        return (
         <Marker icon={iconMission}
-          key={i}
-          position={[e.latitude, e.longitude]}
+        key={i}
+        position={[e.latitude, e.longitude]}
         >
           <Popup>
             <h6>mission: {e.description}</h6>
             <h6>start: {e.startTime}</h6>
             <h6>end: {e.endTime}</h6>
           </Popup>
-        </Marker>)}
-      <Polygon positions={latlngs}></Polygon>
-    </MapContainer>
+        </Marker>)
+      }
+        )
+        }
+      {latlngs && <Polygon positions={latlngs}></Polygon>}
+    </MapContainer>}
+    </>
   )
 }
 
