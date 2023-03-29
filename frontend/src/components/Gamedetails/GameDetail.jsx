@@ -1,10 +1,12 @@
 import { Paper } from "@mui/material";
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllBites } from "../../api/bite";
 import { getGame } from "../../api/game";
 import {  getFactionMissions } from "../../api/mission";
+import { getPlayer } from "../../api/player";
 import { getSquadCheckIns } from "../../api/squad";
+import { getAllPlayersByUuid } from "../../api/user";
 import { useAppUser } from "../../context/AppUserContext";
 import { useUser } from "../../context/UserContext";
 import { storageRead } from "../../utils/storage";
@@ -20,9 +22,9 @@ export const GameDetail = ({gameId}) => {
   const [game, bites, checkIns, missions] = useQueries({
     queries: [
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
-      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000, },
-      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user && !!user.squadId},
-      { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(), staleTime: 1000, enabled: enableGameDetails}
+      // { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000, },
+      // { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user && !!user.squadId},
+      // { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(), staleTime: 1000, enabled: enableGameDetails}
 
     ],
   })
@@ -43,10 +45,6 @@ export const GameDetail = ({gameId}) => {
       </div>
       <div className="p-2 h-50 w-100 d-inline-block">
         <Map
-        coordinates={game.data.mapCoordinates}
-        bites={bites.data}
-        checkins={checkIns.data}
-        missions={missions.data}
         />
       </div>
     </>

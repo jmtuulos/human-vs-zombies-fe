@@ -7,11 +7,15 @@ import { json, useNavigate } from "react-router-dom"
 import GameDetails from "./GameDetails"
 import { useUser } from "../context/UserContext"
 import { getPlayer } from "../api/player"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { getAllPlayersByUuid } from "../api/user"
 
 const LandingPage = () => {
 
   const navigate = useNavigate()
+  const { user, setUser } = useUser()
+  const [ gameCenter, setGameCenters ] = useState()
+  const gameId = storageRead('gameId')
 
   const { isError, isLoading, data, error } = useQuery(
     {
@@ -24,6 +28,40 @@ const LandingPage = () => {
     storageSave('gameId', e.id)
     navigate('/gamedetails')
   }
+
+  //useEffect to save game center
+  useEffect(() => {
+    const fetchGame = async () => {
+      await getAllGames().then((data) => {
+        storageSave('gameCoordinates', JSON.stringify(data.map((game) => game.mapCoordinates)))
+
+      })
+    }
+    fetchGame()
+    console.log("", gameCenter)
+  }, [])
+
+
+
+  //useEffect to save player data
+  useEffect(() => {
+    const fetchUser = async () => {
+      await getAllPlayersByUuid().then((data) => {
+        return data.find(gameList => gameList.gameId == gameId)})
+        .then(async (data) => {
+          let currentPlayer = null
+          if (data){
+            currentPlayer = await getPlayer(data.playerId)
+            setUser({...currentPlayer, playerId: data.playerId})
+          }
+        }).catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    fetchUser()
+  }, [])
 
   return (
     <div>

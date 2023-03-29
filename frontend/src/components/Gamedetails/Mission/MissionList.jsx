@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getFactionMissions } from "../../../api/mission"
+import { getFactionMissions, getMissions } from "../../../api/mission"
 import { useUser } from "../../../context/UserContext"
 import { storageRead } from "../../../utils/storage"
 import { styled } from '@mui/material/styles';
@@ -13,17 +13,20 @@ import Paper from '@mui/material/Paper';
 import { useState } from "react";
 
 //Should only show to players that have joined the game
-export const MissionList = (gameId) => {
+export const MissionList = ({gameId}) => {
   const [ missions, setMissions ] = useState(null)
   const { user } = useUser()
 
   const { isError, isLoading, data, error } = useQuery(
     { queryKey: ['missions'],
-    queryFn: () => getFactionMissions(),
+    queryFn: () => getMissions(gameId),
     onSuccess: (data) => {
-      const filteredMissions = data.filter((mission) => mission.isHumanVisible == user.isHuman)
+      console.log(data)
+
+      const filteredMissions = data.filter((mission) => mission.isHumanVisible === user.isHuman || (mission.isHumanVisible && mission.isZombieVisible))
       setMissions(filteredMissions)
       console.log(filteredMissions)
+      console.log(user)
     },
     staleTime: 1000,
     enabled: user !== null

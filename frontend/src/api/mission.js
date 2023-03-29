@@ -1,16 +1,10 @@
 import axios from "."
 import { storageRead } from "../utils/storage"
 
-export const getFactionMissions = async (isHuman) => {
-  const gameId = storageRead('gameId')
-  let filteredMissions = []
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
-  return response.data
-}
 
 export const getMissions = async (gameId) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
-    return response.data
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/mission`)
+  return response.data
 }
 
 export const getMission = async (gameId, missionId) => {
