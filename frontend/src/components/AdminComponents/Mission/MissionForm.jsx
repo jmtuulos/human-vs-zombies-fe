@@ -1,9 +1,10 @@
 import MissionAdminMap from "./MissionAdminMap";
-import { Checkbox, FormGroup, FormControlLabel, TextField, FormControl } from "@mui/material"
+import { Checkbox, FormGroup, FormControlLabel, FormControl, Alert } from "@mui/material"
 import { useState } from "react";
 import { createMission } from "../../../api/mission";
+import { useMutation } from "@tanstack/react-query";
 
-const MissionForm = ({ gameMap, gameId, updateView }) => {
+const MissionForm = ({ updateMissionList, gameMap, gameId }) => {
 
 
     const [newName, setNewName] = useState("")
@@ -16,14 +17,32 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
     const [zombieVisible, setZombieVisible] = useState(true)
     const [newMissionCoordinates, setNewMissionCoordinates] = useState([])
 
+    const [showError, setShowError] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
 
     const getNewMissionCoordinates = (coord) => {
         setNewMissionCoordinates(coord)
     }
 
+    const { mutate } = useMutation({
+        mutationFn: (missionData) => createMission(gameId, missionData),
+        onError: (error) => {
+            setShowError(true)
+            console.log("Error happened in mission creation", error)
+        },
+        onSuccess: () => {
+            setShowSuccess(true)
+            setShowError(false)
+            setTimeout(() => {
+                setShowSuccess(false)
+                updateMissionList()
+            }, 750);
+        }
+    })
+
     const handleNewMissionSubmit = (event) => {
         event.preventDefault();
-        createMission(gameId, {
+        mutate({
             "name": newName,
             "isHumanVisible": humanVisible,
             "isZombieVisible": zombieVisible,
@@ -33,19 +52,6 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
             "latitude": newMissionCoordinates.latitude,
             "longitude": newMissionCoordinates.longitude
         })
-        console.log({
-            "name": newName,
-            "isHumanVisible": humanVisible,
-            "isZombieVisible": zombieVisible,
-            "description": newDescription,
-            "startTime": new Date(startDate + "T" + startTime + "Z"),
-            "endTime": new Date(endDate + "T" + endTime + "Z"),
-            "latitude": newMissionCoordinates.latitude,
-            "longitude": newMissionCoordinates.longitude
-        }
-        )
-        alert("mission created")
-        updateView()
     }
 
     const handleHumanCheckBox = () => {
@@ -57,8 +63,6 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
         setZombieVisible(!zombieVisible)
     }
 
-
-
     return <>
         <h5 className="text-center" >New mission</h5>
         <form onSubmit={handleNewMissionSubmit}>
@@ -68,11 +72,11 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
                         <p className="text-center">Mission</p>
                         <label className="m-2" >
                             Mission name*
-                            <input className="form-control" required minLength={"2"} maxLength={"50"} pattern='([A-z0-9À-ž\s]){2,}' value={newName} onChange={(e) => setNewName(e.target.value)} />
+                            <input className="form-control" required minLength={"2"} maxLength={"50"} pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={newName} onChange={(e) => setNewName(e.target.value)} />
                         </label>
                         <label className="m-2">
                             Mission description*
-                            <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern='([A-z0-9À-ž\s]){2,}' value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+                            <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                         </label>
                         <label className="m-2">
                             Start date*
@@ -82,7 +86,6 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
                         <label className=" m-2">
                             Start time*
                             <input className="form-control" required pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-
                         </label>
 
                         <label className="m-2">
@@ -101,11 +104,16 @@ const MissionForm = ({ gameMap, gameId, updateView }) => {
                         </label>
                         Map marker(optional)
                         <div className="card d-inline-block">
-
                             <MissionAdminMap getNewMissionCoordinates={getNewMissionCoordinates} gameMap={gameMap}></MissionAdminMap>
                         </div>
                         <div className="text-center pt-2">
                             <button className="btn btn-primary" type="submit">Create mission</button>
+                        </div>
+                        <div className="text-center d-flex justify-content-center">
+                            <div className="card w-75 text-center">
+                                {showSuccess && <Alert severity="success" onClose={() => { setShowSuccess(false) }}>Mission created!</Alert>}
+                                {showError && <Alert severity="error" onClose={() => { setShowError(false) }}>Something went wrong in mission creation. Try again.</Alert>}
+                            </div>
                         </div>
                     </div>
                 </FormControl>

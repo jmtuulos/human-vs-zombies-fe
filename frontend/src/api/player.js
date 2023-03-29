@@ -12,8 +12,8 @@ export const listPlayers = async (gameId) => {
 }
 
 //Admin only
-export const updatePlayer = async (id, data) => {
-  const response = await axios.put(`${process.env.REACT_APP_API_URL}/game/player/${id}`, data)
+export const updatePlayer = async (gameId, playerId, data) => {
+  const response = await axios.put(`${process.env.REACT_APP_API_URL}/game/${gameId}/player/${playerId}`, data)
   return response.status
 }
 
