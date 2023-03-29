@@ -22,7 +22,7 @@ export const SquadItem = ({ squad, gameId }) => {
 
   return (
     <>
-      <li className="list-group-item" style={{backgroundColor: '#e9e3d6a3'}}>
+      <li className="list-group-item" style={{backgroundColor: '#e9e3d600'}}>
         <h4>{squad.name}</h4>
         <p>members: {squad.squadMembers.length}</p>
         <Button variant="contained"

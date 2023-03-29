@@ -57,7 +57,7 @@ export default function ChatTabs() {
   }
 
   return (
-    <Box sx={{ width: '100%', backgroundColor: '#edeadecf', borderRadius: 2}}>
+    <Box sx={{ width: '100%', backgroundColor: '#e9e3d6f7', borderRadius: 2}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#e9e3d6' }}>
         <Tabs value={value} onChange={handleChange} aria-label="chat-tabs">
           <Tab  label="Global" {...a11yProps(0)} />

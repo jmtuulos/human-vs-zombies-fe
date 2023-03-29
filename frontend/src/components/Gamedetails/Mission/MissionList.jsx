@@ -54,7 +54,7 @@ export const MissionList = ({gameId}) => {
   }));
 
   return (
-    <TableContainer component={Paper} sx={{backgroundColor: '#e9e3d6cc'}}>
+    <TableContainer component={Paper} sx={{backgroundColor: '#e9e3d6f7'}}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

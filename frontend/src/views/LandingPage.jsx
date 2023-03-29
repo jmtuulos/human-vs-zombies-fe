@@ -1,4 +1,4 @@
-import { Button } from "@mui/material"
+import { Button, Paper } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { getAllGames } from "../api/game"
 import { NumberOfPlayers } from "../components/Gamedetails/NumberOfPlayers"
@@ -64,21 +64,24 @@ const LandingPage = () => {
   }, [])
 
   return (
-    <div>
+      <>
       <h3 className="text-center">Current games (click for details) </h3>
       {data &&
-        <div className="card">
+      <div className="p-5">
+        <Paper sx={{ maxWidth: 1, backgroundColor: '#e9e3d6fc', borderRadius: 2}}>
           <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
             {data.map((e) =>
               <li key={e.id} className="list-group-item" style={{ backgroundColor: '#e9e3d6a3' }}>
                 <Button onClick={() => handleSelectClick(e)} variant="text" style={{ color: '#524e45' }}>
-                  {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}</Button>
+                  {e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)}
+                </Button>
               </li>)
             }
           </ul>
-        </div>
+        </Paper>
+      </div>
       }
-    </div>
+      </>
   )
 }
 
