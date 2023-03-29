@@ -1,28 +1,57 @@
 import { useState, useEffect } from "react";
-import Map from "../../Gamedetails/Map";
 import MissionInfoMap from "./MissionInfoMap"
 import { updateMission } from "../../../api/mission";
-import { TextField, Button, FormControlLabel, FormControl, FormGroup, Checkbox } from "@mui/material";
+import { Button, FormControlLabel, FormControl, FormGroup, Checkbox } from "@mui/material";
 import MissionAdminMap from "./MissionAdminMap";
+import { Alert } from "@mui/material"
+import { useMutation } from "@tanstack/react-query";
 
-const MissionInfo = ({ gameId, data, gameMap }) => {
+const MissionInfo = ({ updateMissionList, gameId, data, gameMap }) => {
 
     const [editState, setEditState] = useState(false)
-    const [name, setName] = useState(data.name)
-    const [description, setDescription] = useState(data.description)
-    const [humanVisible, setHumanVisible] = useState(data.isHumanVisible)
-    const [zombieVisible, setZombieVisible] = useState(data.isZombieVisible)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [showError, setShowError] = useState(false)
+    const [name, setName] = useState(null)
+    const [description, setDescription] = useState(null)
+    const [humanVisible, setHumanVisible] = useState(null)
+    const [zombieVisible, setZombieVisible] = useState(null)
     const [newMissionCoordinates, setNewMissionCoordinates] = useState([])
     const [showMap, setShowMap] = useState(false)
+    const [missionId, setMissionId] = useState(data.id)
     const marker = ([data.latitude, data.longitude])
 
+    useEffect(() => {
+        setEditState(false)
+        setName(data.name)
+        setDescription(data.description)
+        setHumanVisible(data.isHumanVisible)
+        setZombieVisible(data.isZombieVisible)
+        setShowSuccess(false)
+    }, [data]);
+
+    const { mutate } = useMutation({
+        mutationFn: (missionData) => updateMission(gameId, missionId, missionData),
+        onError: (error) => {
+            setShowError(true)
+            console.log("Error happened in editing mission", error)
+        },
+        onSuccess: () => {
+            setShowError(false)
+            setTimeout(() => {
+                setShowSuccess(false)
+                setEditState(false)
+                updateMissionList()
+            }, 750);
+            setShowSuccess(true)
+        }
+    })
 
     const handleSave = (event) => {
         event.preventDefault();
 
         const newMissionEmpty = (newMissionCoordinates.latitude !== undefined && newMissionCoordinates.longitude !== undefined)
 
-        const editedMission = {
+        mutate({
             "name": name,
             "isHumanVisible": humanVisible,
             "isZombieVisible": zombieVisible,
@@ -31,8 +60,7 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
             "endTime": data.endTime,
             "latitude": (newMissionEmpty ? newMissionCoordinates.latitude : data.latitude),
             "longitude": (newMissionEmpty ? newMissionCoordinates.longitude : data.longitude)
-        }
-        updateMission(gameId, data.id, editedMission)
+        })
     }
 
     const handleHumanCheckBox = () => {
@@ -71,11 +99,11 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
                             <FormControl>
                                 <label className=" m-2" >
                                     Mission name*
-                                    <input className="form-control" required minLength={"2"} maxLength={"50"} pattern='([A-z0-9À-ž\s]){2,}' value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input className="form-control" required minLength={"2"} maxLength={"50"} pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={name} onChange={(e) => setName(e.target.value)} />
                                 </label>
                                 <label className="m-2">
                                     Mission description*
-                                    <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern='([A-z0-9À-ž\s]){2,}' value={description} onChange={(e) => setDescription(e.target.value)} />
+                                    <input className="form-control" required multiline="true" minLength={"2"} maxLength={"200"} pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </label>
                                 <label>
                                     <FormGroup>
@@ -88,12 +116,19 @@ const MissionInfo = ({ gameId, data, gameMap }) => {
                                     {showMap && <MissionAdminMap currentMarker={{ longitude: data.longitude, latitude: data.latitude }} gameMap={gameMap} getNewMissionCoordinates={getNewMissionCoordinates}></MissionAdminMap>}
                                 </div>
                                 <div className="text-center p-2">
+
                                     <Button type="submit" variant="contained">Save mission</Button>
+
                                 </div>
 
                             </FormControl>
                         </FormGroup>
-
+                        <div className="d-flex justify-content-center m-2">
+                            <div className="w-50">
+                                {showSuccess && <Alert severity="success" onClose={() => { setShowSuccess(false) }}>Mission edited!</Alert>}
+                                {showError && <Alert severity="error" onClose={() => { setShowError(false) }}>Error: Mission edit failed. Try again.</Alert>}
+                            </div>
+                        </div>
                     </form>
 
                 </> : <>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Polygon, Popup } from 'react-leaflet'
 import * as L from "leaflet";
+import { iconMission } from '../../../icons/mission';
 
 const MissionInfoMap = ({ gameMap, marker }) => {
 
@@ -12,7 +13,7 @@ const MissionInfoMap = ({ gameMap, marker }) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={marker}>
+            <Marker icon={iconMission} position={marker}>
                 <Popup>
                     Mission marker
                 </Popup>

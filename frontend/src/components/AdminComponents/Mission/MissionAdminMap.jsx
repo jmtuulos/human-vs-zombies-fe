@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Polygon } from 'react-leaflet'
 import * as L from "leaflet";
+import { iconMission } from '../../../icons/mission';
+
 
 const AddMarkerToClick = ({ updatePosition, currentMarker }) => {
   const [position, setPosition] = useState({ latitude: currentMarker !== undefined ? currentMarker.latitude : 0, longitude: currentMarker !== undefined ? currentMarker.longitude : 0 });
@@ -18,7 +20,7 @@ const AddMarkerToClick = ({ updatePosition, currentMarker }) => {
 
   return (
     position.latitude !== 0 && position.longitude !== 0 ? (
-      <Marker
+      <Marker icon={iconMission}
         position={[position.latitude, position.longitude]}
         interactive={false}
       />
@@ -28,10 +30,7 @@ const AddMarkerToClick = ({ updatePosition, currentMarker }) => {
 
 const MissionAdminMap = ({ gameMap, getNewMissionCoordinates, currentMarker }) => {
 
-
   const latlngs = gameMap.map((coordinate) => [coordinate.latitude, coordinate.longitude])
-
-  console.log(currentMarker)
 
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
   const [marker, setMarker] = useState(null)

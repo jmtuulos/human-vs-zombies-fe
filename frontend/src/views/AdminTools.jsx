@@ -16,13 +16,10 @@ import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
 import GameSettings from "../components/AdminComponents/GameSettings";
 
-
-
 const AdminTools = () => {
 
   const [createGameView, setCreateGameView] = useState(false)
   const [name, setName] = useState("");
-  const [editTab, setEditTab] = useState("Players")
   const [currentGames, setCurrentGames] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null)
   const [players, setPlayers] = useState(null)
@@ -33,6 +30,7 @@ const AdminTools = () => {
   const [newMissionState, setNewMissionState] = useState(false)
   const [value, setValue] = useState(0)
   const [update, setUpdate] = useState(false)
+  const [selectedPlayerId, setSelectedPlayerId] = useState(null)
 
   useEffect(() => {
     getAllGames().then(function (value) {
@@ -41,6 +39,7 @@ const AdminTools = () => {
   }, [update])
 
   const updateGameView = () => {
+    setCurrentGames(null)
     setUpdate(!update)
     setSelectedGame(null)
     setCreateGameView(false)
@@ -50,6 +49,47 @@ const AdminTools = () => {
     setSelectedMission(null)
   }
 
+  const updatePlayerList = () => {
+    listPlayers(selectedGame.id).then(function (value) {
+      setPlayers(value)
+    })
+    listPlayers(selectedGame.id).then(function (value) {
+      value.length > 1 ? setPlayers(value.sort((a, b) => {
+        let fa = a.appUser.firstName.toLowerCase(),
+          fb = b.appUser.firstName.toLowerCase();
+
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setPlayers(value)
+    })
+  }
+
+  const updateMissionList = () => {
+    getMissions(selectedGame.id).then(function (value) {
+      setMissions(value)
+    })
+    getMissions(selectedGame.id).then(function (value) {
+      value.length > 1 ? setMissions(value.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+          fb = b.name.toLowerCase();
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setMissions(value)
+    })
+    setSelectedMission(null)
+    setNewMissionState(null)
+  }
+
   const handleEditClick = (e) => {
     getGame(e.id).then(function (value) {
       setSelectedGame(value)
@@ -57,10 +97,31 @@ const AdminTools = () => {
       setName(value.name)
     })
     listPlayers(e.id).then(function (value) {
-      setPlayers(value)
+      value.length > 1 ? setPlayers(value.sort((a, b) => {
+        let fa = a.appUser.firstName.toLowerCase(),
+          fb = b.appUser.firstName.toLowerCase();
+
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setPlayers(value)
     })
     getMissions(e.id).then(function (value) {
-      setMissions(value)
+      value.length > 1 ? setMissions(value.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+          fb = b.name.toLowerCase();
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setMissions(value)
     })
   }
 
@@ -79,10 +140,14 @@ const AdminTools = () => {
 
   const handleCreateGameClick = () => {
     setCreateGameView(true)
-
+    console.log(currentGames)
+    getAllGames().then(function (value) {
+      console.log(value)
+    })
   }
 
   const handlePlayerManageClick = (e) => {
+    setSelectedPlayerId(e.id)
     getPlayer(e.id).then(function (value) {
       setSelectedPlayer(value)
     })
@@ -125,7 +190,7 @@ const AdminTools = () => {
                       <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
                         <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
                           <h5 className="card-title">Player Info</h5>
-                          {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
+                          {selectedPlayer != null ? <PlayerInfo updatePlayerList={updatePlayerList} gameId={selectedGame.id} playerId={selectedPlayerId} data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
                         </div>
                       </div>
                     </div>
@@ -139,10 +204,10 @@ const AdminTools = () => {
                             <div className="card d-flex justify-content-between" style={{ backgroundColor: '#e9e3d6a3' }}>
                               {players != null && players.map((e) =>
                                 e.isHuman ?
-                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-success text-white d-flex justify-content-between"> {e.appUser.firstname} {e.appUser.lastName} - Human
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-success text-white d-flex justify-content-between"> {e.appUser.firstName} {e.appUser.lastName} - Human
                                     <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
                                   </li> :
-                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-danger text-white d-flex justify-content-between"> {e.appUser.firstname} {e.appUser.lastName} - Zombie
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-danger text-white d-flex justify-content-between"> {e.appUser.firstName} {e.appUser.lastName} - Zombie
                                     <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
                                   </li>
                               )}
@@ -158,7 +223,7 @@ const AdminTools = () => {
                 <div>
                   {newMissionState ? <>
                     <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right m-2">Cancel</button>
-                    <MissionForm gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
+                    <MissionForm updateMissionList={updateMissionList} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
                   </> : <>
                     <div className="text-center" >
                       <button type="button" className="btn btn-success p-2 m-2" onClick={() => handleNewMissionClick()}>New mission</button>
@@ -167,15 +232,18 @@ const AdminTools = () => {
                       <div className="mb-4">
                         <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
                           <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
-                            {selectedMission != null ? <MissionInfo gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
+                            {selectedMission ? <MissionInfo updateMissionList={updateMissionList} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
                           </div>
                         </div>
                       </div>
                       <div className="row">
                         <div className="mb-4">
-                          <div className="card">
+                          <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                            <div className="text-center" style={{ backgroundColor: '#e9e3d6a3' }}>
+                              <p className="pt-2">Mission List</p>
+                            </div>
                             <div className="card d-flex justify-content-between p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
-                              {missions != null ? missions.map((e) => <li key={e.id} style={{ backgroundColor: '#ECE7DC', color: '#524e45' }} className="border bg-white list-group-item p-3 m-1 bg-gradient bg-opacity-75 text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
+                              {missions != null ? missions.map((e) => <li key={e.id} style={{ backgroundColor: '#ECE7DC', color: '#524e45' }} className="border bg-light list-group-item p-3 m-1 bg-gradient text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
                             </div>
                           </div>
                         </div>
@@ -186,7 +254,7 @@ const AdminTools = () => {
               <TabPanel value={value} index={2}>
                 <div>
                   {name !== null && description !== null &&
-                    <GameSettings gameData={selectedGame}></GameSettings>
+                    <GameSettings updateGameView={updateGameView} gameData={selectedGame}></GameSettings>
                   }
                 </div>
               </TabPanel>
@@ -199,8 +267,8 @@ const AdminTools = () => {
           <h3 className="text-center p-1 pb-2">Current games</h3>
           <div className="card bg-secondary">
             <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
-              {currentGames != null && currentGames.map((e) => <div key={e.id} className="card">
-                <li className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
+              {currentGames && currentGames.map((e, index) => <div key={index} className="card">
+                <li key={index} className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
                   <div>
                     <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
                   </div></li>

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import NewGameAreaMap from "./NewGameAreaMap";
-import { TextField, FormControl, FormGroup, Alert } from "@mui/material"
-import { createGame, updateGame } from "../../api/game";
-import { useForm } from "react-hook-form"
+import { FormControl, FormGroup, Alert } from "@mui/material"
+import { createGame } from "../../api/game";
 import { useMutation } from "@tanstack/react-query"
 
 const NewGameForm = ({ updateGameView }) => {
@@ -15,35 +14,33 @@ const NewGameForm = ({ updateGameView }) => {
     const [startDate, setStartDate] = useState("2023-01-01")
     const [endDate, setEndDate] = useState("2023-03-15")
 
-    // const { register, handleSubmit, reset } = useForm()
+    const [showError, setShowError] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [showAreaError, setShowAreaError] = useState(false)
 
-    // const mutation = useMutation(
-    //     {
-    //         mutationFn: () => createGame().catch((error) => {
-    //             console.log(error)
-    //         }),
-    //         onSuccess: () => {
-
-    //         }
-
-    //     }
-
-    // )
+    const { mutate } = useMutation(createGame, {
+        onError: (error) => {
+            console.log("Error happened in game creation", error)
+            setShowError(true)
+        },
+        onSuccess: () => {
+            setShowError(false)
+            setTimeout(() => {
+                updateGameView()
+            }, 1500);
+            setShowSuccess(true)
+        }
+    })
 
     const handleRegisterSubmit = (event) => {
         event.preventDefault();
         console.log(newMapCoordinates)
         if (newMapCoordinates !== null) {
             newMapCoordinates.push({ latitude: newMapCoordinates[0].latitude, longitude: newMapCoordinates[0].longitude })
-            createGame({ gameDto: { name: newName, description: newDescription, startDateTime: new Date(startDate + "T" + startTime + "Z"), endDateTime: new Date(endDate + "T" + endTime + "Z") }, mapCoordinateDtos: newMapCoordinates })
-            console.log({ gameDto: { name: newName, description: newDescription, startDateTime: new Date(startDate + "T" + startTime + "Z"), endDateTime: new Date(endDate + "T" + endTime + "Z") }, mapCoordinateDtos: newMapCoordinates })
-            alert("GAME CREATED!");
-            updateGameView()
+            mutate({ gameDto: { name: newName, description: newDescription, startDateTime: new Date(startDate + "T" + startTime + "Z"), endDateTime: new Date(endDate + "T" + endTime + "Z") }, mapCoordinateDtos: newMapCoordinates })
         } else {
-            alert("You need to create a game map by clicking the map")
+            setShowAreaError(true)
         }
-
-
     };
 
     const getNewMapCoordinates = (coord) => {
@@ -58,11 +55,11 @@ const NewGameForm = ({ updateGameView }) => {
                     <FormControl>
                         <label className="m-2">
                             Game name*
-                            <input className="form-control" minLength={"2"} required pattern='([A-z0-9À-ž\s]){2,}' value={newName} onChange={(e) => setNewName(e.target.value)} />
+                            <input className="form-control" minLength={"2"} maxLength={50} required pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={newName} onChange={(e) => setNewName(e.target.value)} />
                         </label>
                         <label className="m-2">
                             Game description*
-                            <input className="form-control" minLength={"10"} required multiline="true" label="Game Description" variant="outlined" pattern="([A-z0-9À-ž\s'!?,.]){2,}" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+                            <input className="form-control" minLength={"10"} maxLength={1000} required multiline="true" label="Game Description" variant="outlined" pattern="([A-z0-9À-ž\s!?.,'#@\-]){2,}" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                         </label>
                         <label className="m-2">
                             Start date*
@@ -89,6 +86,14 @@ const NewGameForm = ({ updateGameView }) => {
                         <div className="text-center pt-2 pb-1">
                             <button className="btn btn-success" type="submit">Create game</button>
                         </div>
+                        <div className="text-center d-flex justify-content-center">
+                            <div className="w-75 text-center">
+                                {showSuccess && <Alert severity="success" onClose={() => { setShowSuccess(false) }}>Game created!</Alert>}
+                                {showError && <Alert severity="error" onClose={() => { setShowError(false) }}>Something went wrong in game creation. Try again.</Alert>}
+                                {showAreaError && <Alert severity="error" onClose={() => { setShowAreaError(false) }}>Error: Game area needs to be defined.</Alert>}
+                            </div>
+                        </div>
+
 
                     </FormControl>
                 </FormGroup>
