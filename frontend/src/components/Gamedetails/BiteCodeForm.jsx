@@ -3,9 +3,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { FormControlLabel, styled, Switch, Typography } from "@mui/material"
 import { createBite } from "../../api/bite"
 import { useMutation, useQuery } from "@tanstack/react-query"
-
-
-
+import { getPosition } from "../../position/getPosition"
 
 const BiteCodeForm = (gameId) => {
   const { bitecode, setBiteCode } = useState("")
@@ -22,7 +20,6 @@ const BiteCodeForm = (gameId) => {
       }, 3000)
     },
     onError: () => {
-      console.log("erro")
       setSubmitted(true);
       setFailed(true);
       setTimeout(() => {
@@ -32,24 +29,30 @@ const BiteCodeForm = (gameId) => {
     } },
   )
 
-
-
   const handleRegistration = (data) => {
     let bitePosition = null
-    if (data.coordinates && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        bitePosition = position
+    if (data.coordinates){
+      getPosition()
+      .then((position) => {
+        console.log("position", position)
+        bitePosition = [{'latitude': position.coords.latitude, 'longitude': position.coords.longitude}]
+        mutation.mutate(data.bitecode, data.description, bitePosition)
+      }
+      )
+      .catch((err) => {
+        console.log("failed to get position", err)
       })
+      reset()
     }
-    mutation.mutate([data.bitecode, data.description, bitePosition])
-    reset()
+    else
+      mutation.mutate([data.bitecode, data.description, bitePosition])
   }
 
   const Div = styled('div')(({ theme }) => ({
     ...theme.typography.button,
     color: 'red',
     padding: theme.spacing(1),
-  }));
+  }))
 
   return (
     <form onSubmit={handleSubmit(handleRegistration)}>
