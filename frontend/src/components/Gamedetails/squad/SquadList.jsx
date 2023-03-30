@@ -14,12 +14,16 @@ export const SquadList = () => {
     queryFn: () => getAllSquads(gameId),
     staleTime: 10000
   })
+  console.log(data)
 
   return (
     <Paper sx={{ paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6f7'}}>
       <h5>Squads: </h5>
       <ul className="list-group square list-group-flush">
         {data && data.map((squad, index) => {
+          console.log("mapping")
+          console.log(data)
+          console.log(user.isHuman)
           if (squad.isHuman == user.isHuman)
             return (<SquadItem
               key={index}

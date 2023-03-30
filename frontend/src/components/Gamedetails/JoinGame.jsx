@@ -1,6 +1,7 @@
 import { Button } from "@mui/material"
 import { useMutation } from "@tanstack/react-query"
 import { joinGame } from "../../api/game"
+import { getPlayer } from "../../api/player"
 import { getAllPlayersByUuid } from "../../api/user"
 import { useAppUser } from "../../context/AppUserContext"
 import { useUser } from "../../context/UserContext"
@@ -15,13 +16,17 @@ export const JoinGameButton = () => {
 
   const mutation = useMutation(
     { mutationFn: () => joinGame(),
-     onSuccess: (data) => {
+     onSuccess: () => {
         getAllPlayersByUuid().then( (data) => {
           const currentGamePlayer = data.find((game) => game.gameId === gameId)
           const newGame = {gameId: gameId, playerId: currentGamePlayer.playerId }
           setAppUser([...appUser, newGame])
-          setUser({...user})
-        })
+          return (currentGamePlayer)
+        }).then( async (data) => {
+          const currentPlayer = await getPlayer(data.playerId)
+          setUser({...currentPlayer, playerId: data.playerId})
+        }
+        )
      }}
     )
 
