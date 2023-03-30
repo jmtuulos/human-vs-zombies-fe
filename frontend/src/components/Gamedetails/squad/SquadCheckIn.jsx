@@ -9,10 +9,15 @@ export const SquadCheckIn = ({gameId}) =>
   const { user } = useUser()
   const [ latitude, setLatitude ] = useState(0)
   const [ longitude, setLongitude ] = useState(0)
+  const [ checkedIn, setIsCheckedVisible ] = useState(false)
 
   const mutation = useMutation(
     { mutationFn: (variables) => postSquadCheckIn(gameId, user.squadId, variables[0]),
     onSuccess: () => {
+      setIsCheckedVisible(true);
+      setTimeout(() => {
+      setIsCheckedVisible(false);
+      }, 3000);
       console.log("")
     },
     onError: (err) => {
@@ -26,7 +31,9 @@ export const SquadCheckIn = ({gameId}) =>
     )
   }
 
+
   const handleCheckIn = () => {
+
     getPosition()
     .then((position) => {
       console.log("position", position)
@@ -44,6 +51,6 @@ export const SquadCheckIn = ({gameId}) =>
   }
 
   return (
-    <Button  onClick={handleCheckIn}>{mutation.isLoading ? <>Checking in</> : <>Check in</>}</Button>
+        <Button  color={checkedIn ? "success" : "secondary"} onClick={handleCheckIn}>{checkedIn ? <>Checked in</> : <>Check in</>}</Button>
   )
 }
