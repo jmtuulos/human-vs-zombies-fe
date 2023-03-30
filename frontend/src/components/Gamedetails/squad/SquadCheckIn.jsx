@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { postSquadCheckIn } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
+import { getPosition } from "../../../position/getPosition"
 
 export const SquadCheckIn = ({gameId}) =>
 {
@@ -25,13 +26,6 @@ export const SquadCheckIn = ({gameId}) =>
     }
   })
 
-  const getPosition = () => {
-    return new Promise((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject,{timeout:10000})
-    )
-  }
-
-
   const handleCheckIn = () => {
 
     getPosition()
@@ -51,6 +45,9 @@ export const SquadCheckIn = ({gameId}) =>
   }
 
   return (
-        <Button  color={checkedIn ? "success" : "secondary"} onClick={handleCheckIn}>{checkedIn ? <>Checked in</> : <>Check in</>}</Button>
+        <Button
+          color={checkedIn ? "success" : "secondary"}
+          onClick={handleCheckIn}>{checkedIn ? <>Checked in</> : <>Check in</>}
+        </Button>
   )
 }
