@@ -29,16 +29,14 @@ const LandingPage = () => {
     navigate('/gamedetails')
   }
 
-  //useEffect to save game center
+  //useEffect to save game coordinates
   useEffect(() => {
     const fetchGame = async () => {
       await getAllGames().then((data) => {
         storageSave('gameCoordinates', JSON.stringify(data.map((game) => game.mapCoordinates)))
-
       })
     }
     fetchGame()
-    console.log("", gameCenter)
   }, [])
 
 
