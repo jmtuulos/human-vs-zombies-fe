@@ -12,6 +12,7 @@ import { useEffect } from "react"
 import { getAllPlayersByUuid } from "../api/user"
 import { getPlayer } from "../api/player"
 import { useAppUser } from "../context/AppUserContext"
+import keycloak from "../keycloak"
 
 const GameDetails = () => {
   const { user, setUser } = useUser()
@@ -50,24 +51,24 @@ const GameDetails = () => {
             <div className="row pt-5">
               <MissionList gameId={gameId}/>
             </div>
-            {user.isHuman === false &&
+            {user.isHuman === false && !keycloak.hasRealmRole('admin') &&
               <div className="row pt-5">
                 <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6f7'}}>
                   <h3>Bit a Human?</h3>
                   <BiteCodeForm gameId={gameId}/>
                 </Paper>
               </div>}
-            {user.isHuman === true &&
+            {user.isHuman === true && !keycloak.hasRealmRole('admin') &&
               <div className="row pt-5">
                 <Paper sx={{paddingBlock: 3, maxWidth: 1, backgroundColor: '#e9e3d6f7'}}>
                   <h3>Your bite code: <p>{user.biteCode}</p></h3>
                 </Paper>
               </div>}
-            {user.squadId == null && <div className="row pt-5">
+            {user.squadId == null && !keycloak.hasRealmRole('admin') && <div className="row pt-5">
               <CreateSquadForm />
             </div>}
             <div className="row pt-5">
-              {user.squadId != null &&
+              {user.squadId != null && !keycloak.hasRealmRole('admin') &&
                 <SquadDetails />}
             </div>
             {user.squadId == null && <div className="row pt-5">

@@ -5,6 +5,7 @@ import { getPlayer } from "../../api/player"
 import { getAllPlayersByUuid } from "../../api/user"
 import { useAppUser } from "../../context/AppUserContext"
 import { useUser } from "../../context/UserContext"
+import keycloak from "../../keycloak"
 import { storageRead } from "../../utils/storage"
 
 export const JoinGameButton = () => {
@@ -12,7 +13,8 @@ export const JoinGameButton = () => {
   const { user, setUser } = useUser()
   const gameId = storageRead('gameId')
 
-  const disableJoinButton = appUser.some((game) => game.gameId === gameId)
+  const disableJoinButton =
+    appUser.some((game) => game.gameId === gameId)
 
   const mutation = useMutation(
     { mutationFn: () => joinGame(),
