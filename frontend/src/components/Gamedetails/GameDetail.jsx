@@ -18,14 +18,10 @@ export const GameDetail = ({gameId}) => {
   const { user } = useUser()
   const { appUser } = useAppUser()
 
-  const enableGameDetails = appUser.some((game) => game.gameId === gameId)
+  const enableGameDetails = appUser && appUser.some((game) => game.gameId === gameId)
   const [game, bites, checkIns, missions] = useQueries({
     queries: [
       { queryKey: ['getgame'], queryFn: () => getGame(gameId), staleTime: 1000,},
-      // { queryKey: ['getbites'], queryFn: () => getAllBites(gameId), staleTime: 1000, },
-      // { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), staleTime: 1000, enabled: !!user && !!user.squadId},
-      // { queryKey: ['getmissionmarkers'], queryFn: () => getFactionMissions(), staleTime: 1000, enabled: enableGameDetails}
-
     ],
   })
 

@@ -12,9 +12,11 @@ import { useEffect } from "react"
 import { getAllPlayersByUuid } from "../api/user"
 import { getPlayer } from "../api/player"
 import { useAppUser } from "../context/AppUserContext"
+import { json, useNavigate } from "react-router-dom"
 import keycloak from "../keycloak"
 
 const GameDetails = () => {
+  const navigate = useNavigate()
   const { user, setUser } = useUser()
   const { appUser } = useAppUser()
   const gameId = storageRead('gameId')
@@ -37,6 +39,8 @@ const GameDetails = () => {
           }
         )
       }
+    if (!appUser)
+      navigate("/")
     fetchUser()
   }, [])
 

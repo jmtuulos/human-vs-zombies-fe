@@ -12,13 +12,9 @@ export const getAllGames = async () => {
 }
 
 export const getFactionChat = async (gameId) => {
-  const config = {
-    headers: {
-      // 'player-id': localStorage.getItem('playerId') TODO: add player id to local storage
-      'player-id': 1
-    }
-  }
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`, config)
+  console.log(gameId)
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`)
+  console.log(response.data)
   return response.data
 }
 
@@ -28,14 +24,9 @@ export const createChatMessage = async (gameId, chatMessageData, isHuman, isZomb
     "isHumanGlobal": isHuman,
     "isZombieGlobal": isZombie,
   }
-  const header = {
-    'Content-Type': 'application/json',
-    'player-id': 1
-  }
   const response = await axios
     .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`,
-      data,
-      {headers: header}).catch((error) => {
+      data).catch((error) => {
         console.log("error: " + error)
       })
 }
