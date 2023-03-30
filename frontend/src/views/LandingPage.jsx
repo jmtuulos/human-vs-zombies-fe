@@ -26,6 +26,27 @@ const LandingPage = () => {
 
   const handleSelectClick = (e) => {
     storageSave('gameId', e.id)
+    const fetchUser = async () => {
+      await getAllPlayersByUuid().then((data) => {
+        return data.find(gameList => gameList.gameId == gameId)})
+        .then(async (data) => {
+          let currentPlayer = null
+          console.log(data)
+          if (data){
+            currentPlayer = await getPlayer(data.playerId)
+            setUser({...currentPlayer, playerId: data.playerId})
+          }
+          else
+            setUser(null)
+        }).catch(
+          (error) => {
+
+            console.log(error)
+          }
+        )
+      }
+    fetchUser()
+    console.log(user)
     navigate('/gamedetails')
   }
 
@@ -39,8 +60,6 @@ const LandingPage = () => {
     fetchGame()
   }, [])
 
-
-
   //useEffect to save player data
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,12 +67,14 @@ const LandingPage = () => {
         return data.find(gameList => gameList.gameId == gameId)})
         .then(async (data) => {
           let currentPlayer = null
+          console.log(data)
           if (data){
             currentPlayer = await getPlayer(data.playerId)
             setUser({...currentPlayer, playerId: data.playerId})
           }
         }).catch(
           (error) => {
+
             console.log(error)
           }
         )
