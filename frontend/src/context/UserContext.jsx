@@ -9,7 +9,7 @@ export const useUser = () => {
 
 const UserProvider = ({ children }) => {
 
-	const [user, setUser] = useState('user')
+	const [user, setUser] = useState(null)
 
 	const state = {
 		user,

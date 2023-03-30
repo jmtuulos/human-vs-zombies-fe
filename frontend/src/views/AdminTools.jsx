@@ -1,53 +1,127 @@
 import { useEffect, useState } from "react"
-import MissionInfo from "../components/AdminComponents/MissionInfo";
+import MissionInfo from "../components/AdminComponents/Mission/MissionInfo";
 import PlayerInfo from "../components/AdminComponents/PlayerInfo";
-import {getGame, getAllGames, updateGame, createGame} from "../api/game";
-import { listPlayers } from "../api/player";
-import NewGameAreaMap from "../components/AdminComponents/NewGameAreaMap";
+import { getGame, getAllGames } from "../api/game";
+import { listPlayers, getPlayer } from "../api/player";
+import { getMissions } from "../api/mission";
+import MissionForm from "../components/AdminComponents/Mission/MissionForm";
+import NewGameForm from "../components/AdminComponents/Game/NewGameForm";
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import PropTypes from 'prop-types'
+import GameSettings from "../components/AdminComponents/Game/GameSettings";
+
+//This view holds admin dashboard and contains logic for component rendering and updating
 
 const AdminTools = () => {
 
   const [createGameView, setCreateGameView] = useState(false)
   const [name, setName] = useState("");
-  const [editTab, setEditTab] = useState("Players")
   const [currentGames, setCurrentGames] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null)
   const [players, setPlayers] = useState(null)
+  const [missions, setMissions] = useState(null)
   const [selectedPlayer, setSelectedPlayer] = useState(null)
   const [description, setDescription] = useState(null)
-  const [newName, setNewName] = useState("")
-  const [newDescription, setNewDescription] = useState("")
-  const [newMapCoordinates, setNewMapCoordinates] = useState([])
-  const [startTime, setStartTime] = useState("00:00")
-  const [endTime, setEndTime] = useState("23:59")
-  const [startDate, setStartDate] = useState("2023-01-01")
-  const [endDate, setEndDate] = useState("2023-03-15")
-  const [newGame, setNewGame] = useState({})
+  const [selectedMission, setSelectedMission] = useState(null)
+  const [newMissionState, setNewMissionState] = useState(false)
+  const [value, setValue] = useState(0)
+  const [update, setUpdate] = useState(false)
+  const [selectedPlayerId, setSelectedPlayerId] = useState(null)
 
   useEffect(() => {
-
-    getAllGames().then(function(value){
+    getAllGames().then(function (value) {
       setCurrentGames(value)
     })
-  },[])
+  }, [update])
 
-  const handleRegisterSubmit = (event) => {
-    event.preventDefault();
-    // newMapCoordinates.push({latitude: newMapCoordinates[0].latitude, longitude: newMapCoordinates[0].longitude})
-    // createGame({name: newName, description: newDescription, startDateTime: new Date(startDate + "T" +  startTime +"Z"), endDateTime: new Date(endDate + "T" +  endTime +"Z"), mapCoordinates: newMapCoordinates, gameState: "REGISTRATION"})
-    // console.log({name: newName, description: newDescription, startDateTime:new Date(startDate + "T" +  startTime +"Z") , endDateTime: new Date(endDate + "T" +  endTime +"Z"), mapCoordinates: newMapCoordinates, gameState: "REGISTRATION"})
-    alert("TODO: CREATE GAME FUNCTIONALITY");
-  };
+  const updateGameView = () => {
+    setCurrentGames(null)
+    setUpdate(!update)
+    setSelectedGame(null)
+    setCreateGameView(false)
+    setSelectedPlayer(null)
+    setMissions(null)
+    setNewMissionState(false)
+    setSelectedMission(null)
+  }
+
+  const updatePlayerList = () => {
+    listPlayers(selectedGame.id).then(function (value) {
+      setPlayers(value)
+    })
+    listPlayers(selectedGame.id).then(function (value) {
+      value.length > 1 ? setPlayers(value.sort((a, b) => {
+        let fa = a.appUser.firstName.toLowerCase(),
+          fb = b.appUser.firstName.toLowerCase();
+
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setPlayers(value)
+    })
+  }
+
+  const updateMissionList = () => {
+    getMissions(selectedGame.id).then(function (value) {
+      setMissions(value)
+    })
+    getMissions(selectedGame.id).then(function (value) {
+      value.length > 1 ? setMissions(value.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+          fb = b.name.toLowerCase();
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setMissions(value)
+    })
+    setSelectedMission(null)
+    setNewMissionState(null)
+  }
 
   const handleEditClick = (e) => {
-    getGame(e.id).then(function(value) {
+    getGame(e.id).then(function (value) {
       setSelectedGame(value)
       setDescription(value.description)
       setName(value.name)
-      console.log(value)
     })
-    listPlayers(e.id).then(function(value) {
-      setPlayers(value)
+    listPlayers(e.id).then(function (value) {
+      value.length > 1 ? setPlayers(value.sort((a, b) => {
+        let fa = a.appUser.firstName.toLowerCase(),
+          fb = b.appUser.firstName.toLowerCase();
+
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setPlayers(value)
+    })
+    getMissions(e.id).then(function (value) {
+      value.length > 1 ? setMissions(value.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+          fb = b.name.toLowerCase();
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })) : setMissions(value)
     })
   }
 
@@ -55,192 +129,188 @@ const AdminTools = () => {
     setSelectedGame(null)
     setCreateGameView(false)
     setSelectedPlayer(null)
+    setMissions(null)
+    setNewMissionState(false)
+    setSelectedMission(null)
+  }
+
+  const handleCancelNewMissionClick = () => {
+    setNewMissionState(false)
   }
 
   const handleCreateGameClick = () => {
     setCreateGameView(true)
-    
   }
-
-  const radioChangeHandler = (e) => {
-    setEditTab(e.target.value);
-  };
 
   const handlePlayerManageClick = (e) => {
-    setSelectedPlayer(e)
+    setSelectedPlayerId(e.id)
+    getPlayer(e.id).then(function (value) {
+      setSelectedPlayer(value)
+    })
   }
 
-  const handleRuleChange = (e) => {
-    e.preventDefault()
-    // selectedGame.name = name
-    // selectedGame.description = description
-    // updateGame(selectedGame.id, selectedGame)
-    alert("TODO: GAME SETTING CHANGES")
+  const handleMissionManageClick = (e) => {
+    setSelectedMission(e)
   }
 
-  const getNewMapCoordinates = (coord)=> {
-    setNewMapCoordinates(coord)
+  const handleNewMissionClick = () => {
+    setNewMissionState(true)
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
   }
 
   return (
-    <div className="container my-3 text-left">
+    <div className="container my-3 text-left" >
       <h3 className="text-center">Admin Tools</h3>
-      {createGameView ? <div className="p-7">
+      {createGameView ? <div className="p-7" >
         <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
-        <form onSubmit={handleRegisterSubmit}>
-          <div>
-            <fieldset >
-              <label>
-                Game name:
-                <input pattern='([A-z0-9À-ž\s]){2,}' value={newName} onChange={(e) => setNewName(e.target.value)}/>
-              </label>
-              <label>
-                Description:
-                <input pattern='([A-z0-9À-ž\s]){2,}' value={newDescription} onChange={(e) => setNewDescription(e.target.value)}/>
-              </label>
-              <label>
-                Start date:
-                <input type="date" id="start" name="game-start" onChange={(e) => setStartDate(e.target.value)} value={startDate} min="2023-01-01" max="2025-12-31"></input>
-              </label>
-              <label>
-                Start time
-                <input pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$' value={startTime} onChange={(e) => setStartTime(e.target.value)}></input>
-              </label>
-              <label>
-                End date:
-                <input type="date" id="end" name="game-end" onChange={(e) => setEndDate(e.target.value)} value={endDate} min="2023-03-15" max="2025-12-31"></input>
-              </label>
-              <label>
-                End time
-                <input pattern='^([0-1]?[0-9]|2[0-4]):([0-5][0-9])$' value={endTime} onChange={(e) => setEndTime(e.target.value)}></input>
-              </label>
-              
-              <button type="submit">Create</button>
-            </fieldset>
-          </div>
-        </form>
-        <div className="card h-50 w-50 d-inline-block">
-            <NewGameAreaMap getCoordinates={getNewMapCoordinates}></NewGameAreaMap>
-            </div>
-
+        <NewGameForm updateGameView={updateGameView}></NewGameForm>
       </div> : <>
         {selectedGame !== null ? <div>
           <button type="button" onClick={() => handleExitClick()} className="btn btn-danger text-right">Close</button>
           <div>
-            <input type="radio" value="Players" name="tab" onChange={radioChangeHandler} /> Players
-            <input type="radio" value="Missions" name="tab" onChange={radioChangeHandler} /> Missions
-            <input type="radio" value="Rules" name="tab" onChange={radioChangeHandler} /> Rules
+            <Box sx={{ width: '100%' }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs sx={{ backgroundColor: '#e9e3d6a3' }} value={value} onChange={handleChange} aria-label="basic tabs example">
+                  <Tab label="Players" {...a11yProps(0)} />
+                  <Tab label="Missions" {...a11yProps(1)} />
+                  <Tab label="Game settings" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                <div className="container">
+                  <div className="container">
+                    <div className=" mb-4">
+                      <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                        <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
+                          <h5 className="card-title">Player Info</h5>
+                          {selectedPlayer != null ? <PlayerInfo updatePlayerList={updatePlayerList} gameId={selectedGame.id} playerId={selectedPlayerId} data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row" >
+                      <div className=" mb-4" >
+                        <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                          <div className="card d-flex justify-content-between p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
+                            <div className="text-center">
+                              <p className="">Player List</p>
+                            </div>
+                            <div className="card d-flex justify-content-between" style={{ backgroundColor: '#e9e3d6a3' }}>
+                              {players != null && players.map((e) =>
+                                e.isHuman ?
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-success text-white d-flex justify-content-between"> {e.appUser.firstName} {e.appUser.lastName} - Human
+                                    <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
+                                  </li> :
+                                  <li key={e.id} className="border border-secondary list-group-item p-3 m-1 bg-danger text-white d-flex justify-content-between"> {e.appUser.firstName} {e.appUser.lastName} - Zombie
+                                    <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
+                                  </li>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <div>
+                  {newMissionState ? <>
+                    <button type="button" onClick={() => handleCancelNewMissionClick()} className="btn btn-danger text-right m-2">Cancel</button>
+                    <MissionForm updateMissionList={updateMissionList} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates}></MissionForm>
+                  </> : <>
+                    <div className="text-center" >
+                      <button type="button" className="btn btn-success p-2 m-2" onClick={() => handleNewMissionClick()}>New mission</button>
+                    </div>
+                    <div className="container">
+                      <div className="mb-4">
+                        <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                          <div className="card-body" style={{ backgroundColor: '#e9e3d6a3' }}>
+                            {selectedMission ? <MissionInfo updateMissionList={updateMissionList} gameId={selectedGame.id} gameMap={selectedGame.mapCoordinates} data={selectedMission}></MissionInfo> : <p>Select mission</p>}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="mb-4">
+                          <div className="card" style={{ backgroundColor: '#e9e3d6a3' }}>
+                            <div className="text-center" style={{ backgroundColor: '#e9e3d6a3' }}>
+                              <p className="pt-2">Mission List</p>
+                            </div>
+                            <div className="card d-flex justify-content-between p-2" style={{ backgroundColor: '#e9e3d6a3' }}>
+                              {missions != null ? missions.map((e) => <li key={e.id} style={{ backgroundColor: '#ECE7DC', color: '#524e45' }} className="border bg-light list-group-item p-3 m-1 bg-gradient text-dark d-flex justify-content-between">{e.name} <button type="button" onClick={() => handleMissionManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button></li>) : <p>No missions yet</p>}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div></>}
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <div>
+                  {name !== null && description !== null &&
+                    <GameSettings updateGameView={updateGameView} gameData={selectedGame}></GameSettings>
+                  }
+                </div>
+              </TabPanel>
+            </Box>
           </div>
           <div>
-            {editTab === "Players" && <><div className="">
-              <div className="container">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-6 mb-4">
-                      <div className="card">
-                        <div className="card-body">
-                          <ul>
-                          {players != null && players.map((e) => 
-                            e.isHuman ? 
-                            <li key={e.id} className="list-group-item p-3 bg-success text-white"> {e.appUser.firstname} {e.appUser.lastName} - Human
-                                <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
-                              </li> :
-                               <li key={e.id} className="list-group-item p-3 bg-danger text-white"> {e.appUser.firstname} {e.appUser.lastName} - Zombie
-                                <button type="button" onClick={() => handlePlayerManageClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
-                              </li>
-                            )}
-                            </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6 mb-4">
-                      <div className="card">
-
-                        <div className="card-body">
-                          <h5 className="card-title">Player Info</h5>
-                          {selectedPlayer != null ? <PlayerInfo data={selectedPlayer}></PlayerInfo> : <p>Select player</p>}
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </div></>}
-            {editTab === "Missions" && <div>
-              <div className="container">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-6 mb-4">
-                      <div className="card">
-                        <div className="card-body">
-                          <ul className="list-group list-group-flush">
-                            <li key="6" className="list-group-item p-3 bg-secondary text-white"> MISSION 1 - RUN HUMANS RUN -
-                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                            </li>
-                            <li key="7" className="list-group-item p-3 bg-secondary text-white"> MISSION 2 - SAFE SPACE
-                              <button type="button" className="btn pl-5 btn-primary btn-sm">Manage</button>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6 mb-4">
-                      <div className="card">
-                        <div className="card-body">
-                          <h5 className="card-title">Mission Info</h5>
-                          <MissionInfo></MissionInfo>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-
-            </div>}
-            {editTab === "Rules" && <>
-            
-              {name !== null && description !== null &&
-              <form onSubmit={handleRuleChange}>
-                <label>Game name:</label>
-                <input value={name} onChange={(e) => {
-                  setName(e.target.value)
-              }} pattern='([A-z0-9À-ž\s]){2,}'></input>
-                <label>Description</label>
-                <input value={description} onChange={(e) => {
-                  setDescription(e.target.value)
-              }} pattern='([A-z0-9À-ž\s]){2,}'></input>
-              
-              <button type="submit">Save</button>
-            </form>
-            }
-            </>
-              }
-              
           </div>
 
         </div> : <>
-          <h3 className="text-center">Current games</h3>
-          <div className="card">
-            <ul className="list-group list-group-flush">
-              {currentGames != null && currentGames.map((e) => <li key={e.id} className="list-group-item">{e.name} - Current players:
-                <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-primary btn-sm">Manage</button>
-              </li>)}
+          <h3 className="text-center p-1 pb-2">Current games</h3>
+          <div className="card bg-secondary">
+            <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
+              {currentGames && currentGames.map((e, index) => <div key={index} className="card">
+                <li key={index} className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)}
+                  <div>
+                    <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
+                  </div></li>
+              </div>)}
             </ul>
           </div>
-          <div className="text-center">
-            <button type="button" onClick={() => handleCreateGameClick()} className="btn btn-success">+ Create new game</button>
+
+          <div className="text-center p-2">
+            <button type="button" onClick={() => handleCreateGameClick()} className="btn btn-lg btn-success">+ Create new game</button>
           </div>
         </>}</>}
 
-
-
     </div>
   )
+}
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography component={'span'}>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
 }
 
 export default AdminTools

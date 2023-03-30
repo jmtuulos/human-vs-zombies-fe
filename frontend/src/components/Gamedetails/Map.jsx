@@ -1,61 +1,114 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import { iconGraveStone } from '../../icons/gravestoneIcon'
+import L from 'leaflet'
+import { iconPlayer } from '../../icons/playericon'
+import { useUser } from '../../context/UserContext'
+import { iconZombie } from '../../icons/zombieicon'
+import { iconMission } from '../../icons/mission'
+import { useEffect, useState } from 'react'
+import { storageRead } from '../../utils/storage'
+import { getFactionMissions, getMissions } from '../../api/mission'
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { getSquadCheckIns } from '../../api/squad'
+import { getGame } from '../../api/game'
+import { getAllBites } from '../../api/bite'
+import { Button } from '@mui/material'
 
 const Map = () => {
+  const { user, setUser } = useUser()
+  const [ latlngs, setLatlngs ] = useState()
+  const [selectedMissions, setSelectedMissions] = useState(null)
+  const [checkins, setCheckins] = useState()
+  const gameId = storageRead('gameId')
+  const [ center, setCenter ] = useState()
+  const [ biteList, setBites ] = useState()
+  const [ refresh, setRefresh ] = useState(false)
+  const gameCoord = storageRead('gameCoordinates')
 
-  const coordinates = [{ long: "24.9386644", lat: "60.169909" },
-  { long: "24.9423552", lat: "60.1675821" },
-  { long: "24.9568391", lat: "60.1679236" },
-  { long: "24.9563241", lat: "60.1740395" },
-  { long: "24.9504018", lat: "60.1740181" },
-  { long: "24.9446726", lat: "60.1703573" },
-  { long: "24.9497366", lat: "60.1706882" }
-  ]
 
-  const latlngs = [
-    [
-      60.169909,
-      24.9386644
+  const [game, bites, checkIns, missions] = useQueries({
+    queries: [
+      { queryKey: ['getgame'], queryFn: () => getGame(gameId),
+        onSuccess: (data) => {
+          setLatlngs([data.mapCoordinates.map((coordinate) => [coordinate.latitude, coordinate.longitude])])
+        }},
+      { queryKey: ['getbites'], queryFn: () => getAllBites(gameId),
+        onSuccess: (data) => {
+          setBites(data)
+        }},
+      { queryKey: ['getcheckins'], queryFn: () => getSquadCheckIns(user.squadId), enabled: !!user && !!user.squadId,
+        onSuccess: (data) => {
+          setCheckins(data)
+        }
+        },
+      { queryKey: ['getmissionmarkers'], queryFn: () => getMissions(gameId),
+        onSuccess: (data) => {
+          const filteredMissions = data.filter((mission) =>
+            (mission.isHumanVisible === user.isHuman || (mission.isHumanVisible && mission.isZombieVisible)) &&
+            mission.latitude &&
+            mission.longitude
+            )
+          setSelectedMissions(filteredMissions)
+          console.log(filteredMissions)
+      }
+      }
     ],
-    [
-      60.1675821,
-      24.9423552
-    ],
-    [
-      60.1679236,
-      24.9568391
-    ],
-    [
-      60.1740395,
-      24.9563241
-    ],
-    [
-      60.1740181,
-      24.9504018
-    ],
-    [
-      60.1703573,
-      24.9446726
-    ],
-    [
-      60.1699303,
-      24.9386859
-    ]
-  ];
+  })
 
+
+  let filteredMissions = []
+
+
+
+  console.log(selectedMissions)
+
+  const playerIcon = user && user.isHuman ? iconPlayer : iconZombie
   return (
-
-    <MapContainer center={[60.1702506, 24.9505305]} zoom={15} scrollWheelZoom={false}>
+    <>
+    {game.data &&
+    <MapContainer center={L.latLngBounds(gameCoord[gameId-1].map((coordinate) => [coordinate.latitude, coordinate.longitude])).getCenter()} zoom={15} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {coordinates.map((e, i) => <Marker key={i} position={[e.lat, e.long]}>
-        <Popup>
-          Marker
-        </Popup>
-      </Marker>)}
-      <Polygon positions={latlngs}></Polygon>
-    </MapContainer>
+      {bites.data && biteList && biteList.map((e, i) =>
+        <Marker icon={iconGraveStone}
+          key={i}
+          position={[e.latitude, e.longitude]}>
+          <Popup>
+            <h6>description: {e.story}</h6>
+            <p>Victim id: {e.victimId}</p>
+            <p>Killed id: {e.biterId}</p>
+          </Popup>
+        </Marker>)}
+      {checkins && checkins.map((e, i) =>
+        <Marker icon={playerIcon}
+          key={i}
+          position={[e.latitude, e.longitude]}
+        >
+          <Popup>
+            <h6>Checked in {e.story}</h6>
+          </Popup>
+        </Marker>)}
+      { selectedMissions && selectedMissions.map((e, i) => {
+        console.log(e,i)
+        return (
+        <Marker icon={iconMission}
+        key={i}
+        position={[e.latitude, e.longitude]}
+        >
+          <Popup>
+            <h6>mission: {e.description}</h6>
+            <h6>start: {e.startTime}</h6>
+            <h6>end: {e.endTime}</h6>
+          </Popup>
+        </Marker>)
+      }
+        )
+        }
+      {latlngs && <Polygon positions={latlngs}></Polygon>}
+    </MapContainer>}
+    </>
   )
 }
 

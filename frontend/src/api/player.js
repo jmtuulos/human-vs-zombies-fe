@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from '.'
 
 export const getPlayer = async (id) => {
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/player/${id}`)
+  //gameid is hardcoded here problem?
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/1/player/${id}`)
   return response.data
 }
 
@@ -11,8 +12,8 @@ export const listPlayers = async (gameId) => {
 }
 
 //Admin only
-export const updatePlayer = async (id, data) => {
-  const response = await axios.put(`${process.env.REACT_APP_API_URL}/game/player/${id}`, data)
+export const updatePlayer = async (gameId, playerId, data) => {
+  const response = await axios.put(`${process.env.REACT_APP_API_URL}/game/${gameId}/player/${playerId}`, data)
   return response.status
 }
 

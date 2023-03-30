@@ -1,41 +1,59 @@
-import { NavLink } from "react-router-dom"
-import { useUser } from "../../context/UserContext"
+import {NavLink} from "react-router-dom"
+import {useAppUser} from "../../context/AppUserContext"
 import keycloak from "../../keycloak"
+import './Navbar.css';
+import {FiLogIn, FiLogOut, FiMenu} from 'react-icons/fi';
 
 const Navbar = () => {
-    const { user } = useUser()
+    const {appUser} = useAppUser()
 
     return (
-        <div className="container pt-7">
-            <nav className="navbar navbar-expand-sm navbar-light">
-                <p className="navbar-brand">HvZ</p>
-                <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                    aria-expanded="false" aria-label="Toggle navigation"></button>
-                <div className="collapse navbar-collapse" id="collapsibleNavId">
-                    <ul className="navbar-nav me-auto mt-2 mt-lg-0">
-                        <ul className="nav-item">
-                            <li className="nav-link active" aria-current="page"><NavLink to='/'>Home</NavLink><span className="visually-hidden">(current)</span></li>
+        <div className="mb-4">
+            <nav className="navbar navbar-expand-sm navbar-light mb-1 shadow">
+                <div className="container">
+                    <p className="navbar-brand"><NavLink to='/'>HvZ</NavLink></p>
+                    <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                            aria-expanded="false" aria-label="Toggle navigation"><span><FiMenu className="burger-icon"/></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul className="navbar-nav me-auto mt-2 mt-lg-0">
+                            <ul className="nav-item">
+                                <li className="nav-link active" aria-current="page"><NavLink to='/'>Home</NavLink><span
+                                    className="visually-hidden">(current)</span></li>
+                            </ul>
+                            {appUser && <ul className="nav-item">
+                                <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
+                            </ul>}
+                            {keycloak.hasRealmRole('admin') && <ul className="nav-item">
+                                <li className="nav-link"><NavLink to='/dashboard'>Admin Dashboard</NavLink></li>
+                            </ul>}
                         </ul>
-                        <ul className="nav-item">
-                            <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
-                        </ul>
-                        <ul className="nav-item">
-                            <li>
-                                <section className="actions">
-                                    {!keycloak.authenticated && (
-                                        <button className="btn btn-primary" onClick={() => keycloak.login()}>Login</button>
-                                    )}
-                                    {keycloak.authenticated && (
-                                        <button className="btn btn-warning" onClick={() => keycloak.logout()}>Logout</button>
-                                    )}
-                                </section>
-                            </li>
-                        </ul>
-                    </ul>
-                    <form className="d-flex my-2 my-lg-0">
-                        <input className="form-control me-sm-2" type="text" placeholder="Search" />
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                        <div className="nav-right">
+
+                            <ul className="nav">
+                                <div className="ms-2 ">
+                                    {keycloak.authenticated && <h6 style={{color: 'white'}}>Signed in as: {keycloak.idTokenParsed.name}</h6>}
+                                </div>
+                                <ul>
+                                    <section className="actions">
+                                        {!keycloak.authenticated && (
+                                            <button className="btn btn-outline-light"
+                                                    onClick={() => keycloak.login()}>Login <FiLogIn
+                                                className="log-icon"/></button>
+                                        )}
+                                        {keycloak.authenticated && (
+                                            <button className="btn btn-outline-light"
+                                                    onClick={() => keycloak.logout()}>Logout <FiLogOut
+                                                className="log-icon"/></button>
+                                        )}
+                                    </section>
+                                </ul>
+
+                            </ul>
+
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
