@@ -12,12 +12,15 @@ import { useEffect } from "react"
 import { getAllPlayersByUuid } from "../api/user"
 import { getPlayer } from "../api/player"
 import { useAppUser } from "../context/AppUserContext"
+import { json, useNavigate } from "react-router-dom"
 import keycloak from "../keycloak"
 
 const GameDetails = () => {
+  const navigate = useNavigate()
   const { user, setUser } = useUser()
   const { appUser } = useAppUser()
   const gameId = storageRead('gameId')
+  console.log(appUser)
   const enableGameDetails = appUser && appUser.some((game) => game.gameId === gameId)
 
   //useEffect to save player data
@@ -37,6 +40,9 @@ const GameDetails = () => {
           }
         )
       }
+    console.log(appUser)
+    if (!appUser)
+      navigate("/")
     fetchUser()
   }, [])
 
@@ -46,7 +52,7 @@ const GameDetails = () => {
         <div className="row pt-5">
           <GameDetail gameId={gameId}/>
         </div>
-        { enableGameDetails && user &&
+        { true && user &&
           <>
             <div className="row pt-5">
               <MissionList gameId={gameId}/>
