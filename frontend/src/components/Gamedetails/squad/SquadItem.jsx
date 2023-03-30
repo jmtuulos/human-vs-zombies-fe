@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query"
 import { getPlayer } from "../../../api/player"
 import { joinSquad } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
+import keycloak from "../../../keycloak"
 import { storageRead } from "../../../utils/storage"
 
 export const SquadItem = ({ squad, gameId }) => {
@@ -25,7 +26,7 @@ export const SquadItem = ({ squad, gameId }) => {
       <li className="list-group-item" style={{backgroundColor: '#e9e3d600'}}>
         <h4>{squad.name}</h4>
         <p>members: {squad.squadMembers.length}</p>
-        <Button variant="contained"
+        <Button disabled={keycloak.hasRealmRole('admin')} variant="contained"
           color="success"
           onClick={handleClick}
         >
