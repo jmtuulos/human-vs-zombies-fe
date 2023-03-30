@@ -30,7 +30,11 @@ const Navbar = () => {
                             </ul>}
                         </ul>
                         <div className="nav-right">
+
                             <ul className="nav">
+                                <div className="ms-2 ">
+                                    {keycloak.authenticated && <h6 style={{color: 'white'}}>Signed in as: {keycloak.idTokenParsed.name}</h6>}
+                                </div>
                                 <ul>
                                     <section className="actions">
                                         {!keycloak.authenticated && (
@@ -45,14 +49,13 @@ const Navbar = () => {
                                         )}
                                     </section>
                                 </ul>
+
                             </ul>
+
                         </div>
                     </div>
                 </div>
             </nav>
-            <div className="ms-2">
-                {keycloak.authenticated && <p>Signed in as: {keycloak.idTokenParsed.name}</p>}
-            </div>
         </div>
     )
 }
