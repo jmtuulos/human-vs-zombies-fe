@@ -6,6 +6,8 @@ import MissionAdminMap from "./MissionAdminMap";
 import { Alert } from "@mui/material"
 import { useMutation } from "@tanstack/react-query";
 
+//This component is used for showing mission data and for editing missions
+
 const MissionInfo = ({ updateMissionList, gameId, data, gameMap }) => {
 
     const [editState, setEditState] = useState(false)
@@ -41,7 +43,7 @@ const MissionInfo = ({ updateMissionList, gameId, data, gameMap }) => {
                 setShowSuccess(false)
                 setEditState(false)
                 updateMissionList()
-            }, 750);
+            }, 1000);
             setShowSuccess(true)
         }
     })

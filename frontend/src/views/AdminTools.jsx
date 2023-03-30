@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
 import MissionInfo from "../components/AdminComponents/Mission/MissionInfo";
 import PlayerInfo from "../components/AdminComponents/PlayerInfo";
-import { getGame, getAllGames, updateGame, createGame } from "../api/game";
+import { getGame, getAllGames } from "../api/game";
 import { listPlayers, getPlayer } from "../api/player";
-import NewGameAreaMap from "../components/AdminComponents/NewGameAreaMap";
-import { createMission, getMissions } from "../api/mission";
-import MissionAdminMap from "../components/AdminComponents/Mission/MissionAdminMap";
+import { getMissions } from "../api/mission";
 import MissionForm from "../components/AdminComponents/Mission/MissionForm";
-import NewGameForm from "../components/AdminComponents/NewGameForm";
+import NewGameForm from "../components/AdminComponents/Game/NewGameForm";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
-import GameSettings from "../components/AdminComponents/GameSettings";
+import GameSettings from "../components/AdminComponents/Game/GameSettings";
+
+//This view holds admin dashboard and contains logic for component rendering and updating
 
 const AdminTools = () => {
 
@@ -140,10 +140,6 @@ const AdminTools = () => {
 
   const handleCreateGameClick = () => {
     setCreateGameView(true)
-    console.log(currentGames)
-    getAllGames().then(function (value) {
-      console.log(value)
-    })
   }
 
   const handlePlayerManageClick = (e) => {
@@ -268,7 +264,7 @@ const AdminTools = () => {
           <div className="card bg-secondary">
             <ul className="list-group list-group-flush" style={{ backgroundColor: '#e9e3d6a3' }}>
               {currentGames && currentGames.map((e, index) => <div key={index} className="card">
-                <li key={index} className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)} &emsp; &#x25cf; &emsp; {e.description}
+                <li key={index} className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)}
                   <div>
                     <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
                   </div></li>

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents, Polygon } from 'react-le
 import * as L from "leaflet";
 import { iconMission } from '../../../icons/mission';
 
+//This component is used for marker placement in mission creation
 
 const AddMarkerToClick = ({ updatePosition, currentMarker }) => {
   const [position, setPosition] = useState({ latitude: currentMarker !== undefined ? currentMarker.latitude : 0, longitude: currentMarker !== undefined ? currentMarker.longitude : 0 });

@@ -36,7 +36,7 @@ const MissionForm = ({ updateMissionList, gameMap, gameId }) => {
             setTimeout(() => {
                 setShowSuccess(false)
                 updateMissionList()
-            }, 750);
+            }, 1000);
         }
     })
 

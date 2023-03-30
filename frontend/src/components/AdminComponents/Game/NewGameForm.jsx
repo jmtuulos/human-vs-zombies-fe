@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NewGameAreaMap from "./NewGameAreaMap";
 import { FormControl, FormGroup, Alert } from "@mui/material"
-import { createGame } from "../../api/game";
+import { createGame } from "../../../api/game";
 import { useMutation } from "@tanstack/react-query"
 
 const NewGameForm = ({ updateGameView }) => {
@@ -34,7 +34,6 @@ const NewGameForm = ({ updateGameView }) => {
 
     const handleRegisterSubmit = (event) => {
         event.preventDefault();
-        console.log(newMapCoordinates)
         if (newMapCoordinates !== null) {
             newMapCoordinates.push({ latitude: newMapCoordinates[0].latitude, longitude: newMapCoordinates[0].longitude })
             mutate({ gameDto: { name: newName, description: newDescription, startDateTime: new Date(startDate + "T" + startTime + "Z"), endDateTime: new Date(endDate + "T" + endTime + "Z") }, mapCoordinateDtos: newMapCoordinates })

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Polygon } from 'react-leaflet'
 import { Button } from '@mui/material';
 
+//Component used for game area map creation.
 
 const AddMarkerToClick = ({ updatePosition }) => {
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
