@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, FormControl, FormGroup, Alert } from "@mui/material";
-import { updateGame } from "../../api/game";
+import { updateGame } from "../../../api/game";
 import { useMutation } from "@tanstack/react-query";
 
+//This component is used for changing game settings
 
 const GameSettings = ({ updateGameView, gameData }) => {
 
