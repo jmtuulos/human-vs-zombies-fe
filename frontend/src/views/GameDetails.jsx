@@ -20,7 +20,6 @@ const GameDetails = () => {
   const { user, setUser } = useUser()
   const { appUser } = useAppUser()
   const gameId = storageRead('gameId')
-  console.log(appUser)
   const enableGameDetails = appUser && appUser.some((game) => game.gameId === gameId)
 
   //useEffect to save player data
@@ -40,7 +39,6 @@ const GameDetails = () => {
           }
         )
       }
-    console.log(appUser)
     if (!appUser)
       navigate("/")
     fetchUser()
@@ -52,7 +50,7 @@ const GameDetails = () => {
         <div className="row pt-5">
           <GameDetail gameId={gameId}/>
         </div>
-        { true && user &&
+        { enableGameDetails && user &&
           <>
             <div className="row pt-5">
               <MissionList gameId={gameId}/>
