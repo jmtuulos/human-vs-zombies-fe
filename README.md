@@ -31,7 +31,7 @@ Backend:
 
 Keycloak:
 - Setup Keycloak and replace frontend/public/keycloak.json file with your own keycloak json file
-- You need to add 2 realm roles in Keycloak "hvz_user" and "hvz_admin"
-- You need to add client mapper for roles, with these settings type: User Realm Role name: "roles" 
+- You need to add 2 realm roles in Keycloak ```hvz_user``` and ```hvz_admin```
+- You need to add client mapper for roles, with these settings type: ```User Realm Role``` name: ```roles``` 
 
-- Start project with npm start
+- Start frontend with npm start
