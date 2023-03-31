@@ -1,14 +1,12 @@
 import { Button, TextField } from "@mui/material"
 import { useMutation } from "@tanstack/react-query"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useForm } from "react-hook-form"
 import { createSquadChatMessage } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
 import { storageRead } from "../../../utils/storage"
 
 export const SquadForm = () => {
-
-  // const [chatMsg, setSquadChat] = useState()
   const { register, handleSubmit, reset } = useForm()
   const bottomRef = useRef(null)
   const { user } = useUser()
@@ -22,8 +20,7 @@ export const SquadForm = () => {
   )
 
   const handleSubmitSquad = (data) => {
-    // setSquadChat(data.chatMsg)
-    mutation.mutate(data.chatMsg) // Needs implementation to check if player is human or zombie
+    mutation.mutate(data.chatMsg)
     reset()
   }
 

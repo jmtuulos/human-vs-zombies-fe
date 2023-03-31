@@ -21,14 +21,10 @@ const queryClient = new QueryClient()
 function App() {
 
   const { appUser, setAppUser } = useAppUser()
-  console.log(keycloak.hasRealmRole("hvz_user"))
 
   useEffect(() => {
     if (keycloak.token !== undefined) {
-      console.log(keycloak.token)
-      registerUser().catch(
-        (error) => console.log("already logged in")
-      )
+      registerUser()
       getAllPlayersByUuid().then(function (value) {
         setAppUser(value)
       })

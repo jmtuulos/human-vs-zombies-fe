@@ -8,8 +8,8 @@ import { getPosition } from "../../../position/getPosition"
 export const SquadCheckIn = ({gameId}) =>
 {
   const { user } = useUser()
-  const [ latitude, setLatitude ] = useState(0)
-  const [ longitude, setLongitude ] = useState(0)
+  const [ setLatitude ] = useState(0)
+  const [ setLongitude ] = useState(0)
   const [ checkedIn, setIsCheckedVisible ] = useState(false)
 
   const mutation = useMutation(
@@ -19,7 +19,6 @@ export const SquadCheckIn = ({gameId}) =>
       setTimeout(() => {
       setIsCheckedVisible(false);
       }, 3000);
-      console.log("")
     },
     onError: (err) => {
       console.log(err)
@@ -30,7 +29,6 @@ export const SquadCheckIn = ({gameId}) =>
 
     getPosition()
     .then((position) => {
-      console.log("position", position)
       if (position.coords.latitude == 0 && position.coords.longitude == 0)
         window.alert("No coordinates, unable to check in")
       else {

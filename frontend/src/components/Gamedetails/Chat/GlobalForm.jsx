@@ -6,8 +6,6 @@ import { createChatMessage } from "../../../api/game"
 import { storageRead } from "../../../utils/storage"
 
 export const GlobalForm = () => {
-
-  // const [chatMsg, setGlobalChat] = useState()
   const { register, handleSubmit, reset } = useForm()
 
   const mutation = useMutation(
@@ -16,8 +14,7 @@ export const GlobalForm = () => {
 
   const handleSubmitGlobal = (data) => {
     console.log("data ->", data)
-    // setGlobalChat(data.chatMsg)
-    mutation.mutate([data.chatMsg, true, true]) // Needs implementation to check if player is human or zombie
+    mutation.mutate([data.chatMsg, true, true])
     reset()
   }
 

@@ -1,10 +1,8 @@
 import { Button, Paper } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { getAllGames } from "../api/game"
-import { NumberOfPlayers } from "../components/Gamedetails/NumberOfPlayers"
 import { storageRead, storageSave } from "../utils/storage"
-import { json, useNavigate } from "react-router-dom"
-import GameDetails from "./GameDetails"
+import { useNavigate } from "react-router-dom"
 import { useUser } from "../context/UserContext"
 import { getPlayer } from "../api/player"
 import { useEffect, useState } from "react"
@@ -31,7 +29,6 @@ const LandingPage = () => {
         return data.find(gameList => gameList.gameId == gameId)})
         .then(async (data) => {
           let currentPlayer = null
-          console.log(data)
           if (data){
             currentPlayer = await getPlayer(data.playerId)
             setUser({...currentPlayer, playerId: data.playerId})
@@ -40,13 +37,11 @@ const LandingPage = () => {
             setUser(null)
         }).catch(
           (error) => {
-
             console.log(error)
           }
         )
       }
     fetchUser()
-    console.log(user)
     navigate('/gamedetails')
   }
 
@@ -74,8 +69,6 @@ const LandingPage = () => {
           }
         }).catch(
           (error) => {
-
-            console.log(error)
           }
         )
       }

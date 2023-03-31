@@ -56,7 +56,6 @@ const MissionForm = ({ updateMissionList, gameMap, gameId }) => {
 
     const handleHumanCheckBox = () => {
         setHumanVisible(!humanVisible)
-        console.log(humanVisible)
     }
 
     const handleZombieCheckBox = () => {

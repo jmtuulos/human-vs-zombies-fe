@@ -9,7 +9,6 @@ import { storageRead } from "../../../utils/storage"
 export const SquadItem = ({ squad, gameId }) => {
 
   const { user, setUser } = useUser()
-  console.log(squad)
   const mutation = useMutation(
     { mutationFn: () => joinSquad( squad.id),
     onSuccess: () => {

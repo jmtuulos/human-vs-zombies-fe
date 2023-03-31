@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
 import { getSquadChat } from '../../../api/squad';
 import { useUser } from '../../../context/UserContext';
-import { storageRead } from '../../../utils/storage';
 import { ChatMessage } from './ChatMessage';
 
 export const SquadChat = (gameId) => {

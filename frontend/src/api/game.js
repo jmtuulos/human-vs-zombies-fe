@@ -12,9 +12,7 @@ export const getAllGames = async () => {
 }
 
 export const getFactionChat = async (gameId) => {
-  console.log(gameId)
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/chat`)
-  console.log(response.data)
   return response.data
 }
 

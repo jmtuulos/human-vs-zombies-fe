@@ -11,9 +11,6 @@ export const getAllBites = async (gameId) => {
 }
 
 export const createBite = async({gameId}, biteCode, description, coords) => {
-  console.log('biteCode', biteCode)
-  console.log('description', description)
-  console.log('coords', coords)
   if (!coords)
     coords = {latitude: 0, longitude: 0}
   const data = {

@@ -60,7 +60,6 @@ const NewGameAreaMap = ({ getCoordinates }) => {
     setAreaPolygon([])
   }
 
-  //console.log(position)
   return (<div>
     <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={true}>
       <TileLayer

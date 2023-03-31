@@ -5,26 +5,22 @@ import { iconPlayer } from '../../icons/playericon'
 import { useUser } from '../../context/UserContext'
 import { iconZombie } from '../../icons/zombieicon'
 import { iconMission } from '../../icons/mission'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { storageRead } from '../../utils/storage'
-import { getFactionMissions, getMissions } from '../../api/mission'
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { getMissions } from '../../api/mission'
+import { useQueries } from '@tanstack/react-query'
 import { getSquadCheckIns } from '../../api/squad'
 import { getGame } from '../../api/game'
 import { getAllBites } from '../../api/bite'
-import { Button } from '@mui/material'
 
 const Map = () => {
-  const { user, setUser } = useUser()
+  const { user } = useUser()
   const [ latlngs, setLatlngs ] = useState()
   const [selectedMissions, setSelectedMissions] = useState(null)
   const [checkins, setCheckins] = useState()
   const gameId = storageRead('gameId')
-  const [ center, setCenter ] = useState()
   const [ biteList, setBites ] = useState()
-  const [ refresh, setRefresh ] = useState(false)
   const gameCoord = storageRead('gameCoordinates')
-
 
   const [game, bites, checkIns, missions] = useQueries({
     queries: [
@@ -49,18 +45,10 @@ const Map = () => {
             mission.longitude
             )
           setSelectedMissions(filteredMissions)
-          console.log(filteredMissions)
       }
       }
     ],
   })
-
-
-  let filteredMissions = []
-
-
-
-  console.log(selectedMissions)
 
   const playerIcon = user && user.isHuman ? iconPlayer : iconZombie
   return (
@@ -91,7 +79,6 @@ const Map = () => {
           </Popup>
         </Marker>)}
       { selectedMissions && selectedMissions.map((e, i) => {
-        console.log(e,i)
         return (
         <Marker icon={iconMission}
         key={i}
