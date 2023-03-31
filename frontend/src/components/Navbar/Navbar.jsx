@@ -22,6 +22,9 @@ const Navbar = () => {
                                 <li className="nav-link active" aria-current="page"><NavLink to='/'>Home</NavLink><span
                                     className="visually-hidden">(current)</span></li>
                             </ul>
+                            <ul className="nav-item">
+                              <li className="nav-link"><NavLink to='/guides'>Guides</NavLink></li>
+                            </ul>
                             {appUser && <ul className="nav-item">
                                 <li className="nav-link"><NavLink to='/gamedetails'>Game Details</NavLink></li>
                             </ul>}
