@@ -38,6 +38,7 @@ const AdminTools = () => {
     })
   }, [update])
 
+  //Callback function for updating game view
   const updateGameView = () => {
     setCurrentGames(null)
     setUpdate(!update)
@@ -49,6 +50,7 @@ const AdminTools = () => {
     setSelectedMission(null)
   }
 
+  //Callback function for updating players list
   const updatePlayerList = () => {
     listPlayers(selectedGame.id).then(function (value) {
       setPlayers(value)
@@ -69,6 +71,7 @@ const AdminTools = () => {
     })
   }
 
+  //Callback funtion for updating missions list
   const updateMissionList = () => {
     getMissions(selectedGame.id).then(function (value) {
       setMissions(value)
@@ -90,7 +93,7 @@ const AdminTools = () => {
     setNewMissionState(null)
   }
 
-  const handleEditClick = (e) => {
+  const handleGameManageClick = (e) => {
     getGame(e.id).then(function (value) {
       setSelectedGame(value)
       setDescription(value.description)
@@ -266,7 +269,7 @@ const AdminTools = () => {
               {currentGames && currentGames.map((e, index) => <div key={index} className="card">
                 <li key={index} className="list-group-item p-2 d-flex justify-content-between" style={{ backgroundColor: '#ECE7DC', color: '#524e45' }}>{e.name}  &emsp; &#x25cf; &emsp;  {e.gameState} &emsp; &#x25cf; &emsp; players: {e.playerCount} &emsp; &#x25cf; &emsp; started: {new Date(e.startDateTime).toString().slice(0, 21)}
                   <div>
-                    <button type="button" onClick={() => handleEditClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
+                    <button type="button" onClick={() => handleGameManageClick(e)} className="btn pl-5 btn-secondary btn-sm">Manage</button>
                   </div></li>
               </div>)}
             </ul>

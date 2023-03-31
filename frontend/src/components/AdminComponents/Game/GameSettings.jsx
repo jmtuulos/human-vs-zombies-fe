@@ -46,7 +46,7 @@ const GameSettings = ({ updateGameView, gameData }) => {
         }
     })
 
-    const handleRuleChange = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         gameData.name = name;
         gameData.description = description;
@@ -56,7 +56,7 @@ const GameSettings = ({ updateGameView, gameData }) => {
     }
 
     return <>
-        <form onSubmit={handleRuleChange}>
+        <form onSubmit={handleSubmit}>
             <FormGroup>
                 <FormControl>
                     <div className="card p-4" style={{ backgroundColor: '#e9e3d6a3' }}>
