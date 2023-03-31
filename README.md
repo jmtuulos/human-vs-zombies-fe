@@ -1,5 +1,7 @@
 # Humans vs Zombies
 
+Link for deployed app: https://human-vs-zombies.vercel.app/
+
 Humans vs Zombies is live action game of tag. This application is user interface for the game and it provides live data of the
 games using map and different chatting features between players. With these features this application will provide overall better gaming experience.
 
