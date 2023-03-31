@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LandingPage from './views/LandingPage';
 import GameDetails from './views/GameDetails';
 import AdminTools from './views/AdminTools';
-import Profile from './views/Profile';
+import Profile from './views/Guides';
 import KeycloakRoute from './routes/KeycloakRoute';
 import Navbar from './components/Navbar/Navbar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -15,6 +15,7 @@ import keycloak from './keycloak';
 import { useEffect } from 'react';
 import { getAllPlayersByUuid, registerUser } from './api/user';
 import { useAppUser } from './context/AppUserContext';
+import Guides from './views/Guides';
 
 const queryClient = new QueryClient()
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Navbar />
           <div style={{ backgroundImage: "url(/images/background.png)" }}>
             <Routes>
+              <Route path="/guides" element={<Guides />} />
               <Route path="/" element={<LandingPage />} />
               <Route path="/gamedetails" element={
                 <KeycloakRoute role={"hvz_user"}>
