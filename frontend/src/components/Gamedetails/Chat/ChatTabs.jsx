@@ -52,7 +52,6 @@ export default function ChatTabs() {
   const gameId = storageRead('gameId')
 
   const handleChange = (event, newValue) => {
-    // event.preventDefault()
     setValue(newValue)
   }
 

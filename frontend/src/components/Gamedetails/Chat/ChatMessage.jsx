@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 export const ChatMessage = ( msgs ) => {
-  // const [msgsList, setMsgs] = useState([msgs])
   const appendInterval = useRef(null)
   const virtuosoRef = useRef(null)
   const [atBottom, setAtBottom] = useState(false)

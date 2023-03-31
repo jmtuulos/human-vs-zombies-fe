@@ -80,7 +80,6 @@ const MissionInfo = ({ updateMissionList, gameId, data, gameMap }) => {
 
 
     const getNewMissionCoordinates = (coord) => {
-        console.log(coord)
         setNewMissionCoordinates(coord)
     }
 

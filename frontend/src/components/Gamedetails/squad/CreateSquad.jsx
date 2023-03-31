@@ -1,15 +1,12 @@
 import { Paper } from "@mui/material"
 import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { getPlayer } from "../../../api/player"
-import { createSquad, getAllSquads } from "../../../api/squad"
-import { getAllPlayersByUuid } from "../../../api/user"
+import { createSquad } from "../../../api/squad"
 import { useUser } from "../../../context/UserContext"
-import { storageRead, storageSave } from "../../../utils/storage"
+import { storageRead } from "../../../utils/storage"
 
 export const CreateSquadForm = () => {
-
   const { user, setUser } = useUser()
   const { register, handleSubmit, reset } = useForm()
 

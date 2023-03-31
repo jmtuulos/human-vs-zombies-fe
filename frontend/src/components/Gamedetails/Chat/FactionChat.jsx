@@ -1,8 +1,6 @@
 import { getFactionChat } from '../../../api/game';
 import { useQuery } from '@tanstack/react-query';
 import { ChatMessage } from './ChatMessage';
-import { storageRead } from '../../../utils/storage';
-import { Button } from '@mui/material';
 
 export const FactionChat = ({ playerId, gameId }) => {
   let filteredFactionMessages = []

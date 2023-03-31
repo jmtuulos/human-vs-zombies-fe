@@ -2,8 +2,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ChatMessage } from './ChatMessage';
 import { getFactionChat } from '../../../api/game';
-import { storageRead } from '../../../utils/storage';
-import { useUser } from '../../../context/UserContext';
 
 export const GlobalChat = ({ playerId, gameId }) =>{
 

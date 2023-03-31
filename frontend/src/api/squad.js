@@ -3,14 +3,11 @@ import { storageRead } from "../utils/storage"
 
 
 export const getSquadCheckIns = async (squadId) => {
-  //gameId is hardcoded here, is it a problem?
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/1/squad/${squadId}/check-in`)
   return response.data
 }
 
 export const postSquadCheckIn = async (gameId, squadId, coordinates) => {
-  console.log(coordinates)
-  console.log("posting squda check in")
   const data = {'latitude': coordinates.latitude, 'longitude': coordinates.longitude}
   const response =  await axios
     .post(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}/check-in`,
@@ -19,9 +16,7 @@ export const postSquadCheckIn = async (gameId, squadId, coordinates) => {
 }
 
 export const getSquad = async (gameId, squadId) => {
-  console.log("getSquad ", gameId, squadId)
   const response =  await axios.get(`${process.env.REACT_APP_API_URL}/game/${gameId}/squad/${squadId}`)
-  console.log("getSquad response", response)
   return response.data
 }
 

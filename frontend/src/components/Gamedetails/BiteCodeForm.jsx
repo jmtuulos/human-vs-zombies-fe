@@ -1,12 +1,11 @@
 import { useState } from "react"
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { FormControlLabel, styled, Switch, Typography } from "@mui/material"
 import { createBite } from "../../api/bite"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { getPosition } from "../../position/getPosition"
 
 const BiteCodeForm = (gameId) => {
-  const { bitecode, setBiteCode } = useState("")
   const { register, handleSubmit, control, reset } = useForm()
   const [ submitted, setSubmitted ] = useState(false)
   const [ failed, setFailed ] = useState(false)
@@ -34,7 +33,6 @@ const BiteCodeForm = (gameId) => {
     if (data.coordinates){
       getPosition()
       .then((position) => {
-        console.log("position", position)
         bitePosition = [{'latitude': position.coords.latitude, 'longitude': position.coords.longitude}]
         mutation.mutate(data.bitecode, data.description, bitePosition)
       }

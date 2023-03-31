@@ -12,7 +12,7 @@ import { useEffect } from "react"
 import { getAllPlayersByUuid } from "../api/user"
 import { getPlayer } from "../api/player"
 import { useAppUser } from "../context/AppUserContext"
-import { json, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import keycloak from "../keycloak"
 
 const GameDetails = () => {
@@ -22,7 +22,6 @@ const GameDetails = () => {
   const gameId = storageRead('gameId')
   const enableGameDetails = appUser && appUser.some((game) => game.gameId === gameId)
 
-  //useEffect to save player data
   useEffect(() => {
     const fetchUser = async () => {
       await getAllPlayersByUuid().then((data) => {
